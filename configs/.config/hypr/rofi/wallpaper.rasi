@@ -1,8 +1,33 @@
 * {
+    active-background: #B3324F;
+    active-foreground: #c1c5cd;
+    normal-background: #080119;
+    normal-foreground: #c1c5cd;
+    urgent-background: #505173;
+    urgent-foreground: #c1c5cd;
+
+    alternate-active-background: #080119;
+    alternate-active-foreground: #c1c5cd;
+    alternate-normal-background: #080119;
+    alternate-normal-foreground: #c1c5cd;
+    alternate-urgent-background: #080119;
+    alternate-urgent-foreground: #c1c5cd;
+
+    selected-active-background: #505173;
+    selected-active-foreground: #c1c5cd;
+    selected-normal-background: #B3324F;
+    selected-normal-foreground: #c1c5cd;
+    selected-urgent-background: #2C2C91;
+    selected-urgent-foreground: #c1c5cd;
+
+    background-color: #080119;
+    background: #080119;
+    foreground: #c1c5cd;
+    border-color: #080119;
+    spacing: 2;
+
     margin: 0;
     padding: 0;
-    background-color: #2E3440;
-    text-color:       #ECEFF4;
     font:             "Iosevka 10";
 }
 
@@ -25,16 +50,16 @@ inputbar {
     children: [ prompt, entry ];
     spacing: 10px;
     padding: 8px;
-    background-color: #3B4252; /* Slightly lighter background */
+    background-color: @normal-background; /* Using wal's normal background */
     border-radius: 0px;
 }
 
 prompt {
-    text-color: #88C0D0; /* Accent color */
+    text-color: @active-foreground; /* Using wal's active foreground for accent */
 }
 
 entry {
-    text-color: #ECEFF4;
+    text-color: @foreground;
 }
 
 listview {
@@ -50,9 +75,9 @@ element {
     orientation: vertical;
     padding: 9px;
     border: 1px;
-    border-color: #4C566A; /* Border for elements */
+    border-color: @normal-background; /* Using wal's normal background for border */
     border-radius: 0px;
-    background-color: #3B4252; /* Match inputbar background */
+    background-color: @normal-background; /* Match inputbar background */
 }
 
 element-icon {
@@ -68,8 +93,8 @@ element-text {
 }
 
 element selected {
-    background-color: #4C566A; /* Medium blue-grey for selected background */
-    text-color:       #ECEFF4;
+    background-color: @selected-normal-background; /* Using wal's selected normal background */
+    text-color:       @selected-normal-foreground;
     border:           1px;
-    border-color:     #88C0D0; /* Accent color for selected border */
+    border-color:     @active-foreground; /* Using wal's active foreground for accent */
 }
