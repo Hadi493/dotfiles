@@ -10,6 +10,7 @@ A comprehensive collection of configuration files for a clean, productive Linux 
 ![Wallpaper Changer](./screenshots/wallpaper_selection.png)
 ![Window](./screenshots/window.png)
 ![Waybar](./configs/waybar/cg-waybar.png)
+![System screenshot](./screenshots/sys_screenashot_with_wall_config.png)
 ---
 
 [Hyprland CG Manual](./cg-man.md)
