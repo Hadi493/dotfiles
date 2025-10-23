@@ -15,14 +15,12 @@
 @define-color white #bac2de;
 @define-color orange #fab387;
 
-
-
-
 * {
     border: none;
     border-radius: 0;
-    font-family: "Iosevka Nerd Font";
-    font-size: 16px;
+    font-family: "Iosevka";
+	/* font-family: "JetbrainsMono Nerd Font"; */
+    font-size: 18px;
     min-height: 0;
 }
 
@@ -55,10 +53,6 @@ window#waybar {
     margin-left: 10px;
 }
 
-
-
-
-
 @keyframes urgent-blink {
     0% { opacity: 1; }
     50% { opacity: 0.7; }
@@ -83,16 +77,14 @@ window#waybar {
 #memory:hover, #temperature:hover, #battery:hover, #network:hover, #pulseaudio:hover,
 #backlight:hover, #disk:hover, #custom-uptime:hover, #custom-updates:hover, #custom-quote:hover,
 #custom-language:hover, #idle_inhibitor:hover {
-    background-color: @background-light;
+    background-color: @background;
     border-color: @blue;
 }
-
-
 
 #workspaces button.focused,
 #workspaces button.active {
     background-color: @background;
-    color: @cyan;
+    color: @color4;
 }
 
 #window {
