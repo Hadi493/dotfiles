@@ -1,7 +1,10 @@
+/* Dynamic colors from ~/.cache/wal/colors-waybar.css */
+@import url("/home/cg/.cache/wal/colors-waybar.css");
+
 /* Catppuccin (Mocha) - Floating Style */
-@define-color background #1e1e2e;
-@define-color background-light #313244;
-@define-color foreground #cdd6f4;
+/* @define-color background #1e1e2e; */
+/* @define-color background-light #313244; */
+/* @define-color foreground #cdd6f4; */
 @define-color black #11111b;
 @define-color red #f38ba8;
 @define-color green #a6e3a1;
@@ -12,37 +15,8 @@
 @define-color white #bac2de;
 @define-color orange #fab387;
 
-/* Module-specific colors */
-@define-color workspaces-color @foreground;
-@define-color workspaces-focused-bg @green;
-@define-color workspaces-focused-fg @cyan;
-@define-color workspaces-urgent-bg @red;
-@define-color workspaces-urgent-fg @black;
 
-@define-color mode-color @orange;
-@define-color mpd-color @magenta;
-@define-color weather-color @magenta;
-@define-color playerctl-color @magenta;
-@define-color clock-color @blue;
-@define-color cpu-color @green;
-@define-color memory-color @magenta;
-@define-color temperature-color @yellow;
-@define-color temperature-critical-color @red;
-@define-color battery-color @cyan;
-@define-color battery-charging-color @green;
-@define-color battery-warning-color @yellow;
-@define-color battery-critical-color @red;
-@define-color network-color @blue;
-@define-color network-disconnected-color @red;
-@define-color pulseaudio-color @orange;
-@define-color pulseaudio-muted-color @red;
-@define-color backlight-color @yellow;
-@define-color disk-color @cyan;
-@define-color uptime-color @green;
-@define-color updates-color @orange;
-@define-color quote-color @green;
-@define-color idle-inhibitor-color @foreground;
-@define-color idle-inhibitor-active-color @red;
+
 
 * {
     border: none;
@@ -81,42 +55,9 @@ window#waybar {
     margin-left: 10px;
 }
 
-/* Workspaces styling */
-#workspaces {
-    margin: 0;
-    padding: 0;
-    border-radius: 0px;
-    background-color: #1E1E2E;
-}
 
-#workspaces button {
-    padding: 6px 8px;
-    background-color: transparent;
-    color: #89B4FA;
-    margin: 1px 5px;
-    border-radius: 0px;
-    transition: all 0.3s ease-in-out;
-}
-#workspaces button:hover {
-    background-color: @background-light;
-    color: @cyan;
-    border-radius: 99px;
-}
 
-#workspaces button.focused,
-#workspaces button.active {
-    background-color: @blue;
-    color: @background;
-    border-radius: 99%;
-    font-weight: bold;
-}
 
-#workspaces button.urgent {
-    background-color: @workspaces-urgent-bg;
-    color: @workspaces-urgent-fg;
-    border: 2px solid @workspaces-urgent-bg;
-    animation: urgent-blink 1s infinite;
-}
 
 @keyframes urgent-blink {
     0% { opacity: 1; }
@@ -128,7 +69,7 @@ window#waybar {
 #mode, #mpd, #custom-weather, #custom-playerctl, #clock, #cpu,
 #memory, #temperature, #battery, #network, #pulseaudio,
 #backlight, #disk, #custom-uptime, #custom-updates, #custom-quote,
-#custom-language, #idle_inhibitor, #tray, #window {
+#custom-language, #idle_inhibitor, #tray, #window, #workspaces {
     padding: 0 10px;
     margin: 0 2px;
     background-color: @background;
@@ -146,34 +87,13 @@ window#waybar {
     border-color: @blue;
 }
 
-/* Module-specific colors */
-#mode { color: @mode-color; }
-#mpd { color: @mpd-color; }
-#mpd.disconnected, #mpd.stopped { color: @foreground; }
-#custom-weather { color: @weather-color; }
-#custom-playerctl { color: @playerctl-color; }
-#custom-playerctl.Playing { color: @cyan; }
-#custom-playerctl.Paused { color: @orange; }
-#clock { color: @clock-color; font-weight: bold; }
-#cpu { color: @cpu-color; }
-#memory { color: @memory-color; }
-#temperature { color: @temperature-color; }
-#temperature.critical { color: @temperature-critical-color; }
-#battery { color: @battery-color; }
-#battery.charging, #battery.plugged { color: @battery-charging-color; }
-#battery.warning:not(.charging) { color: @battery-warning-color; }
-#battery.critical:not(.charging) { color: @battery-critical-color; }
-#network { color: @network-color; }
-#network.disconnected { color: @network-disconnected-color; }
-#pulseaudio { color: @pulseaudio-color; }
-#pulseaudio.muted { color: @pulseaudio-muted-color; }
-#backlight { color: @backlight-color; }
-#disk { color: @disk-color; }
-#custom-uptime { color: @uptime-color; }
-#custom-updates { color: @updates-color; }
-#custom-quote { color: @quote-color; }
-#idle_inhibitor { color: @idle-inhibitor-color; }
-#idle_inhibitor.activated { color: @idle-inhibitor-active-color; }
+
+
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: @background;
+    color: @cyan;
+}
 
 #window {
     color: @foreground;
@@ -182,7 +102,7 @@ window#waybar {
 }
 
 #window.empty {
-    color: rgba(205, 214, 244, 0.6);
+    color: @foreground;
 }
 
 #tray {
@@ -206,7 +126,7 @@ window#waybar {
 
 /* Language switcher styling */
 #custom-language {
-    color: @magenta;
+    color: @foreground;
     font-weight: bold;
     min-width: 60px;
     transition: all 0.3s ease;
@@ -214,5 +134,5 @@ window#waybar {
 
 #custom-language:hover {
     background-color: @background-light;
-    color: @cyan;
+    color: @foreground;
 }

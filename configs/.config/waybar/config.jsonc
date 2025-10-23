@@ -1,225 +1,243 @@
 {
-    "layer": "top",
-    "position": "top",
-    "height": 30,
-    "output": "eDP-1",
-    "spacing": 1,
-    "margin": 0,
-    "modules-left": ["hyprland/workspaces", "hyprland/window", "custom/playerctl", "tray"],
-    "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "pulseaudio#microphone", "battery", "backlight", "cpu", "memory", "temperature", "custom/uptime", "network"],
-
-
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{name}",
-        "format-icons": {
-            "1": "󰖟",
-            "2": "",
-            "3": "",
-            "4": "󰭹",
-            "5": "󰕧",
-            "6": "",
-            "7": "",
-            "8": "󰣇",
-            "9": "",
-            "10": ""
-        },
-        "persistent_workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": []
-        }
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "output": "eDP-1",
+  "spacing": 1,
+  "margin": 0,
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/window",
+    "tray"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "pulseaudio",
+    "pulseaudio#microphone",
+    "battery",
+    "backlight",
+    "cpu",
+    "memory",
+    "temperature",
+    "custom/uptime",
+    "network"
+  ],
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}",
+    "format-icons": {
+      "1": "󰖟",
+      "2": "",
+      "3": "",
+      "4": "󰭹",
+      "5": "󰕧",
+      "6": "",
+      "7": "",
+      "8": "󰣇",
+      "9": "",
+      "10": ""
     },
-
-    "hyprland/window": {
-        "format": "{title}",
-        "max-length": 15,
-        "tooltip-format": "{class} - {title}"
-    },
-
-    "custom/playerctl": {
-        "format": " 󰐊 {}",
-        "return-type": "json",
-        "max-length": 40,
-        "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl stop",
-        "on-scroll-up": "playerctl volume 0.05+",
-        "on-scroll-down": "playerctl volume 0.05-"
-    },
-
-    "custom/weather": {
-        "exec": "curl 'https://wttr.in/?format=1'",
-        "interval": 3600,
-        "format": "{}",
-        "tooltip": true
-    },
-
-    "custom/quote": {
-        "format": "󰚛 {}",
-        "interval": 3600,
-        "exec": "fortune -s",
-        "on-click": "fortune | yad --text-info --width=400 --height=200 --title='Fortune'",
-        "tooltip": true
-    },
-
-    "custom/updates": {
-        "format": "󰚰 {}",
-        "exec": "checkupdates | wc -l",
-        "interval": 3600,
-        "on-click": "kitty -e sudo pacman -Syu",
-        "signal": 8
-    },
-
-    "custom/uptime": {
-    "format": "󰔟 {}",
-    "exec": "uptime -p | sed 's/up //; s/ days\\?/d/; s/ day\\?/d/; s/ hours\\?/h/; s/ hour\\?/h/; s/ minutes\\?/m/; s/ minute\\?/m/; s/,//g'",
-    "interval": 60
-    },
-
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "󰈈",
-            "deactivated": "󰈉"
-        },
-        "tooltip": true
-    },
-
-    "clock": {
-        "interval": 1,
-        "format": "󰥔 {:%I:%M:%S %p}",
-        "format-alt": "󰃮 {:%D}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "calendar": {
-            "mode": "month",
-            "mode-mon-col": 3,
-            "weeks-pos": "right",
-            "on-scroll": 1,
-            "on-click-right": "mode",
-            "format": {
-                "months": "<span color='#d3c6aa'><b>{}</b></span>",
-                "days": "<span color='#e67e80'>{}</span>",
-                "weeks": "<span color='#a7c080'><b>W{}</b></span>",
-                "weekdays": "<span color='#7fbbb3'><b>{}</b></span>",
-                "today": "<span color='#dbbc7f'><b><u>{}</u></b></span>"
-            }
-        },
-        "actions": {
-            "on-click-right": "mode",
-            "on-click-forward": "tz_up",
-            "on-click-backward": "tz_down",
-            "on-scroll-up": "shift_up",
-            "on-scroll-down": "shift_down"
-        }
-    },
-
-    "cpu": {
-        "format": "󰘚 {usage}%",
-        "tooltip": true,
-        "interval": 1,
-        "on-click": "kitty -e htop"
-    },
-
-    "memory": {
-        "format": "󰍛 {}%",
-        "interval": 1,
-        "on-click": "kitty -e htop"
-    },
-
-    "temperature": {
-        "critical-threshold": 80,
-        "format": "{icon} {temperatureC}°C",
-        "format-icons": ["󱃃", "󰔏", "󱃂"],
-        "on-click": "kitty -e s-tui"
-    },
-
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰚥 {capacity}%",
-        "format-alt": "{icon} {time}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    },
-
-    "network": {
-        // "format-wifi": "󰖩 {essid} ({signalStrength}%)",
-        "format-wifi": "󰖩 ",
-        "format-ethernet": "󰈀 {ifname}",
-        "format-linked": "󰈀 {ifname} (No IP)",
-        "format-disconnected": "󰖪 Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname}: {ipaddr}",
-        "on-click": "kitty -e nmtui"
-    },
-
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "󰂰 {volume}%",
-        "format-bluetooth-muted": "󰂲 {icon}",
-        "format-muted": "󰝟",
-        "format-icons": {
-            "headphone": "󰋋",
-            "hands-free": "󰥰",
-            "headset": "󰋎",
-            "phone": "󰏲",
-            "portable": "󰄝",
-            "car": "󰄋",
-            "default": ["󰕿", "󰖀", "󰕾"]
-        },
-        "on-click": "pavucontrol",
-        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
-        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
-    },
-
-    "pulseaudio#microphone": {
-        "format": "{format_source}",
-        "format-source": "󰍬 {volume}%",
-        "format-source-muted": "󰍭",
-        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-        "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
-        "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%",
-        "scroll-step": 5
-    },
-
-    "backlight": {
-        "format": "{icon} {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"],
-        "on-scroll-up": "brightnessctl set +5%",
-        "on-scroll-down": "brightnessctl set 5%-"
-    },
-
-    "disk": {
-        "interval": 30,
-        "format": "󰋊 {percentage_used}%",
-        "path": "/",
-        "on-click": "kitty -e gdu /"
-    },
-
-    "custom/language": {
-        "format": "⌨ {}",
-        "exec": "~/.config/waybar/scripts/language-switcher.sh",
-        "on-click": "~/.config/waybar/scripts/language-switcher.sh switch",
-        "on-click-right": "fcitx5-configtool",
-        "interval": 2,
-        "tooltip": true,
-        "tooltip-format": "Current Input Language: {}\n\nLeft click: Switch language (Alt+Shift)\nRight click: Open input settings",
-        "max-length": 10,
-        "escape": true
-    },
-
-    "tray": {
-        "icon-size": 20,
-        "spacing": 5
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
     }
+  },
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 15,
+    "tooltip-format": "{class} - {title}"
+  },
+  "custom/playerctl": {
+    "format": " 󰐊 {}",
+    "return-type": "json",
+    "max-length": 40,
+    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl stop",
+    "on-scroll-up": "playerctl volume 0.05+",
+    "on-scroll-down": "playerctl volume 0.05-"
+  },
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "interval": 600,
+    "return-type": "json"
+  },
+  "custom/quote": {
+    "format": "󰚛 {}",
+    "interval": 3600,
+    "exec": "fortune -s",
+    "on-click": "fortune | yad --text-info --width=400 --height=200 --title='Fortune'",
+    "tooltip": true
+  },
+  "custom/updates": {
+    "format": "󰚰 {}",
+    "exec": "checkupdates | wc -l",
+    "interval": 3600,
+    "on-click": "kitty -e sudo pacman -Syu",
+    "signal": 8
+  },
+  "custom/uptime": {
+    "format": "󰔟 {}",
+    "exec": "uptime -p | sed 's/up //; s/ days/d/; s/ hours/h/; s/ minutes/m/'",
+    "interval": 60
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉"
+    },
+    "tooltip": true
+  },
+  "clock": {
+    "interval": 1,
+    "format": "󰥔 {:%I:%M:%S %p}",
+    "format-alt": "󰃮 {:%D}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#d3c6aa'><b>{}</b></span>",
+        "days": "<span color='#e67e80'>{}</span>",
+        "weeks": "<span color='#a7c080'><b>W{}</b></span>",
+        "weekdays": "<span color='#7fbbb3'><b>{}</b></span>",
+        "today": "<span color='#dbbc7f'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+  "cpu": {
+    "format": "󰘚 {usage}%",
+    "tooltip": true,
+    "interval": 1,
+    "on-click": "kitty -e btop"
+  },
+  "memory": {
+    "format": "󰍛 {}%",
+    "interval": 1,
+    "on-click": "kitty -e btop"
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [
+      "󱃃",
+      "󰔏",
+      "󱃂"
+    ],
+    "on-click": "kitty -e s-tui"
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": [
+      "󰂎",
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ]
+  },
+  "network": {
+    // "format-wifi": "󰖩 {essid} ({signalStrength}%)",
+    "format-wifi": "󰖩 ",
+    "format-ethernet": "󰈀 {ifname}",
+    "format-linked": "󰈀 {ifname} (No IP)",
+    "format-disconnected": "󰖪 Disconnected",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip-format": "{ifname}: {ipaddr}",
+    "on-click": "kitty -e nmtui"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "󰂰 {volume}%",
+    "format-bluetooth-muted": "󰂲 {icon}",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "󰥰",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰄝",
+      "car": "󰄋",
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+  },
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": "󰍬 {volume}%",
+    "format-source-muted": "󰍭",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
+    "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%",
+    "scroll-step": 5
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "󰃞",
+      "󰃟",
+      "󰃠"
+    ],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-"
+  },
+  "disk": {
+    "interval": 30,
+    "format": "󰋊 {percentage_used}%",
+    "path": "/",
+    "on-click": "kitty -e gdu /"
+  },
+  "custom/language": {
+    "format": "⌨ {}",
+    "exec": "~/.config/waybar/scripts/language-switcher.sh",
+    "on-click": "~/.config/waybar/scripts/language-switcher.sh switch",
+    "on-click-right": "fcitx5-configtool",
+    "interval": 2,
+    "tooltip": true,
+    "tooltip-format": "Current Input Language: {}\n\nLeft click: Switch language (Alt+Shift)\nRight click: Open input settings",
+    "max-length": 10,
+    "escape": true
+  },
+  "tray": {
+    "icon-size": 20,
+    "spacing": 5
+  }
 }
