@@ -25,5 +25,8 @@ swww img "$WALLPAPER" \
   --transition-fps 70 \
   --transition-duration 0.66
 
+wal -i "$WALLPAPER"
+killall -SIGUSR2 waybar
+
 # TOOLS:
 # - sudo pacman -S swww

@@ -22,5 +22,7 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
     while read -r selected_wallpaper_path; do
         if [ -n "$selected_wallpaper_path" ]; then
             swww img "$selected_wallpaper_path"
+            wal -i "$selected_wallpaper_path"
+            killall -SIGUSR2 waybar
         fi
     done
