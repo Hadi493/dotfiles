@@ -1,0 +1,506 @@
+[
+  {
+    "content": "~/.config/hypr/scripts/clipboard_rofi_menu.sh",
+    "timestamp": "2025-10-29 03:40:56",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "git@github.com:himonshuuu/golink.git",
+    "timestamp": "2025-10-29 13:22:45",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "https://www.youtube.com/watch?v=UghMf59vDJM&list=RDUghMf59vDJM&start_radio=1&pp=oAcB",
+    "timestamp": "2025-10-29 13:26:15",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "himonshuuu/golink",
+    "timestamp": "2025-10-29 13:27:32",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "Jan\nFeb\nMar\nApr\nMay\nJun",
+    "timestamp": "2025-10-29 13:29:25",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": ".4",
+    "timestamp": "2025-10-29 13:30:05",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "npm install recharts@2.15.4",
+    "timestamp": "2025-10-29 13:30:06",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "9",
+    "timestamp": "2025-10-29 13:30:25",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "socialize",
+    "timestamp": "2025-10-29 13:49:55",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "git@github.com:Hadi493/leetcode.git",
+    "timestamp": "2025-10-29 13:51:59",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "<img src=\"./imgs/natasha_nice_1.jpeg\" alt=\"Natasha Nice\" width=\"500\"/>",
+    "timestamp": "2025-10-29 13:52:29",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "<img src=",
+    "timestamp": "2025-10-29 13:53:50",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "<img src=\"./imgs/mariya_shanto_1.jpg\" alt=\"Mariya Shanto\" width=\"500\"/>\n<img src=\"./imgs/mariya_shanto_2.jpg\" alt=\"Mariya Shanto\" width=\"500\"/>\n<img src=\"./imgs/mariya_shanto_3.jpg\" alt=\"Mariya Shanto\" width=\"500\"/>\n<img src=\"./imgs/mariya_shanto_4.jpg\" alt=\"Mariya Shanto\" width=\"500\"/>",
+    "timestamp": "2025-10-29 13:54:37",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "![Mariya Shanto](./imgs/mariya_shanto_1.jpg)",
+    "timestamp": "2025-10-29 13:54:53",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "<img src=\"./imgs/Samira_Khan_mahi_1.jpg\" alt=\"Samira Khan Mahi\" width=\"500\"/>\n<img src=\"./imgs/Samira_Khan_mahi_2.jpg\" alt=\"Samira Khan Mahi\" width=\"500\"/>",
+    "timestamp": "2025-10-29 13:55:34",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "<img src=\"./imgs/sanjida_afrin_1.jpg\" alt=\"Sanjida Afrin\" width=\"500\"/>",
+    "timestamp": "2025-10-29 13:56:00",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "<img src=\"./images/Eliza-Jannat-WC-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC1-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC2-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC3-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC5-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC6-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC7-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC8-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC9-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC10-2025-09-19.jpeg\" width=\"500\">\n<img src=\"./images/Eliza-Jannat-WC11-2025-09-19.jpeg\" width=\"500\">",
+    "timestamp": "2025-10-29 13:57:52",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "![Eliza Jannat WC 2025-09-19](./images/Eliza-Jannat-WC-2025-09-19.jpeg)\n![Eliza Jannat WC1 2025-09-19](./images/Eliza-Jannat-WC1-2025-09-19.jpeg)\n![Eliza Jannat WC2 2025-09-19](./images/Eliza-Jannat-WC2-2025-09-19.jpeg)\n![Eliza Jannat WC3 2025-09-19](./images/Eliza-Jannat-WC3-2025-09-19.jpeg)\n![Eliza Jannat WC5 2025-09-19](./images/Eliza-Jannat-WC5-2025-09-19.jpeg)\n![Eliza Jannat WC6 2025-09-19](./images/Eliza-Jannat-WC6-2025-09-19.jpeg)\n![Eliza Jannat WC7 2025-09-19](./images/Eliza-Jannat-WC7-2025-09-19.jpeg)\n![Eliza Jannat WC8 2025-09-19](./images/Eliza-Jannat-WC8-2025-09-19.jpeg)\n![Eliza Jannat WC9 2025-09-19](./images/Eliza-Jannat-WC9-2025-09-19.jpeg)\n![Eliza Jannat WC10 2025-09-19](./images/Eliza-Jannat-WC10-2025-09-19.jpeg)\n![Eliza Jannat WC11 2025-09-19](./images/Eliza-Jannat-WC11-2025-09-19.jpeg)",
+    "timestamp": "2025-10-29 13:58:52",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "![Eliza Jannat WC2 2025-09-19](./images/Eliza-Jannat-WC2-2025-09-19.jpeg)",
+    "timestamp": "2025-10-29 13:59:25",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "gs/Akhiyan Udeek Dian - Ustad Nusrat Fateh Ali Khan - OSA Official HD Video [YSMIDIt2Ku4].webm\nVideos/yt/songs/Jani Door Gaye ｜ Ustad Nusrat Fateh Ali Khan ｜ OSA official Complete Full Version ｜ OSA Worldwide [r8mIeP3aRQs].webm\nVideos/yt/songs/Kali Kali Zulfon Ke Phande Na ｜ Nusrat Fateh Ali Khan ｜ complete full version ｜ OSA Worldwide [lsqsggtTZfs].webm\nVideos/yt/songs/Matlabi dost hai matlabi yaar hai by nusrat fateh ali khan   9mmboy [qqiOEo-Yq-4].webm\nVideos/yt/songs/Saja Hai Maikhana ｜ Ustad Nusrat Fateh Ali Khan ｜ OSA official HD video ｜ OSA Worldwide [8dlkBDK0_Aw].webm\nVideos/yt/songs/Sanson Ki Mala Pe Simron Mein - Ustad Nusrat Fateh Ali Khan - OSA Official HD Video [eYSaHXXFIBU].webm\nVideos/yt/songs/Sanson ki mala pe remix ｜ Bass Boosted ｜ Nusrat Fateh Ali Khan Remix NFAK ｜ sanson ki maala.pe [PANENp2K8yM].webm\nVideos/yt/songs/Tum Ek Goorakh Dhanda Ho - Ustad Nusrat Fateh Ali Khan - OSA Official HD Video [mXY5-TK2sJ0].webm\ncoding/leetcode/.git/hooks/post-update.sample\n╭──(cg(🌿)Arch Linux) [~]",
+    "timestamp": "2025-10-29 14:04:17",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "ulfon Ke Phande Na ｜ Nusrat Fateh Ali Khan ｜ complete full version ｜",
+    "timestamp": "2025-10-29 14:04:19",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "ficial Complete Full Version ｜ OSA Worldwide [r8mIeP3aRQs].webm\nVideos/yt/songs/Kali Kali Zulfon Ke Phande Na ｜ Nusrat Fateh Ali Khan ｜",
+    "timestamp": "2025-10-29 14:04:20",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "/libttfautohint_la-taglyf.lo\n  CC       lib/libttfautohint_la-tagpos.lo",
+    "timestamp": "2025-10-29 14:09:34",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "  CC       lib/libttfautohint_la-tahints.lo",
+    "timestamp": "2025-10-29 14:09:35",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "colors                      colors-nqq.css          colors.sh                colors-tty.sh        colors-wal.vim     sequences\ncolors.css                  colors-oomox            colors-speedcrunch.json  colors-vscode.json   colors-waybar.css  wal\ncolors.hs                   colors-putty.reg        colors.styl              colors-wal-dmenu.h   colors.Xresources\ncolors.json                 colors-rofi-dark.rasi   colors-sway              colors-wal-dwm.h     colors.yml\ncolors-kitty.conf           colors-rofi-light.rasi  colors-themer.js         colors-wal-st.h      last_used_theme\ncolors-konsole.colorscheme  colors.scss             colors-tilix.json        colors-wal-tabbed.h  schemes",
+    "timestamp": "2025-10-29 14:26:11",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "                 14:25:55\ncolors                      colors-nqq.css          colors.sh                colors-tty.sh        colors-wal.vim     sequences\ncolors.css                  colors-oomox            colors-speedcrunch.json  colors-vscode.json   colors-waybar.css  wal\ncolors.hs                   colors-putty.reg        colors.styl              colors-wal-dmenu.h   colors.Xresources\ncolors.json                 colors-rofi-dark.rasi   colors-sway              colors-wal-dwm.h     colors.yml\ncolors-kitty.conf           colors-rofi-light.rasi  colors-themer.js         colors-wal-st.h      last_used_theme\ncolors-konsole.colorscheme  colors.scss             colors-tilix.json        colors-wal-tabbed.h  schemes",
+    "timestamp": "2025-10-29 14:26:18",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "lors.css ",
+    "timestamp": "2025-10-29 14:26:20",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "595959",
+    "timestamp": "2025-10-29 14:27:48",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "SwayNotification",
+    "timestamp": "2025-10-29 14:34:33",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "SwayNotificationCente",
+    "timestamp": "2025-10-29 14:34:34",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "r",
+    "timestamp": "2025-10-29 14:34:35",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "SwayNotificationCenter",
+    "timestamp": "2025-10-29 14:34:36",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "otificationCenter fir",
+    "timestamp": "2025-10-29 14:41:04",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": " ",
+    "timestamp": "2025-10-29 14:41:06",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "aru",
+    "timestamp": "2025-10-29 14:41:08",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "paru -S swaynotificationcenter",
+    "timestamp": "2025-10-29 14:41:11",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "{\n  \"$schema\": \"https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json\",\n  \"logo\": {\n    \"type\": \"kitty\",\n    \"source\": \"~/.config/fastfetch/logo.png\",\n    \"width\": 30,\n    \"height\": 16\n  },\n\n  \"display\": {\n    \"separator\": \" : \"\n  },\n  \"modules\": [\n    \"break\",\n    {\n      \"type\": \"title\",\n      \"key\": \"  \",\n      \"format\": \" {6}{7}{8}\"\n    },\n    {\n      \"type\": \"chassis\",\n      \"key\": \"  󰇺 Chassis\",\n      \"format\": \"{2} {1}\"\n    },\n    {\n      \"type\": \"os\",\n      \"key\": \"  󰣇 OS\",\n      \"format\": \"{2}\",\n      \"keyColor\": \"red\"\n    },\n    {\n      \"type\": \"kernel\",\n      \"key\": \"   Kernel\",\n      \"format\": \"{2}\",\n      \"keyColor\": \"red\"\n    },\n    {\n      \"type\": \"packages\",\n      \"key\": \"  󰏗 Packages\",\n      \"keyColor\": \"green\"\n    },\n    {\n      \"type\": \"display\",\n      \"key\": \"  󰍹 Display\",\n      \"format\": \"{1}x{2} @ {3}Hz [{7}]\",\n      \"keyColor\": \"green\"\n    },\n    {\n      \"type\": \"terminal\",\n      \"key\": \"   Terminal\",\n      \"keyColor\": \"yellow\"\n    },\n    {\n      \"type\": \"wm\",\n      \"key\": \"  󱗃 WM\",\n      \"format\": \"{2}\",\n      \"keyColor\": \"yellow\"\n    },\n    {\n      \"type\": \"cpu\",\n      \"format\": \"{1} @ {7}\",\n      \"key\": \"   CPU\",\n      \"keyColor\": \"blue\"\n    },\n    {\n      \"type\": \"gpu\",\n      \"format\": \"{1} {2}\",\n      \"key\": \"  󰊴 GPU\",\n      \"keyColor\": \"blue\"\n    },\n    {\n      \"type\": \"gpu\",\n      \"format\": \"{3}\",\n      \"key\": \"   GPU Driver\",\n      \"keyColor\": \"magenta\"\n    },\n    {\n      \"type\": \"memory\",\n      \"key\": \"   Memory\",\n      \"keyColor\": \"magenta\"\n    },\n    {\n      \"type\": \"uptime\",\n      \"key\": \"  󱫐 Uptime\",\n      \"keyColor\": \"red\"\n    },\n    \"break\",\n    {\n      \"type\": \"colors\",\n      \"paddingLeft\": 2,\n      \"symbol\": \"square\"\n    },\n    \"break\"\n  ]\n}",
+    "timestamp": "2025-10-29 17:47:04",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "    echo -n \"(🌿)\"",
+    "timestamp": "2025-10-29 17:53:46",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "في مكان ما\n:white_check_mark:\nClick to react\n:heart:\nClick to react\n:thumbsup::skin-tone-1:\nClick to react\nAdd Reaction\nReply\nForward\nMore\n[12:32 PM]Wednesday, October 29, 2025 at 12:32 PM\nالدوله اولا\n:white_check_mark:\nClick to react\n:heart:\nClick to react\n:thumbsup::skin-tone-1:\nClick to react\nAdd Reaction\nReply\nForward\nMore\n[12:32 PM]Wednesday, October 29, 2025 at 12:32 PM",
+    "timestamp": "2025-10-29 18:07:40",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "الشعب للدوله\n:white_check_mark:\nClick to react\n:heart:\nClick to react\n:thumbsup::skin-tone-1:\nClick to react\nAdd Reaction\nReply\nForward\nMore\n￼\n𝚛𝚘𝚕𝚢𝚘 💫￼Week+ — 12:54 PMWednesday, October 29, 2025 at 12:54 PM\n@باتمانه @オサマ شكلكم سهرانين روحو نامو\n[12:56 PM]Wednesday, October 29, 2025 at 12:56 PM\n@weg لا تضيع وقتك معهم￼\n￼￼\nAubrey Drake Braham￼1Y+ — 3:33 PMWednesday, October 29, 2025 at 3:33 PM\n​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​   \n￼\nHelper\nAPP\n — 3:33 PMWednesday, October 29, 2025 at 3:33 PM\n@Aubrey Drake Braham Please do not spam the channel, otherwise you will be muted\n:white_check_mark:\nClick to react\n:heart:\nClick to react\n:thumbsup::skin-tone-1:\nClick to react\nAdd Reaction\nReply\nForward\nMore\n￼\nNov11\n￼\nᨐฅ\n￼3M+ — 3:53 PMWednesday, October 29, 2025 at 3:53 PM\ncramped\n:white_check_mark:\nClick to react\n:heart:\nClick to react\n:thumbsup::skin-tone-1:\nClick to react\nAdd Reaction\nReply\nForward\nMore\n￼\njohn￼First Day!I'm new here, say hi! — 4:17 PMWednesday, October 29, 2025 at 4:17 PM\nmy throat hurts i can't talk rn\n[4:17 PM]Wednesday, October 29, 2025 at 4:17 PM\nwhat\n[4:18 PM]Wednesday, October 29, 2025 at 4:18 PM\nreally?\n[4:19 PM]Wednesday, October 29, 2025 at 4:19 PM\nwhere are you guys from?\n￼\n@john\nmy throat hurts i can't talk rn\n￼\n𝐌𝐢𝐬𝐡𝐢￼Month+ — 5:03 PMWednesday, October 29, 2025 at 5:03 PM\nAre you alright?\n:white_check_mark:\nClick to react\n:heart:\nClick to react\n:thumbsup::skin-tone-1:\nClick to react\nAdd Reaction\nReply\nForward\nMore\n￼￼\nlukas\n￼\nORYX\n — 5:43 PMWednesday, October 29, 2025 at 5:43 PM\nhttps://www.thomann.at/behringer_gmc_150.htm?gad_source=1&gad_campaignid=1539417515&gclid=Cj0KCQjw9obIBhCAARIsAGHm1mSQRuUMw7rxpCzjsiLRTA66Aq4MdyUZ3oOzHhz_YNyVt2hekGVQqqkaAg4CEALw_wcB",
+    "timestamp": "2025-10-29 18:07:41",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "https://github.com/catppuccin/swaync",
+    "timestamp": "2025-10-29 18:09:43",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "ocha",
+    "timestamp": "2025-10-29 18:12:48",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "Mocha",
+    "timestamp": "2025-10-29 18:12:51",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "* { all: unset; font-size: 14px; font-family: \"Iosevka\"; transition: 200ms; } trough highlight { background: @color2; } scale { margin: 0 7px; } scale trough { margin: 0rem 1rem; min-height: 8px; min-width: 70px; border-radius: 12.6px; } trough slider { margin: -10px; border-radius: 12.6px; box-shadow: 0 0 2px rgba(0, 0, 0, 1.0); transition: all 0.2s ease; background-color: @color4; } trough slider:hover { box-shadow: 0 0 2px rgba(0, 0, 0, 0.8), 0 0 8px @color4; } trough { background-color: @color0; } /* notifications */background-color: rgba(30, 30, 46, 0.8); .notification-background .notification { padding: 7px; border-radius: 12.6px; } .notification-background .notification.critical { box-shadow: inset 0 0 7px 0 @color1; } .notification .notification-content { margin: 7px; } .notification-content overlay { /* icons */ margin: 4px; } .notification-content .summary { color: @color7; } .notification-content .time { color: @color8; } .notification-content .body { color: @color7; } .notification > *:last-child > * { min-height: 3.4em; } .notification-background .close-button { margin: 7px; padding: 2px; border-radius: 6.3px; color: @color0; background-color: @color1; } .notification-background .close-button:hover { background-color: @color9; } .notification-background .close-button:active { background-color: @color5; } .notification .notification-action { border-radius: 7px; color: @color7; box-shadow: inset 0 0 0 1px @color1; margin: 4px; padding: 8px; font-size: 0.2rem; /* controls the button size not text size*/ } .notification .notification-action { background-color: @color0; } .notification .notification-action:hover { background-color: @color1; } .notification .notification-action:active { background-color: @color2; } .notification.critical progress { background-color: @color1; } .notification.low progress, .notification.normal progress { background-color: @color4; } .notification progress, .notification trough, .notification progressbar { border-radius: 12.6px; padding: 3px 0; } /* control center */ .control-center { box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px @color0; border-radius: 12.6px; background-color: @color0; color: @color7; padding: 14px; } .control-center .notification-background { border-radius: 7px; box-shadow: inset 0 0 0 1px @color1; margin: 4px 10px; } .control-center .notification-background .notification { border-radius: 7px; } .control-center .notification-background .notification.low { opacity: 0.8; } .control-center .widget-title > label { color: @color7; font-size: 1.3em; } .control-center .widget-title button { border-radius: 7px; color: @color7; background-color: @color0; box-shadow: inset 0 0 0 1px @color1; padding: 8px; } .control-center .widget-title button:hover { background-color: @color1; } .control-center .widget-title button:active { background-color: @color2; } .control-center .notification-group { margin-top: 10px; } .control-center .notification-group:focus .notification-background { background-color: @color0; } scrollbar slider { margin: -3px; opacity: 0.8; } scrollbar trough { margin: 2px 0; } /* dnd */ .widget-dnd { margin-top: 5px; border-radius: 8px; font-size: 1.1rem; } .widget-dnd > switch { font-size: initial; border-radius: 8px; background: @color0; box-shadow: none; } .widget-dnd > switch:checked { background: @color4; } .widget-dnd > switch slider { background: @color1; border-radius: 8px; } /* mpris */ .widget-mpris-player { background: @color0; border-radius: 12.6px; color: @color7; } .mpris-overlay { background-color: @color0; opacity: 1.0; padding: 15px 10px; } .widget-mpris-album-art { -gtk-icon-size: 100px; border-radius: 12.6px; margin: 0 10px; } .widget-mpris-title { font-size: 1.2rem; color: @color7; } .widget-mpris-subtitle { font-size: 1rem; color: @color8; } .widget-mpris button { border-radius: 12.6px; color: @color7; margin: 0 5px; padding: 2px; } .widget-mpris button image { -gtk-icon-size: 1.8rem; } .widget-mpris button:hover { background-color: @color0; } .widget-mpris button:active { background-color: @color1; } .widget-mpris button:disabled { opacity: 0.5; } .widget-menubar > box > .menu-button-bar > button > label { font-size: 3rem; padding: 0.5rem 2rem; } .widget-menubar > box > .menu-button-bar > :last-child { color: @color1; } .power-buttons button:hover, .powermode-buttons button:hover, .screenshot-.buttons button:hover { background: @color0; } .control-center .widget-label > label { color: @color7; font-size: 2rem; } .widget-buttons-grid { padding-top: 1rem; } .widget-buttons-grid > flowbox > flowboxchild > button label { font-size: 2.5rem; } .widget-volume { padding: 1rem 0; } .widget-volume label { color: @color6; padding: 0 1rem; } .widget-volume trough highlight { background: @color6; } .widget-backlight trough highlight { background: @color3; } .widget-backlight label { font-size: 1.5rem; color: @color3; } .widget-backlight .KB { padding-bottom: 1rem; } .image { padding-right: 0.5rem; }",
+    "timestamp": "2025-10-29 18:46:19",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "* {\n  all: unset;\n  font-size: 14px;\n  font-family: \"Iosevka\";\n  transition: 200ms;\n}\ntrough highlight {\n  background: @color2;\n}\nscale {\n  margin: 0 7px;\n}\nscale trough {\n  margin: 0rem 1rem;\n  min-height: 8px;\n  min-width: 70px;\n  border-radius: 12.6px;\n}\ntrough slider {\n  margin: -10px;\n  border-radius: 12.6px;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 1);\n  transition: all 0.2s ease;\n  background-color: @color4;\n}\ntrough slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8), 0 0 8px @color4;\n}\ntrough {\n  background-color: @color0;\n} /* notifications */\nbackground-color: rgba(30, 30, 46, 0.8);\n.notification-background .notification {\n  padding: 7px;\n  border-radius: 12.6px;\n}\n.notification-background .notification.critical {\n  box-shadow: inset 0 0 7px 0 @color1;\n}\n.notification .notification-content {\n  margin: 7px;\n}\n.notification-content overlay {\n  /* icons */\n  margin: 4px;\n}\n.notification-content .summary {\n  color: @color7;\n}\n.notification-content .time {\n  color: @color8;\n}\n.notification-content .body {\n  color: @color7;\n}\n.notification > *:last-child > * {\n  min-height: 3.4em;\n}\n.notification-background .close-button {\n  margin: 7px;\n  padding: 2px;\n  border-radius: 6.3px;\n  color: @color0;\n  background-color: @color1;\n}\n.notification-background .close-button:hover {\n  background-color: @color9;\n}\n.notification-background .close-button:active {\n  background-color: @color5;\n}\n.notification .notification-action {\n  border-radius: 7px;\n  color: @color7;\n  box-shadow: inset 0 0 0 1px @color1;\n  margin: 4px;\n  padding: 8px;\n  font-size: 0.2rem; /* controls the button size not text size*/\n}\n.notification .notification-action {\n  background-color: @color0;\n}\n.notification .notification-action:hover {\n  background-color: @color1;\n}\n.notification .notification-action:active {\n  background-color: @color2;\n}\n.notification.critical progress {\n  background-color: @color1;\n}\n.notification.low progress,\n.notification.normal progress {\n  background-color: @color4;\n}\n.notification progress,\n.notification trough,\n.notification progressbar {\n  border-radius: 12.6px;\n  padding: 3px 0;\n} /* control center */\n.control-center {\n  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px @color0;\n  border-radius: 12.6px;\n  background-color: @color0;\n  color: @color7;\n  padding: 14px;\n}\n.control-center .notification-background {\n  border-radius: 7px;\n  box-shadow: inset 0 0 0 1px @color1;\n  margin: 4px 10px;\n}\n.control-center .notification-background .notification {\n  border-radius: 7px;\n}\n.control-center .notification-background .notification.low {\n  opacity: 0.8;\n}\n.control-center .widget-title > label {\n  color: @color7;\n  font-size: 1.3em;\n}\n.control-center .widget-title button {\n  border-radius: 7px;\n  color: @color7;\n  background-color: @color0;\n  box-shadow: inset 0 0 0 1px @color1;\n  padding: 8px;\n}\n.control-center .widget-title button:hover {\n  background-color: @color1;\n}\n.control-center .widget-title button:active {\n  background-color: @color2;\n}\n.control-center .notification-group {\n  margin-top: 10px;\n}\n.control-center .notification-group:focus .notification-background {\n  background-color: @color0;\n}\nscrollbar slider {\n  margin: -3px;\n  opacity: 0.8;\n}\nscrollbar trough {\n  margin: 2px 0;\n} /* dnd */\n.widget-dnd {\n  margin-top: 5px;\n  border-radius: 8px;\n  font-size: 1.1rem;\n}\n.widget-dnd > switch {\n  font-size: initial;\n  border-radius: 8px;\n  background: @color0;\n  box-shadow: none;\n}\n.widget-dnd > switch:checked {\n  background: @color4;\n}\n.widget-dnd > switch slider {\n  background: @color1;\n  border-radius: 8px;\n} /* mpris */\n.widget-mpris-player {\n  background: @color0;\n  border-radius: 12.6px;\n  color: @color7;\n}\n.mpris-overlay {\n  background-color: @color0;\n  opacity: 1;\n  padding: 15px 10px;\n}\n.widget-mpris-album-art {\n  -gtk-icon-size: 100px;\n  border-radius: 12.6px;\n  margin: 0 10px;\n}\n.widget-mpris-title {\n  font-size: 1.2rem;\n  color: @color7;\n}\n.widget-mpris-subtitle {\n  font-size: 1rem;\n  color: @color8;\n}\n.widget-mpris button {\n  border-radius: 12.6px;\n  color: @color7;\n  margin: 0 5px;\n  padding: 2px;\n}\n.widget-mpris button image {\n  -gtk-icon-size: 1.8rem;\n}\n.widget-mpris button:hover {\n  background-color: @color0;\n}\n.widget-mpris button:active {\n  background-color: @color1;\n}\n.widget-mpris button:disabled {\n  opacity: 0.5;\n}\n.widget-menubar > box > .menu-button-bar > button > label {\n  font-size: 3rem;\n  padding: 0.5rem 2rem;\n}\n.widget-menubar > box > .menu-button-bar > :last-child {\n  color: @color1;\n}\n.power-buttons button:hover,\n.powermode-buttons button:hover,\n.screenshot-.buttons button:hover {\n  background: @color0;\n}\n.control-center .widget-label > label {\n  color: @color7;\n  font-size: 2rem;\n}\n.widget-buttons-grid {\n  padding-top: 1rem;\n}\n.widget-buttons-grid > flowbox > flowboxchild > button label {\n  font-size: 2.5rem;\n}\n.widget-volume {\n  padding: 1rem 0;\n}\n.widget-volume label {\n  color: @color6;\n  padding: 0 1rem;\n}\n.widget-volume trough highlight {\n  background: @color6;\n}\n.widget-backlight trough highlight {\n  background: @color3;\n}\n.widget-backlight label {\n  font-size: 1.5rem;\n  color: @color3;\n}\n.widget-backlight .KB {\n  padding-bottom: 1rem;\n}\n.image {\n  padding-right: 0.5rem;\n}",
+    "timestamp": "2025-10-29 18:46:24",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "wal/colors.css",
+    "timestamp": "2025-10-29 18:47:26",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "lib32-glib2",
+    "timestamp": "2025-10-29 18:57:14",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": " link",
+    "timestamp": "2025-10-29 18:59:39",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "iral video",
+    "timestamp": "2025-10-29 19:01:59",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "v",
+    "timestamp": "2025-10-29 19:02:01",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "4CAA-42FF",
+    "timestamp": "2025-10-29 19:06:17",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "what-the-shell",
+    "timestamp": "2025-10-29 19:07:55",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "571262506_1283366600502632_3967508461595200995_n",
+    "timestamp": "2025-10-29 19:17:15",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "1px solid #313244",
+    "timestamp": "2025-10-29 19:25:01",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "@import url(\"~/.cache/wal/colors-waybar.css\")\n\n* {\n    font-family: \"Iosevka\";\n    font-weight: 600;\n    font-size: 10px;\n    margin: 0;\n    padding: 0;\n}\n\n.notification-row {\n    outline: none;\n    margin: 12px;\n    padding: 0;\n    background: @color1;\n}\n\n.notification {\n    border-radius: 12px;\n    padding: 16px;\n    background: #1e1e2e;\n    border: 0;\n}\n\n.notification-content {\n    background: none;\n    padding: 0;\n}\n\n.close-button {\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 100%;\n    margin-top: 4px;\n    margin-right: 4px;\n}\n\n.close-button:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.close-button:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.notification-default-action, .notification-action {\n    padding: 4px;\n    margin: 0;\n    border: none;\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 8px;\n}\n\n.notification-default-action:hover, .notification-action:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.notification-default-action:active, .notification-action:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.summary {\n    color: #cdd6f4;\n    font-size: 18px;\n}\n\n.time {\n    color: #a6adc8;\n    font-size: 15px;\n}\n\n.body {\n    color: #cdd6f4;\n    font-size: 15px;\n}\n\n.control-center {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 16px;\n}\n\n.control-center .notification-row {\n    margin: 0;\n    outline: none;\n    background: none;\n}\n\n.control-center-list-placeholder {\n    color: #bac2de;\n}\n\n.control-center .notification-row:hover {\n    background: #313244;\n}\n\n.control-center .notification {\n    border-radius: 12px;\n}\n\n.control-center .notification-content {\n    background: none;\n}\n\n.control-center .close-button {\n    margin-top: 12px;\n    margin-right: 12px;\n}\n\n.control-center .notification-default-action, .control-center .notification-action {\n    margin: 8px;\n    padding: 8px;\n}\n\n.control-center .summary {\n    font-size: 16px;\n}\n\n.control-center .time {\n    font-size: 14px;\n}\n\n.control-center .body {\n    font-size: 14px;\n}\n\n.control-center-clear-all {\n    background: #313244;\n    color: #cdd6f4;\n    border: 1px solid #45475a;\n    border-radius: 12px;\n    padding: 8px;\n    margin: 12px;\n}\n\n.control-center-clear-all:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.control-center-clear-all:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.control-center-dnd {\n    margin: 12px;\n    background: #313244;\n    color: #cdd6f4;\n    border: 1px solid #45475a;\n    border-radius: 12px;\n    padding: 8px;\n}\n\n.control-center-dnd:checked {\n    background: #89b4fa;\n    color: #1e1e2e;\n}\n\n.control-center-dnd slider {\n    background: #45475a;\n    border-radius: 100%;\n}\n\n.widget-title {\n    color: #cdd6f4;\n    margin: 12px;\n    font-size: 20px;\n}\n\n.widget-title > button {\n    font-size: 16px;\n    background: #313244;\n    color: #cdd6f4;\n    border: 1px solid #45475a;\n    border-radius: 12px;\n    padding: 8px;\n}\n1px solid #313244\n.widget-title > button:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.widget-title > button:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.widget-dnd {\n    margin: 0px;\n    font-size: 16px;\n}\n\n.widget-dnd > switch {\n    font-size: initial;\n    border-radius: 12px;\n    background: #313244;\n    border: 1px solid #45475a;\n    padding: 4px;\n}\n\n.widget-dnd > switch:checked {\n    background: #89b4fa;\n}\n\n.widget-dnd > switch slider {\n    background: #cdd6f4;\n    border-radius: 100%;\n}\n\n.widget-label {\n    margin: 12px;\n}\n\n.widget-label > label {\n    font-size: 16px;\n    color: #cdd6f4;\n}\n\n.widget-mpris {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n    padding: 12px;\n    margin: 12px;\n}\n\n.widget-mpris-player {\n    padding: 8px;\n    border-radius: 8px;\n}\n\n.widget-mpris-title {\n    font-size: 16px;\n    color: #cdd6f4;\n}\n\n.widget-mpris-subtitle {\n    font-size: 14px;\n    color: #a6adc8;\n}\n\n.widget-mpris-album-art {\n    border-radius: 8px;\n}\n\n.widget-mpris button {\n    color: #cdd6f4;\n}\n\n.widget-mpris button:hover {\n    background: #313244;\n}\n\n.widget-mpris button:active {\n    background: #45475a;\n}\n\n.widget-buttons-grid {\n    padding: 12px;\n    margin: 12px;\n    border-radius: 12px;\n    background: #1e1e2e;\n    border: 1px solid #313244;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button {\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 8px;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button:hover {\n    background: #45475a;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button:active {\n    background: #585b70;\n}\n\n.widget-volume {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n    padding: 12px;\n    margin: 12px;\n}\n\n.widget-volume label {\n    color: #cdd6f4;\n}\n\n.widget-volume scale trough {\n    background: #313244;\n    border-radius: 100px;\n}\n\n.widget-volume scale trough highlight {\n    background: #89b4fa;\n    border-radius: 100px;\n}\n\n.widget-volume scale trough slider {\n    background: #cdd6f4;\n    border-radius: 100%;\n}\n\n.widget-backlight {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n    padding: 12px;\n    margin: 12px;\n}\n\n.widget-backlight label {\n    color: #cdd6f4;\n}\n\n.widget-backlight scale trough {\n    background: #313244;\n    border-radius: 100px;\n}\n\n.widget-backlight scale trough highlight {\n    background: #f9e2af;\n    border-radius: 100px;\n}\n\n.widget-backlight scale trough slider {\n    background: #cdd6f4;\n    border-radius: 100%;\n}\n\n.widget-inhibitors {\n    margin: 12px;\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n}\n\n.widget-inhibitors > button {\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 8px;\n    padding: 8px;\n    margin: 8px;\n}\n\n.widget-inhibitors > button:hover {\n    background: #45475a;\n}",
+    "timestamp": "2025-10-29 19:26:50",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "─────┬───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n     │ File: /home/cg/.cache/wal/colors-waybar.css\n─────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n   1 │ @define-color foreground #d3d9db;\n   2 │ @define-color background #0F110F;\n   3 │ @define-color cursor #d3d9db;\n   4 │ \n   5 │ @define-color color0 #0F110F;\n   6 │ @define-color color1 #5F6E68;\n   7 │ @define-color color2 #72846F;\n   8 │ @define-color color3 #8B8753;\n   9 │ @define-color color4 #778988;\n  10 │ @define-color color5 #96A5A4;\n  11 │ @define-color color6 #B9BDBA;\n  12 │ @define-color color7 #d3d9db;\n  13 │ @define-color color8 #939799;\n  14 │ @define-color color9 #5F6E68;\n  15 │ @define-color color10 #72846F;\n  16 │ @define-color color11 #8B8753;\n  17 │ @define-color color12 #778988;\n  18 │ @define-color color13 #96A5A4;\n  19 │ @define-color color14 #B9BDBA;\n  20 │ @define-color color15 #d3d9db;",
+    "timestamp": "2025-10-29 19:27:04",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "/* === Import Wal colors === */\n@import url(\"~/.cache/wal/colors-waybar.css\");\n\n/* === Global Settings === */\n* {\n    font-family: \"Iosevka\", monospace;\n    font-weight: 500;\n    font-size: 11px;\n    color: @foreground;\n    margin: 0;\n    padding: 0;\n}\n\n/* === Notification Panel === */\n.notification-row {\n    margin: 10px;\n    outline: none;\n    background: none;\n    border: none;\n}\n\n.notification {\n    background: @background;\n    border: 1px solid @color1;\n    border-radius: 12px;\n    padding: 14px 16px;\n    transition: background 0.2s ease, border 0.2s ease;\n}\n\n.notification:hover {\n    background: shade(@background, 1.2);\n    border-color: @color2;\n}\n\n.notification-content {\n    background: none;\n    padding: 0;\n}\n\n/* === Close Button === */\n.close-button {\n    background: @color1;\n    color: @foreground;\n    border-radius: 100%;\n    padding: 6px;\n    margin: 6px;\n    transition: background 0.2s ease;\n}\n\n.close-button:hover {\n    background: @color2;\n}\n\n.close-button:active {\n    background: @color3;\n}\n\n/* === Notification Actions === */\n.notification-default-action,\n.notification-action {\n    background: @color1;\n    color: @foreground;\n    border: none;\n    border-radius: 8px;\n    padding: 6px 10px;\n    margin: 4px;\n    transition: background 0.2s ease;\n}\n\n.notification-default-action:hover,\n.notification-action:hover {\n    background: @color2;\n}\n\n.notification-default-action:active,\n.notification-action:active {\n    background: @color3;\n}\n\n/* === Text Elements === */\n.summary {\n    font-size: 16px;\n    font-weight: 600;\n    color: @foreground;\n}\n\n.time {\n    color: @color6;\n    font-size: 13px;\n}\n\n.body {\n    color: @foreground;\n    font-size: 14px;\n}\n\n/* === Control Center === */\n.control-center {\n    background: @background;\n    border: 1px solid @color1;\n    border-radius: 16px;\n    padding: 8px;\n}\n\n.control-center .notification-row {\n    margin: 6px;\n}\n\n.control-center .notification {\n    border-radius: 10px;\n}\n\n/* === Control Buttons === */\n.control-center-clear-all,\n.control-center-dnd {\n    background: @color1;\n    color: @foreground;\n    border: 1px solid @color2;\n    border-radius: 10px;\n    padding: 8px 12px;\n    margin: 8px;\n    transition: background 0.2s ease;\n}\n\n.control-center-clear-all:hover,\n.control-center-dnd:hover {\n    background: @color2;\n}\n\n.control-center-clear-all:active,\n.control-center-dnd:active {\n    background: @color3;\n}\n\n.control-center-dnd:checked {\n    background: @color4;\n    color: @background;\n}\n\n/* === Widget Sections === */\n.widget-title {\n    color: @foreground;\n    margin: 12px;\n    font-size: 18px;\n    font-weight: 600;\n}\n\n.widget-title > button {\n    font-size: 14px;\n    background: @color1;\n    color: @foreground;\n    border: 1px solid @color2;\n    border-radius: 8px;\n    padding: 6px 10px;\n}\n\n.widget-title > button:hover {\n    background: @color2;\n}\n\n.widget-title > button:active {\n    background: @color3;\n}\n\n/* === Widget: DND Switch === */\n.widget-dnd > switch {\n    background: @color1;\n    border: 1px solid @color2;\n    border-radius: 10px;\n    padding: 4px;\n}\n\n.widget-dnd > switch:checked {\n    background: @color4;\n}\n\n.widget-dnd > switch slider {\n    background: @foreground;\n    border-radius: 100%;\n}\n\n/* === Widget: Volume / Brightness === */\n.widget-volume,\n.widget-backlight {\n    background: @background;\n    border: 1px solid @color1;\n    border-radius: 12px;\n    padding: 10px;\n    margin: 8px;\n}\n\n.widget-volume label,\n.widget-backlight label {\n    color: @foreground;\n}\n\n.widget-volume scale trough,\n.widget-backlight scale trough {\n    background: @color1;\n    border-radius: 100px;\n}\n\n.widget-volume scale trough highlight {\n    background: @color4;\n}\n\n.widget-backlight scale trough highlight {\n    background: @color3;\n}\n\n.widget-volume scale trough slider,\n.widget-backlight scale trough slider {\n    background: @foreground;\n    border-radius: 100%;\n}\n\n/* === Widget: Media Player === */\n.widget-mpris {\n    background: @background;\n    border: 1px solid @color1;\n    border-radius: 12px;\n    padding: 10px;\n    margin: 10px;\n}\n\n.widget-mpris-title {\n    font-size: 15px;\n    color: @foreground;\n}\n\n.widget-mpris-subtitle {\n    font-size: 13px;\n    color: @color6;\n}\n\n.widget-mpris button {\n    background: none;\n    color: @foreground;\n    border-radius: 6px;\n    padding: 4px;\n}\n\n.widget-mpris button:hover {\n    background: @color1;\n}\n\n/* === Widget: Buttons Grid === */\n.widget-buttons-grid {\n    background: @background;\n    border: 1px solid @color1;\n    border-radius: 12px;\n    padding: 10px;\n    margin: 10px;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button {\n    background: @color1;\n    color: @foreground;\n    border-radius: 8px;\n    padding: 6px 8px;\n    transition: background 0.2s ease;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button:hover {\n    background: @color2;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button:active {\n    background: @color3;\n}",
+    "timestamp": "2025-10-29 19:29:17",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "@import url(\"~/.cache/wal/colors-waybar.css\")\n\n* {\n    font-family: \"Iosevka\";\n    font-weight: 600;\n    font-size: 10px;\n    margin: 0;\n    padding: 0;\n}\n\n.notification-row {\n    outline: none;\n    margin: 12px;\n    padding: 0;\n    background: @color1;\n}\n\n.notification {\n    border-radius: 12px;\n    padding: 16px;\n    background: #1e1e2e;\n    border: 0;\n}\n\n.notification-content {\n    background: none;\n    padding: 0;\n}\n\n.close-button {\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 100%;\n    margin-top: 4px;\n    margin-right: 4px;\n}\n\n.close-button:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.close-button:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.notification-default-action, .notification-action {\n    padding: 4px;\n    margin: 0;\n    border: none;\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 8px;\n}\n\n.notification-default-action:hover, .notification-action:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.notification-default-action:active, .notification-action:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.summary {\n    color: #cdd6f4;\n    font-size: 18px;\n}\n\n.time {\n    color: #a6adc8;\n    font-size: 15px;\n}\n\n.body {\n    color: #cdd6f4;\n    font-size: 15px;\n}\n\n.control-center {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 16px;\n}\n\n.control-center .notification-row {\n    margin: 0;\n    outline: none;\n    background: none;\n}\n\n.control-center-list-placeholder {\n    color: #bac2de;\n}\n\n.control-center .notification-row:hover {\n    background: #313244;\n}\n\n.control-center .notification {\n    border-radius: 12px;\n}\n\n.control-center .notification-content {\n    background: none;\n}\n\n.control-center .close-button {\n    margin-top: 12px;\n    margin-right: 12px;\n}\n\n.control-center .notification-default-action, .control-center .notification-action {\n    margin: 8px;\n    padding: 8px;\n}\n\n.control-center .summary {\n    font-size: 16px;\n}\n\n.control-center .time {\n    font-size: 14px;\n}\n\n.control-center .body {\n    font-size: 14px;\n}\n\n.control-center-clear-all {\n    background: #313244;\n    color: #cdd6f4;\n    border: 1px solid #45475a;\n    border-radius: 12px;\n    padding: 8px;\n    margin: 12px;\n}\n\n.control-center-clear-all:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.control-center-clear-all:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.control-center-dnd {\n    margin: 12px;\n    background: #313244;\n    color: #cdd6f4;\n    border: 1px solid #45475a;\n    border-radius: 12px;\n    padding: 8px;\n}\n\n.control-center-dnd:checked {\n    background: #89b4fa;\n    color: #1e1e2e;\n}\n\n.control-center-dnd slider {\n    background: #45475a;\n    border-radius: 100%;\n}\n\n.widget-title {\n    color: #cdd6f4;\n    margin: 12px;\n    font-size: 20px;\n}\n\n.widget-title > button {\n    font-size: 16px;\n    background: #313244;\n    color: #cdd6f4;\n    border: 1px solid #45475a;\n    border-radius: 12px;\n    padding: 8px;\n}\n\n.widget-title > button:hover {\n    background: #45475a;\n    color: #cdd6f4;\n}\n\n.widget-title > button:active {\n    background: #585b70;\n    color: #cdd6f4;\n}\n\n.widget-dnd {\n    margin: 0px;\n    font-size: 16px;\n}\n\n.widget-dnd > switch {\n    font-size: initial;\n    border-radius: 12px;\n    background: #313244;\n    border: 1px solid #45475a;\n    padding: 4px;\n}\n\n.widget-dnd > switch:checked {\n    background: #89b4fa;\n}\n\n.widget-dnd > switch slider {\n    background: #cdd6f4;\n    border-radius: 100%;\n}\n\n.widget-label {\n    margin: 12px;\n}\n\n.widget-label > label {\n    font-size: 16px;\n    color: #cdd6f4;\n}\n\n.widget-mpris {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n    padding: 12px;\n    margin: 12px;\n}\n\n.widget-mpris-player {\n    padding: 8px;\n    border-radius: 8px;\n}\n\n.widget-mpris-title {\n    font-size: 16px;\n    color: #cdd6f4;\n}\n\n.widget-mpris-subtitle {\n    font-size: 14px;\n    color: #a6adc8;\n}\n\n.widget-mpris-album-art {\n    border-radius: 8px;\n}\n\n.widget-mpris button {\n    color: #cdd6f4;\n}\n\n.widget-mpris button:hover {\n    background: #313244;\n}\n\n.widget-mpris button:active {\n    background: #45475a;\n}\n\n.widget-buttons-grid {\n    padding: 12px;\n    margin: 12px;\n    border-radius: 12px;\n    background: #1e1e2e;\n    border: 1px solid #313244;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button {\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 8px;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button:hover {\n    background: #45475a;\n}\n\n.widget-buttons-grid > flowbox > flowboxchild > button:active {\n    background: #585b70;\n}\n\n.widget-volume {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n    padding: 12px;\n    margin: 12px;\n}\n\n.widget-volume label {\n    color: #cdd6f4;\n}\n\n.widget-volume scale trough {\n    background: #313244;\n    border-radius: 100px;\n}\n\n.widget-volume scale trough highlight {\n    background: #89b4fa;\n    border-radius: 100px;\n}\n\n.widget-volume scale trough slider {\n    background: #cdd6f4;\n    border-radius: 100%;\n}\n\n.widget-backlight {\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n    padding: 12px;\n    margin: 12px;\n}\n\n.widget-backlight label {\n    color: #cdd6f4;\n}\n\n.widget-backlight scale trough {\n    background: #313244;\n    border-radius: 100px;\n}\n\n.widget-backlight scale trough highlight {\n    background: #f9e2af;\n    border-radius: 100px;\n}\n\n.widget-backlight scale trough slider {\n    background: #cdd6f4;\n    border-radius: 100%;\n}\n\n.widget-inhibitors {\n    margin: 12px;\n    background: #1e1e2e;\n    border: 1px solid #313244;\n    border-radius: 12px;\n}\n\n.widget-inhibitors > button {\n    background: #313244;\n    color: #cdd6f4;\n    border-radius: 8px;\n    padding: 8px;\n    margin: 8px;\n}\n\n.widget-inhibitors > button:hover {\n    background: #45475a;\n}",
+    "timestamp": "2025-10-29 19:29:28",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": ".notification,\n.control-center,\n.widget-volume,\n.widget-backlight,\n.widget-buttons-grid,\n.widget-mpris {\n    border: 0.5px solid alpha(@color1, 0.7);\n}",
+    "timestamp": "2025-10-29 19:31:36",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "border: 1px solid alpha(@color1, 0.3);",
+    "timestamp": "2025-10-29 19:32:01",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": " 🚫 remove outer border */",
+    "timestamp": "2025-10-29 19:32:34",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "\tborder: none",
+    "timestamp": "2025-10-29 19:33:31",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "1px solid @color1",
+    "timestamp": "2025-10-29 19:33:35",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "    border-radius: 15px;",
+    "timestamp": "2025-10-29 19:33:53",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "1px solid @color2",
+    "timestamp": "2025-10-29 19:34:25",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "1",
+    "timestamp": "2025-10-29 19:35:32",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "14px 16px",
+    "timestamp": "2025-10-29 19:36:50",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "548148867_18546255454040635_4299158256460103769_n",
+    "timestamp": "2025-10-29 19:41:25",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "https://www.facebook.com/Anushka.sen.0408?__cft__[0]=AZXnGUYSvE0X35sDTKjWAaVmm59Vr35WtTHKpxAn9me8WZfhdFOGT2U2ki-MzOpoZ9QjI6afA-7atXRGZwtepxINxVtPxTyZYfBG6RrvU4uULtHoHB64To9zBc0Dj4TXUYM6VaA2B6n0HtzRm49c4mnp86VIWR4RWxDRH0RV8iWJzKz6E3B73IlceMW4DkZBizD_RnC39R1Fod9t7qTs6S90&__tn__=-UC*F",
+    "timestamp": "2025-10-29 19:41:49",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "546609875_18546255502040635_7172633413310328898_n",
+    "timestamp": "2025-10-29 19:44:18",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "anushka_sen_1",
+    "timestamp": "2025-10-29 19:44:20",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "\"custom/weather\": {\n    \"exec\": \"~/.config/waybar/scripts/weather.sh\",\n    \"interval\": 600,\n    \"return-type\": \"json\"\n  },",
+    "timestamp": "2025-10-29 20:32:18",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "  \"custom/weather\": {\n    \"exec\": \"~/.config/waybar/scripts/weather.sh\",\n    \"interval\": 600,\n    \"return-type\": \"json\"\n  },",
+    "timestamp": "2025-10-29 20:32:43",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "\"custom/quote\": {\n    \"format\": \"󰚛 {}\",\n    \"interval\": 3600,\n    \"exec\": \"fortune -s\",\n    \"on-click\": \"fortune | yad --text-info --width=400 --height=200 --title='Fortune'\",\n    \"tooltip\": true\n  },",
+    "timestamp": "2025-10-29 20:32:55",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "fortune | yad --text-info --width=400 --height=200 --title='Fortune'",
+    "timestamp": "2025-10-29 20:33:08",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "quote",
+    "timestamp": "2025-10-29 20:33:42",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "\"custom/notification_center\": {\n    \"format\": \"󰚛 {}\",\n    \"interval\": 3600,\n    \"exec\": \"fortune -s\",\n    \"on-click\": \"~/.config/waybar/scripts/notification_center.sh\",\t\n    \"tooltip\": true\n  },",
+    "timestamp": "2025-10-29 20:34:02",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "\"custom/notification_center\": {\n  \"format\": \"󰚛 {}\",\n  \"interval\": 3600,\n  \"exec\": \"fortune -s | tr '\\\\n' ' ' | cut -c 1-80\",\n  \"on-click\": \"~/.config/waybar/scripts/notification_center.sh\",\n  \"tooltip\": true,\n  \"signal\": 9\n}",
+    "timestamp": "2025-10-29 20:35:12",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "notification_center",
+    "timestamp": "2025-10-29 20:37:23",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "notificationsL",
+    "timestamp": "2025-10-29 20:37:30",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "\t\"custom/notification_center\",",
+    "timestamp": "2025-10-29 20:50:22",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "custom/notification_center\": {\n    \"return-type\": \"json\",\n    \"interval\": 1,\n    \"exec\": \"~/.config/waybar/scripts/notification_indicator.sh\",\n    \"on-click\": \"~/.config/waybar/scripts/notification_center.sh\",\n    \"tooltip\": true\n},",
+    "timestamp": "2025-10-29 20:50:29",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "╰─$ ",
+    "timestamp": "2025-10-29 20:51:01",
+    "category": "default",
+    "lifetime": false
+  },
+  {
+    "content": "~/.config/waybar/scripts/notification_center.sh",
+    "timestamp": "2025-10-29 20:51:05",
+    "category": "default",
+    "lifetime": false
+  }
+]
