@@ -1,0 +1,6 @@
+@import "/home/cg/.cache/wal/colors-rofi-dark.rasi";
+
+* {
+    background-color: @background;
+    text-color: @foreground;
+}

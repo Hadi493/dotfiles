@@ -27,6 +27,10 @@ swww img "$WALLPAPER" \
 
 wal -i "$WALLPAPER"
 killall -SIGUSR2 waybar
+killall -x swaync
+dbus-launch swaync &
+sleep 1
+notify-send "swaync" "Wallpaper changed"
 
 # TOOLS:
 # - sudo pacman -S swww
