@@ -1,0 +1,203 @@
+/* Dynamic colors from ~/.cache/wal/colors-waybar.css */
+@import url("/home/cyber-green/.cache/wal/colors-waybar.css");
+
+/* Catppuccin (Mocha) - Floating Style */
+/* @define-color background #1e1e2e; */
+/* @define-color background-light #313244; */
+/* @define-color foreground #cdd6f4; */
+@define-color black #11111b;
+@define-color red #f38ba8;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color blue #89b4fa;
+@define-color magenta #cba6f7;
+@define-color cyan #89dceb;
+@define-color white #bac2de;
+@define-color orange #fab387;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Iosevka";
+	/* font-family: "JetbrainsMono Nerd Font"; */
+    font-size: 18px;
+    min-height: 0;
+}
+
+/* Main waybar window - transparent background */
+window#waybar {
+    background-color: transparent;
+    color: @foreground;
+    margin: 10px 10px 0 10px;
+}
+
+/* Floating sections styling */
+.modules-left {
+    background-color: transparent;
+    border-radius: 0px;
+    padding: 5px 15px;
+    margin-right: 10px;
+}
+
+.modules-center {
+    background-color: transparent;
+    border-radius: 0px;
+    padding: 5px 20px;
+    margin: 0 10px;
+}
+
+.modules-right {
+    background-color: transparent;
+    border-radius: 0px;
+    padding: 5px 15px;
+    margin-left: 10px;
+}
+
+@keyframes urgent-blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Individual module styling */
+#mode, #mpd, #custom-weather, #custom-playerctl, #clock, #cpu,
+#memory, #temperature, #battery, #network, #pulseaudio,
+#backlight, #disk, #custom-uptime, #custom-updates, #custom-quote,
+#custom-language, #idle_inhibitor, #tray, #window, #workspaces, #notification_center, #custom-notification {
+    padding: 0 10px;
+    margin: 0 2px;
+    background-color: @background;
+    border: 1px solid @background-light;
+    border-radius: 0px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#mode:hover, #mpd:hover, #custom-weather:hover, #custom-playerctl:hover, #clock:hover, #cpu:hover,
+#memory:hover, #temperature:hover, #battery:hover, #network:hover, #pulseaudio:hover,
+#backlight:hover, #disk:hover, #custom-uptime:hover, #custom-updates:hover, #custom-quote:hover,
+#custom-language:hover, #idle_inhibitor:hover, #custom-notification:hover {
+    background-color: @background;
+    border-color: @blue;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    /* background-color: @background; */
+    color: @color3;
+}
+
+#window {
+    color: @foreground;
+    font-style: italic;
+    border-radius: 0px;
+}
+
+#window.empty {
+    color: @foreground;
+}
+
+#tray {
+    background-color: @background;
+    border: 1px solid @background-light;
+    border-radius: 0px;
+    padding: 0 10px;
+    margin: 0 2px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: rgba(243, 139, 168, 0.3);
+    border-radius: 0px;
+}
+
+/* Language switcher styling */
+#custom-language {
+    color: @foreground;
+    font-weight: bold;
+    min-width: 60px;
+    transition: all 0.3s ease;
+}
+
+#custom-language:hover {
+    background-color: @background-light;
+    color: @foreground;
+}
+
+
+
+
+
+/* Static Rounded */
+
+#custom-notification {
+		border-radius: 0px 20px 20px 0px;
+}
+
+#network {
+		border-radius: 20px 0px 0px 20px;
+}
+
+#temperature {
+		border-radius: 0px 20px 20px 0px;
+}
+
+#pulseaudio.microphone {
+		border-radius: 20px 0px 0px 20px;
+}
+
+#memory {
+		border-radius: 0px 20px 20px 0px;
+}
+
+#workspaces {
+		border-radius: 20px 0px 0px 20px;
+}
+
+#window {
+		border-radius: 0px 20px 20px 0px;
+}
+
+/* only if not have in 'uwsm-manager' */
+
+/* #clock { */
+/* 		border-radius: 20px 0px 0px 20px; */
+/* } */
+
+
+/* Half rounded style */
+
+/* #custom-uptime { */
+/* 		border-radius: 0px 0px 15px 0px; */
+/* } */
+/**/
+/* #tray { */
+/* 		border-radius: 0px 0px 0px 20px; */
+/* } */
+/**/
+/* #temperature { */
+/* 		border-radius: 0px 0px 15px 0px; */
+/* } */
+/**/
+/* #pulseaudio.microphone { */
+/* 		border-radius: 15px 0px 0px 0px; */
+/* } */
+/**/
+/* #workspaces { */
+/* 		border-radius: 0px 0px 0px 15px; */
+/* } */
+/**/
+/* #window { */
+/* 		border-radius: 0px 15px 0px 0px; */
+/* } */
+
+/* only if not have in 'uwsm-manager' */
+
+/* #clock { */
+/* 		border-radius: 0px 0px 0px 20px; */
+/* } */

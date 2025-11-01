@@ -1,4 +1,0 @@
-• Set up control center ✓
-• Customize waybar theme
-• Learn more Hyprland shortcuts
-• Organize desktop workflow
