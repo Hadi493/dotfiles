@@ -1,6 +1,6 @@
 # Minimalist Linux Dotfiles
 
-![For Arch Linux](https://github.com/Hadi493/dotfiles/tree/archlinux)
+[For Arch Linux](https://github.com/Hadi493/dotfiles/tree/archlinux)
 
 A comprehensive collection of configuration files for a clean, productive Linux desktop environment.
 
