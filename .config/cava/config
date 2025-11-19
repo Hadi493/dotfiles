@@ -1,0 +1,51 @@
+[input]
+method = pulse            # Audio input method (pulse, alsa, fifo, sndio)
+source = auto            # Audio source (auto, specific device)
+sample_rate = 44100      # Sample rate
+samples = 512            # Number of samples
+
+[input]
+# Stereo processing
+stereo = true            # Enable stereo mode
+mono_option = average    # Mono conversion method (left, right, average)
+
+# Noise reduction
+noise_reduction = 0.77   # Noise reduction factor (0.0-1.0)
+
+[output]
+method = ncurses         # Output method (ncurses, noncurses, raw, wav)
+channels = stereo        # Channel configuration
+bars = 0                # Number of bars (0 = auto)
+bar_width = 2           # Width of each bar
+bar_spacing = 1         # Spacing between bars
+
+[output]
+lower_cutoff_freq = 50   # Lower frequency cutoff (Hz)
+higher_cutoff_freq = 10000  # Higher frequency cutoff (Hz)
+
+[color]
+# Gradient colors (bottom to top)
+gradient = 1
+gradient_count = 8
+gradient_color_1 = '#94e2d5'  # Teal - lightest
+gradient_color_2 = '#89dceb'
+gradient_color_3 = '#74c7ec'
+gradient_color_4 = '#89b4fa'
+gradient_color_5 = '#b4befe'
+gradient_color_6 = '#cba6f7'
+gradient_color_7 = '#f38ba8'
+gradient_color_8 = '#f2cdcd'  # Rosewater - warm soft end
+
+
+[smoothing]
+# Integral smoothing
+integral = 77            # Smoothing factor (0-100)
+
+# Monstercat smoothing
+monstercat = 0          # Monstercat-style smoothing (0-100)
+waves = 0               # Wave effect (0-1)
+
+# Gravity effect
+gravity = 100           # Gravity factor (0-200)
+ignore = 0              # Ignore small values (0-100)
+
