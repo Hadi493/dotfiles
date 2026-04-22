@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: html
+# key: html
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>$1</title>
+  </head>
+<body>
+ <h1>$2</h1>
+</body>
+</html>

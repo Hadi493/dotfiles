@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: css
+# key: css
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Iosevka Term SS04$1'
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    background-color: #181818$2;
+    color: #ffffff$3;
+}
+
+$4

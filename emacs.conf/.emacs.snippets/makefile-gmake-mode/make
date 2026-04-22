@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: make
+# key: make
+# expand-env: ((yas-indent-line 'fixed))
+# --
+CC = cc
+CFLAGS = -Wall -Wextra -std=c11
+LDFLAGS =
+
+
+TARGET = $1
+
+all: $(TARGET)
+
+$(TARGET): $2
+	$(CC) -o $(TARGET) $2 $(LDFLAGS)
+
+clean:
+	rm -f $(TARGET)
