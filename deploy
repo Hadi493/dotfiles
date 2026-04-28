@@ -38,78 +38,90 @@ link_emacs() {
 }
 
 link_dunst() {
-    echo "Linking Dunst configuration..."
+    echo     "Linking Dunst configuration..."
     link_one "$DOTFILES_DIR/.config/dunst" "$HOME/.config/dunst"
 }
 
 link_fastfetch() {
-    echo "Linking fastfetch configuration..."
+    echo     "Linking fastfetch configuration..."
     link_one "$DOTFILES_DIR/.config/fastfetch" "$HOME/.config/fastfetch"
 }
 
+link_cava() {
+    echo     "Linking Cava configuration..."
+    link_one "$DOTFILES_DIR/.config/cava" "$HOME/.config/cava"
+}
+
+link_mpv() {
+    echo     "Linking MPV configuration..."
+    link_one "$DOTFILES_DIR/.config/mpv" "$HOME/.config/mpv"
+}
+
 link_fish() {
-    echo "Linking Fish configuration..."
+    echo     "Linking Fish configuration..."
     link_one "$DOTFILES_DIR/.config/fish" "$HOME/.config/fish"
 }
 
 link_helix() {
-    echo "Linking Helix configuration..."
+    echo     "Linking Helix configuration..."
     link_one "$DOTFILES_DIR/.config/helix" "$HOME/.config/helix"
 }
 
 link_hypr() {
-    echo "Linking Hyprland configuration..."
+    echo     "Linking Hyprland configuration..."
     link_one "$DOTFILES_DIR/.config/hypr" "$HOME/.config/hypr"
 }
 
 link_i3() {
-    echo "Linking i3 configuration..."
+    echo     "Linking i3 configuration..."
     link_one "$DOTFILES_DIR/.config/i3" "$HOME/.config/i3"
 }
 
 link_kitty() {
-    echo "Linking Kitty configuration..."
+    echo     "Linking Kitty configuration..."
     link_one "$DOTFILES_DIR/.config/kitty" "$HOME/.config/kitty"
 }
 
 link_nvim() {
-    echo "Linking Neovim configuration..."
+    echo     "Linking Neovim configuration..."
     link_one "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim"
 }
 
 link_polybar() {
-    echo "Linking Polybar configuration..."
+    echo     "Linking Polybar configuration..."
     link_one "$DOTFILES_DIR/.config/polybar" "$HOME/.config/polybar"
 }
 
 link_rofi() {
-    echo "Linking Rofi configuration..."
+    echo     "Linking Rofi configuration..."
     link_one "$DOTFILES_DIR/.config/rofi" "$HOME/.config/rofi"
 }
 
 link_swaync() {
-    echo "Linking SwayNC configuration..."
+    echo     "Linking SwayNC configuration..."
     link_one "$DOTFILES_DIR/.config/swaync" "$HOME/.config/swaync"
 }
 
 link_tofi() {
-    echo "Linking Tofi configuration..."
+    echo     "Linking Tofi configuration..."
     link_one "$DOTFILES_DIR/.config/tofi" "$HOME/.config/tofi"
 }
 
 link_twmn() {
-    echo "Linking twmn configuration..."
+    echo     "Linking twmn configuration..."
     link_one "$DOTFILES_DIR/.config/twmn" "$HOME/.config/twmn"
 }
 
 link_waybar() {
-    echo "Linking Waybar configuration..."
+    echo     "Linking Waybar configuration..."
     link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
 }
 
 link_config() {
     link_dunst
     link_fastfetch
+    link_cava
+    link_mpv
     link_fish
     link_helix
     link_hypr
@@ -159,6 +171,8 @@ Commands:
   bin        Link all binaries to ~/.local/bin
   dunst      Link Dunst configuration
   fastfetch  Link fastfetch configuration
+  cava       Link cava configuration
+  mpv        Link mpv configuration
   fish       Link Fish configuration
   helix      Link Helix configuration
   hypr       Link Hyprland configuration
@@ -177,26 +191,28 @@ EOF
 
 cmd="${1:-all}"
 case "$cmd" in
-    all) link_all ;;
-    emacs) link_emacs ;;
-    config) link_config ;;
-    bin) link_bin ;;
-    dunst) link_dunst ;;
-    fastfetch) link_fastfetch ;;
-    fish) link_fish ;;
-    helix) link_helix ;;
-    hypr) link_hypr ;;
-    i3) link_i3 ;;
-    kitty) link_kitty ;;
-    nvim) link_nvim ;;
-    polybar) link_polybar ;;
-    rofi) link_rofi ;;
-    swaync) link_swaync ;;
-    tofi) link_tofi ;;
-    twmn) link_twmn ;;
-    waybar) link_waybar ;;
-    -h|--help|help) usage ;;
-    *)
+    all            ) link_all       ;;
+    emacs          ) link_emacs     ;;
+    config         ) link_config    ;;
+    bin            ) link_bin       ;;
+    dunst          ) link_dunst     ;;
+    fastfetch      ) link_fastfetch ;;
+    cava           ) link_cava      ;;
+    mpv            ) link_mpv       ;;
+    fish           ) link_fish      ;;
+    helix          ) link_helix     ;;
+    hypr           ) link_hypr      ;;
+    i3             ) link_i3        ;;
+    kitty          ) link_kitty     ;;
+    nvim           ) link_nvim      ;;
+    polybar        ) link_polybar   ;;
+    rofi           ) link_rofi      ;;
+    swaync         ) link_swaync    ;;
+    tofi           ) link_tofi      ;;
+    twmn           ) link_twmn      ;;
+    waybar         ) link_waybar    ;;
+    -h|--help|help ) usage          ;;
+    *              )
         usage
         exit 1
         ;;
