@@ -1,0 +1,252 @@
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    font: "Iosevka Nerd Font Mono 14";
+    display-drun: "󰀻 Apps";
+    display-run: " Run";
+    display-window: "󰖯 Windows";
+    terminal: "kitty";
+    drun-display-format: "{name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    sidebar-mode: false;
+    width: 600;
+    lines: 12;
+    columns: 1;
+    fixed-num-lines: true;
+    sort: true;
+    sorting-method: "fzf";
+    case-sensitive: false;
+    cycle: true;
+    hover-select: true;
+    click-to-exit: true;
+}
+
+/* Catppuccin Mocha Colors - Match Polybar */
+* {
+    base:      #1e1e2e;
+    mantle:    #181825;
+    crust:     #11111b;
+    text:      #cdd6f4;
+    subtext0:  #a6adc8;
+    subtext1:  #bac2de;
+    surface0:  #313244;
+    surface1:  #45475a;
+    surface2:  #585b70;
+    overlay0:  #6c7086;
+    overlay1:  #7f849c;
+    overlay2:  #9399b2;
+    blue:      #89b4fa;
+    lavender:  #b4befe;
+    sapphire:  #74c7ec;
+    sky:       #89dceb;
+    teal:      #94e2d5;
+    green:     #a6e3a1;
+    yellow:    #f9e2af;
+    peach:     #fab387;
+    maroon:    #eba0ac;
+    red:       #f38ba8;
+    mauve:     #cba6f7;
+    pink:      #f5c2e7;
+    flamingo:  #f2cdcd;
+    rosewater: #f5e0dc;
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    fullscreen: false;
+    width: 600px;
+    border-radius: 12px;
+    cursor: "default";
+    background-color: @base;
+    border: 2px solid;
+    border-color: @surface1;
+}
+
+mainbox {
+    enabled: true;
+    spacing: 10px;
+    margin: 0px;
+    padding: 15px;
+    border: 0px solid;
+    border-radius: 0px 0px 0px 0px;
+    border-color: @surface1;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled: true;
+    spacing: 10px;
+    margin: 0px;
+    padding: 12px;
+    border: 0px solid;
+    border-radius: 8px;
+    border-color: @surface1;
+    background-color: @surface0;
+    text-color: @text;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled: true;
+    background-color: @mauve;
+    text-color: @crust;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font: "Iosevka Nerd Font Mono Bold 14";
+}
+
+textbox-prompt-colon {
+    enabled: true;
+    expand: false;
+    str: ":";
+    background-color: inherit;
+    text-color: inherit;
+}
+
+entry {
+    enabled: true;
+    background-color: transparent;
+    text-color: @text;
+    cursor: text;
+    placeholder: "Search applications...";
+    placeholder-color: @subtext0;
+    padding: 8px 4px;
+}
+
+listview {
+    enabled: true;
+    columns: 1;
+    lines: 12;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    reverse: false;
+    fixed-height: true;
+    fixed-columns: true;
+    
+    spacing: 2px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px solid;
+    border-radius: 0px;
+    border-color: @surface1;
+    background-color: transparent;
+    text-color: @text;
+    cursor: "default";
+}
+
+scrollbar {
+    handle-width: 5px;
+    handle-color: @surface2;
+    border-radius: 8px;
+    background-color: @surface0;
+}
+
+element {
+    enabled: true;
+    spacing: 10px;
+    margin: 0px;
+    padding: 10px;
+    border: 0px solid;
+    border-radius: 8px;
+    border-color: @surface1;
+    background-color: transparent;
+    text-color: @text;
+    cursor: pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @text;
+}
+
+element normal.urgent {
+    background-color: @red;
+    text-color: @crust;
+}
+
+element normal.active {
+    background-color: @green;
+    text-color: @crust;
+}
+
+element selected.normal {
+    background-color: @mauve;
+    text-color: @crust;
+}
+
+element selected.urgent {
+    background-color: @red;
+    text-color: @crust;
+}
+
+element selected.active {
+    background-color: @green;
+    text-color: @crust;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @text;
+}
+
+element alternate.urgent {
+    background-color: @red;
+    text-color: @crust;
+}
+
+element alternate.active {
+    background-color: @green;
+    text-color: @crust;
+}
+
+element-icon {
+    background-color: transparent;
+    text-color: inherit;
+    size: 28px;
+    cursor: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    highlight: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
+
+/* Optional: Custom colors for different modes */
+mode-switcher{
+    enabled: true;
+    spacing: 10px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px solid;
+    border-radius: 0px;
+    border-color: @surface1;
+    background-color: transparent;
+    text-color: @text;
+}
+
+button {
+    padding: 8px;
+    border: 0px solid;
+    border-radius: 6px;
+    border-color: @surface1;
+    background-color: @surface0;
+    text-color: @text;
+    cursor: pointer;
+}
+
+button selected {
+    background-color: @mauve;
+    text-color: @crust;
+}
