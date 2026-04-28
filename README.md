@@ -5,16 +5,20 @@
 - [i3wm](https://i3wm.org/)
 - [Emacs](https://www.gnu.org/software/emacs/)
 - [Neovim](https://neovim.io/)
+- [Helix](https://helix-editor.com/)
 - [Fish Shell](https://fishshell.com/)
 - [Kitty](https://sw.kovidgoyal.net/kitty/)
 - [Waybar](https://github.com/Alexays/Waybar)
 - [Polybar](https://polybar.config/)
 - [Rofi](https://github.com/davatorium/rofi)
 - [Tofi](https://github.com/philj56/tofi)
+- [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 - [Zen Browser](https://zen-browser.app/)
 - [Pywal](https://github.com/dylanaraps/pywal)
 - [SwayNC](https://github.com/ErikReider/SwayNotificationCenter)
 - [Dunst](https://dunst-project.org/)
+- [Cava](https://github.com/karlstav/cava)
+- [MPV](https://mpv.io/)
 - [Cliphist](https://github.com/sentriz/cliphist)
 - [Walker](https://github.com/abenz1267/walker)
 - [SwayOSD](https://github.com/ErikReider/SwayOSD)
@@ -39,3 +43,16 @@
 - [Xss-lock](https://linux.die.net/man/1/xss-lock)
 - [Deno](https://deno.land/)
 - [Rustup](https://rustup.rs/)
+
+## Usage:
+```bash
+./deploy [command]
+
+# Examples:
+./deploy all      # Link everything
+./deploy config   # Link all .config directories
+./deploy nvim     # Link only Neovim
+```
+
+## License:
+This project is licensed under the [MIT License](LICENSE).
