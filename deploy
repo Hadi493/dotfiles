@@ -1,0 +1,203 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+link_one() {
+    local src="$1"
+    local dst="$2"
+
+    if [ ! -e "$src" ]; then
+        echo "Skipping (missing): $src"
+        return 0
+    fi
+
+    if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+        echo "Skipping (destination exists and is not a symlink): $dst"
+        return 0
+    fi
+
+    mkdir -p "$(dirname "$dst")"
+    ln -snfv "$src" "$dst"
+}
+
+link_emacs() {
+    echo "Linking Emacs configuration..."
+    local items=(
+        ".emacs"
+        ".emacs.custom.el"
+        ".emacs.local"
+        ".emacs.rc"
+        ".emacs.snippets"
+    )
+
+    for item in "${items[@]}"; do
+        link_one "$DOTFILES_DIR/emacs.conf/$item" "$HOME/$item"
+    done
+}
+
+link_dunst() {
+    echo "Linking Dunst configuration..."
+    link_one "$DOTFILES_DIR/.config/dunst" "$HOME/.config/dunst"
+}
+
+link_fastfetch() {
+    echo "Linking fastfetch configuration..."
+    link_one "$DOTFILES_DIR/.config/fastfetch" "$HOME/.config/fastfetch"
+}
+
+link_fish() {
+    echo "Linking Fish configuration..."
+    link_one "$DOTFILES_DIR/.config/fish" "$HOME/.config/fish"
+}
+
+link_helix() {
+    echo "Linking Helix configuration..."
+    link_one "$DOTFILES_DIR/.config/helix" "$HOME/.config/helix"
+}
+
+link_hypr() {
+    echo "Linking Hyprland configuration..."
+    link_one "$DOTFILES_DIR/.config/hypr" "$HOME/.config/hypr"
+}
+
+link_i3() {
+    echo "Linking i3 configuration..."
+    link_one "$DOTFILES_DIR/.config/i3" "$HOME/.config/i3"
+}
+
+link_kitty() {
+    echo "Linking Kitty configuration..."
+    link_one "$DOTFILES_DIR/.config/kitty" "$HOME/.config/kitty"
+}
+
+link_nvim() {
+    echo "Linking Neovim configuration..."
+    link_one "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim"
+}
+
+link_polybar() {
+    echo "Linking Polybar configuration..."
+    link_one "$DOTFILES_DIR/.config/polybar" "$HOME/.config/polybar"
+}
+
+link_rofi() {
+    echo "Linking Rofi configuration..."
+    link_one "$DOTFILES_DIR/.config/rofi" "$HOME/.config/rofi"
+}
+
+link_swaync() {
+    echo "Linking SwayNC configuration..."
+    link_one "$DOTFILES_DIR/.config/swaync" "$HOME/.config/swaync"
+}
+
+link_tofi() {
+    echo "Linking Tofi configuration..."
+    link_one "$DOTFILES_DIR/.config/tofi" "$HOME/.config/tofi"
+}
+
+link_twmn() {
+    echo "Linking twmn configuration..."
+    link_one "$DOTFILES_DIR/.config/twmn" "$HOME/.config/twmn"
+}
+
+link_waybar() {
+    echo "Linking Waybar configuration..."
+    link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
+}
+
+link_config() {
+    link_dunst
+    link_fastfetch
+    link_fish
+    link_helix
+    link_hypr
+    link_i3
+    link_kitty
+    link_nvim
+    link_polybar
+    link_rofi
+    link_swaync
+    link_tofi
+    link_twmn
+    link_waybar
+}
+
+link_bin() {
+    echo "Linking binaries..."
+    local files=(
+        "boomer"
+        "cg-timer"
+        "hypr-zoom"
+        "paru"
+        "toofan"
+        "wal"
+        "wlogout"
+        "yay"
+    )
+
+    for file in "${files[@]}"; do
+        link_one "$DOTFILES_DIR/bin/$file" "$HOME/.local/bin/$file"
+    done
+}
+
+link_all() {
+    link_emacs
+    link_config
+    link_bin
+}
+
+usage() {
+    cat <<EOF
+Usage: $0 [command]
+
+Commands:
+  all        Link all configurations (default)
+  emacs      Link Emacs configuration
+  config     Link all .config directories
+  bin        Link all binaries to ~/.local/bin
+  dunst      Link Dunst configuration
+  fastfetch  Link fastfetch configuration
+  fish       Link Fish configuration
+  helix      Link Helix configuration
+  hypr       Link Hyprland configuration
+  i3         Link i3 configuration
+  kitty      Link Kitty configuration
+  nvim       Link Neovim configuration
+  polybar    Link Polybar configuration
+  rofi       Link Rofi configuration
+  swaync     Link SwayNC configuration
+  tofi       Link Tofi configuration
+  twmn       Link twmn configuration
+  waybar     Link Waybar configuration
+
+EOF
+}
+
+cmd="${1:-all}"
+case "$cmd" in
+    all) link_all ;;
+    emacs) link_emacs ;;
+    config) link_config ;;
+    bin) link_bin ;;
+    dunst) link_dunst ;;
+    fastfetch) link_fastfetch ;;
+    fish) link_fish ;;
+    helix) link_helix ;;
+    hypr) link_hypr ;;
+    i3) link_i3 ;;
+    kitty) link_kitty ;;
+    nvim) link_nvim ;;
+    polybar) link_polybar ;;
+    rofi) link_rofi ;;
+    swaync) link_swaync ;;
+    tofi) link_tofi ;;
+    twmn) link_twmn ;;
+    waybar) link_waybar ;;
+    -h|--help|help) usage ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac

@@ -1,0 +1,24 @@
+# Node.js dependencies
+node_modules/
+package-lock.json
+package.json
+
+# Neovim swap, backup, and undo files
+*.swp
+*.bak
+*.un~
+
+# Neovim auto-generated files and directories
+/plugged/
+/bundle/
+/start/
+/opt/
+.netrwhist
+/shada/
+
+# LSP related logs and data
+.lsp/
+.cache/
+
+# Stylelint specific ignore files
+.stylelintignore
