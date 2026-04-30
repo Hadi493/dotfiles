@@ -112,6 +112,11 @@ link_twmn() {
     link_one "$DOTFILES_DIR/.config/twmn" "$HOME/.config/twmn"
 }
 
+link_picom() {
+    echo     "Linking picom configuration..."
+    link_one "$DOTFILES_DIR/.config/picom" "$HOME/.config/picom"
+}
+
 link_waybar() {
     echo     "Linking Waybar configuration..."
     link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
@@ -133,6 +138,7 @@ link_config() {
     link_swaync
     link_tofi
     link_twmn
+    link_picom
     link_waybar
 }
 
@@ -184,6 +190,7 @@ Commands:
   swaync     Link SwayNC configuration
   tofi       Link Tofi configuration
   twmn       Link twmn configuration
+  picom      Link picom configuration
   waybar     Link Waybar configuration
 
 EOF
@@ -210,6 +217,7 @@ case "$cmd" in
     swaync         ) link_swaync    ;;
     tofi           ) link_tofi      ;;
     twmn           ) link_twmn      ;;
+    picom          ) link_picom     ;;
     waybar         ) link_waybar    ;;
     -h|--help|help ) usage          ;;
     *              )
