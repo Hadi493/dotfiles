@@ -49,10 +49,8 @@
 ```bash
 ./deploy [command]
 
-# Examples:
-./deploy all      # Link everything
-./deploy config   # Link all .config directories
-./deploy nvim     # Link only Neovim
+# Show Help
+./deploy -h
 ```
 
 ## License:
