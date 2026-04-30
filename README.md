@@ -40,6 +40,7 @@
 - [Dex](https://github.com/jceb/dex)
 - [Greenclip](https://github.com/erebe/greenclip)
 - [Twmnd](https://github.com/s-ol/twmnd)
+- [Picom](https://wiki.archlinux.org/title/Picom)
 - [Xss-lock](https://linux.die.net/man/1/xss-lock)
 - [Deno](https://deno.land/)
 - [Rustup](https://rustup.rs/)
