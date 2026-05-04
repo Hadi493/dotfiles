@@ -43,9 +43,10 @@
 (ido-everywhere 1)
 (ido-ubiquitous-mode 1)
 
-(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-x")   'smex)
 (global-set-key (kbd "C-c c") 'execute-extended-command)
 (global-set-key (kbd "C-c k") 'kill-compilation)
+(global-set-key (kbd "C-t")   'vterm)
 
 ;;; c-mode
 (setq-default c-basic-offset 4
