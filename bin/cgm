@@ -1,0 +1,32 @@
+#!/bin/env bash
+
+# Check if required arguments are provided
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <image_file> [dpi] [size]"
+    echo "Example: $0 img.jpg 200 8000"
+    exit 1
+fi
+
+IMAGE_FILE="$1"
+DPI="${2:-200}"        # Default to 200 if not specified
+SIZE="${3:-8999}"      # Default to 8999 if not specified
+
+# Check if file exists
+if [ ! -f "$IMAGE_FILE" ]; then
+    echo "Error: File '$IMAGE_FILE' not found"
+    exit 1
+fi
+
+echo "Processing: $IMAGE_FILE"
+echo "DPI: $DPI, Size: ${SIZE}x${SIZE}"
+
+# Strip metadata
+magick "$IMAGE_FILE" -define strip=all "$IMAGE_FILE"
+
+# Set density (DPI)
+magick "$IMAGE_FILE" -density "$DPI" "$IMAGE_FILE"
+
+# Resize image
+magick "$IMAGE_FILE" -resize "${SIZE}x${SIZE}" "$IMAGE_FILE"
+
+echo "Done! Processed $IMAGE_FILE"
