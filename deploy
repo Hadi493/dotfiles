@@ -156,7 +156,7 @@ link_bin() {
     )
 
     for file in "${files[@]}"; do
-        link_one "$DOTFILES_DIR/bin/$file" "$HOME/.local/bin/$file"
+        link_one "$DOTFILES_DIR/bin/$file" "/usr/bin/$file"
     done
 }
 
