@@ -6,7 +6,9 @@ export HISTCONTROL=ignoredups
 export EDITOR='vim'
 
 alias l='ls'
-alias ll='ls -la'
+alias ll='ls -lha'
+alias ..='cd ..'
+alias grep='grep --color=auto'
 alias v='vim'
 alias nv='nvim'
 alias c=clear
@@ -24,9 +26,12 @@ alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push'
 
+mkcd () {
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
 
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0;31m\]\$(parse_git_branch)\[\033[00m\]\\n$ "
+export PS1="\[\033[38;2;0;255;175m\]\u@\h\[\033[38;2;0;255;175m\]:\[\033[01;34m\]\w\[\033[38;2;255;135;215m\]\$(parse_git_branch)\[\033[38;2;0;255;175m\]\\n$ "
