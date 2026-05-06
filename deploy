@@ -42,6 +42,11 @@ link_dunst() {
     link_one "$DOTFILES_DIR/.config/dunst" "$HOME/.config/dunst"
 }
 
+link_bash() {
+    echo     "Linking Bash configuration..."
+    link_one "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
+}
+
 link_fastfetch() {
     echo     "Linking fastfetch configuration..."
     link_one "$DOTFILES_DIR/.config/fastfetch" "$HOME/.config/fastfetch"
@@ -124,6 +129,7 @@ link_waybar() {
 
 link_config() {
     link_dunst
+    link_bash
     link_fastfetch
     link_cava
     link_mpv
@@ -176,6 +182,7 @@ Commands:
   config     Link all .config directories
   bin        Link all binaries to /usr/bin/
   dunst      Link Dunst configuration
+  bash       Link Bash configuration
   fastfetch  Link fastfetch configuration
   cava       Link cava configuration
   mpv        Link mpv configuration
@@ -203,6 +210,7 @@ case "$cmd" in
     config         ) link_config    ;;
     bin            ) link_bin       ;;
     dunst          ) link_dunst     ;;
+    bash           ) link_bash      ;;
     fastfetch      ) link_fastfetch ;;
     cava           ) link_cava      ;;
     mpv            ) link_mpv       ;;
