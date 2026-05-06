@@ -12,6 +12,7 @@
 - [Polybar](https://polybar.config/)
 - [Rofi](https://github.com/davatorium/rofi)
 - [Tofi](https://github.com/philj56/tofi)
+- [Commer](https://github.com/yuzujr/coomer)
 - [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 - [Zen Browser](https://zen-browser.app/)
 - [Pywal](https://github.com/dylanaraps/pywal)
