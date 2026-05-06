@@ -146,8 +146,8 @@ link_bin() {
     echo "Linking binaries..."
     local files=(
         "boomer"
+        "coomer"
         "cg-timer"
-        "hypr-zoom"
         "paru"
         "toofan"
         "wal"
@@ -174,7 +174,7 @@ Commands:
   all        Link all configurations (default)
   emacs      Link Emacs configuration
   config     Link all .config directories
-  bin        Link all binaries to ~/.local/bin
+  bin        Link all binaries to /usr/bin/
   dunst      Link Dunst configuration
   fastfetch  Link fastfetch configuration
   cava       Link cava configuration
