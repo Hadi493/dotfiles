@@ -24,7 +24,7 @@ alias gb='git branch'
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit -m'
-alias gp='git push'
+alias gp='git push -v'
 
 mkcd () {
     mkdir -p -- "$1" && cd -P -- "$1"
