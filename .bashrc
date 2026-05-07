@@ -15,6 +15,7 @@ alias c=clear
 alias i='sudo pacman -S'
 alias s='sudo pacman -Ss'
 alias update='sudo pacman -Syyu'
+alias sb='source ~/.bashrc'
 
 # yt-dlp
 alias dv="yt-dlp --no-playlist -f \"bestvideo+bestaudio\" --cookies-from-browser firefox"
@@ -34,4 +35,4 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-export PS1="\[\033[38;2;0;255;175m\]\u@\h\[\033[38;2;0;255;175m\]:\[\033[01;34m\]\w\[\033[38;2;255;135;215m\]\$(parse_git_branch)\[\033[38;2;0;255;175m\]\\n$ "
+export PS1="\[\033[38;2;0;255;175m\]\u@\h\[\033[38;2;0;255;175m\]:\[\033[38;2;0;255;175m\]\w\[\033[38;2;255;135;215m\]\$(parse_git_branch)\[\033[38;2;0;255;175m\]\\n$ "
