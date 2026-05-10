@@ -26,10 +26,33 @@
 (electric-pair-mode 1)
 
 (rc/require-theme 'gruber-darker)
-(rc/require 'doom-themes)
-(load-theme 'doom-one t)
+;; (rc/require 'doom-themes)
+;; (load-theme 'doom-one t)
 ;; (rc/require-theme 'zenburn)
 ;; (load-theme 'adwaita t)
+
+;;; Ligatures
+(rc/require 'ligature)
+(require 'ligature)
+
+(ligature-set-ligatures 't '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "%%"
+                             "==" "===" "!==" "!= " ">=" "<=" "=>" "=>>" "==>" "=="
+                             "&&" "&&&" "||" "|||" "||=" "|=" "||>" "==" "!= "
+                             "-> " "->>" "-->" "<-" "<<-" "<--" "<->" "<-->"
+                             "++" "+++" "---" "--" "==" "===" "!=" "!=="
+                             "<<" ">>" "<<<" ">>>" "<>" "<= " ">= "
+                             "::" ":::" ":=" "=:=" "== " "!= " "===" "!=="
+                             "!!" "??" ".." "..." "...." ".=" ".-" "__"
+                             "##" "###" "####" "#_(" "#{" "#?" "#_" "#!"
+                             "~~" "~~>" "~>" "~-" "-~" "~@"
+                             "[|" "|]" "{|" "|}" "[<" ">]" "|>" "<|"
+                             "||" "|||" "||=" "|=" "||>" "==" "!= "
+                             "<_>" "<$>" "<+>" "<*>" "<|>" "<||" "<|||"
+                             "<| " " <| " " <|> " " <|| " " <||| "
+                             "<$ " " <$ " " <$+> " " <$*> "
+                             "/*" "*/" "//" "///"))
+
+(global-ligature-mode t)
 
 (eval-after-load 'zenburn
   (set-face-attribute 'line-number nil :inherit 'default))
