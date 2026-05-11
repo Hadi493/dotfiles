@@ -240,8 +240,7 @@ alias vqc="ffprobe -v error -select_streams v:0 -show_entries stream=width,heigh
 alias nv="nvim"
 alias hx="helix"
 alias v="vim"
-alias doom="~/.config/emacs/bin/doom"
-alias dem="~/.config/emacs/bin/doom emacs"
+alias emnw="emacs -nw"
 
 # poetry
 alias pv="v ~/Documents/poetry/poetry.md"

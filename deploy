@@ -127,6 +127,21 @@ link_waybar() {
     link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
 }
 
+link_fonts() {
+    echo "Linking fonts..."
+    local font_dir="$HOME/.local/share/fonts"
+    mkdir -p "$font_dir"
+    if [ -d "$DOTFILES_DIR/fonts" ]; then
+        for font in "$DOTFILES_DIR/fonts"/*; do
+            if [ -f "$font" ]; then
+                link_one "$font" "$font_dir/$(basename "$font")"
+            fi
+        done
+    else
+        echo "Skipping (missing): $DOTFILES_DIR/fonts"
+    fi
+}
+
 link_nob() {
     echo "Linking C Lib nob..."
     link_one "$DOTFILES_DIR/include" "/usr/include/nob.h"
@@ -151,6 +166,7 @@ link_config() {
     link_twmn
     link_picom
     link_waybar
+    link_fonts
     link_nob
 }
 
@@ -189,6 +205,7 @@ Commands:
   emacs      Link Emacs configuration
   config     Link all .config directories
   bin        Link all binaries to /usr/bin/
+  fonts      Link all fonts to ~/.local/share/fonts
   dunst      Link Dunst configuration
   bash       Link Bash configuration
   fastfetch  Link fastfetch configuration
@@ -218,6 +235,7 @@ case "$cmd" in
     emacs          ) link_emacs     ;;
     config         ) link_config    ;;
     bin            ) link_bin       ;;
+    fonts          ) link_fonts     ;;
     dunst          ) link_dunst     ;;
     bash           ) link_bash      ;;
     fastfetch      ) link_fastfetch ;;
