@@ -1,10 +1,10 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 10,
+    "height": 8,
     "output": "eDP-1",
     "spacing": 0,
-    "margin": 10,
+    "margin": 8,
     "modules-left": [
         "hyprland/workspaces",
         "hyprland/window"
