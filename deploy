@@ -127,6 +127,11 @@ link_waybar() {
     link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
 }
 
+link_flameshot() {
+    echo     "Linking Flameshot configuration..."
+    link_one "$DOTFILES_DIR/.config/flameshot" "$HOME/.config/flameshot"
+}
+
 link_fonts() {
     echo "Linking fonts..."
     local font_dir="$HOME/.local/share/fonts"
@@ -166,6 +171,7 @@ link_config() {
     link_twmn
     link_picom
     link_waybar
+    link_flameshot
     link_fonts
     link_nob
 }
@@ -224,6 +230,7 @@ Commands:
   twmn       Link twmn configuration
   picom      Link picom configuration
   waybar     Link Waybar configuration
+  flameshot  Link Flameshot configuration
   nob        Link Nob library
 
 EOF
@@ -254,6 +261,7 @@ case "$cmd" in
     twmn           ) link_twmn      ;;
     picom          ) link_picom     ;;
     waybar         ) link_waybar    ;;
+    flameshot      ) link_flameshot ;;
     nob            ) link_nob       ;;
     -h|--help|help ) usage          ;;
     *              )
