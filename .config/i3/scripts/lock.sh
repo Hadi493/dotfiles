@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# --- Dracula Theme Colors ---
 BACKGROUND="282a36"
 SELECTION="44475a"
 FOREGROUND="f8f8f2"
@@ -13,8 +12,6 @@ PURPLE="bd93f9"
 RED="ff5555"
 YELLOW="f1fa8c"
 
-# --- Font Settings ---
-# We use Iosevka SS04 as found on the system earlier
 FONT="Iosevka SS04"
 
 i3lock \
@@ -43,9 +40,9 @@ i3lock \
   --clock \
   --indicator \
   \
-  --time-str="%H:%M" \
+  --time-str="%H:%M:%S" \
   --time-font="$FONT" \
-  --time-size=120 \
+  --time-size=100 \
   --time-color=$FOREGROUND'ff' \
   \
   --date-str="%A, %B %d" \
@@ -53,16 +50,16 @@ i3lock \
   --date-size=24 \
   --date-color=$COMMENT'ff' \
   \
-  --greeter-text="Locked" \
+  --greeter-text=" " \
   --greeter-font="$FONT" \
-  --greeter-size=18 \
+  --greeter-size=10 \
   --greeter-color=$PURPLE'ff' \
   \
   --verif-text="Verifying..." \
   --wrong-text="Try Again" \
   \
-  --radius=120 \
-  --ring-width=8 \
+  --radius=250 \
+  --ring-width=15 \
   --pass-media-keys \
   --pass-screen-keys \
   --pass-volume-keys \
