@@ -92,6 +92,11 @@ link_nvim() {
     link_one "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim"
 }
 
+link_vim() {
+    echo     "Linking Vim configuration..."
+    link_one "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
+}
+
 link_polybar() {
     echo     "Linking Polybar configuration..."
     link_one "$DOTFILES_DIR/.config/polybar" "$HOME/.config/polybar"
@@ -164,6 +169,7 @@ link_config() {
     link_i3
     link_kitty
     link_nvim
+    link_vim
     link_polybar
     link_rofi
     link_swaync
@@ -223,6 +229,7 @@ Commands:
   i3         Link i3 configuration
   kitty      Link Kitty configuration
   nvim       Link Neovim configuration
+  vim        Link Vim configuration
   polybar    Link Polybar configuration
   rofi       Link Rofi configuration
   swaync     Link SwayNC configuration
@@ -254,6 +261,7 @@ case "$cmd" in
     i3             ) link_i3        ;;
     kitty          ) link_kitty     ;;
     nvim           ) link_nvim      ;;
+    vim            ) link_vim       ;;
     polybar        ) link_polybar   ;;
     rofi           ) link_rofi      ;;
     swaync         ) link_swaync    ;;
