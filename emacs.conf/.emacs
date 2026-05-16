@@ -68,6 +68,7 @@
 
 (global-set-key (kbd "M-x")     'smex)
 (global-set-key (kbd "C-c c")   'execute-extended-command)
+(global-set-key (kbd "C-c r")   'recompile)
 (global-set-key (kbd "C-c k")   'kill-compilation)
 (global-set-key (kbd "C-t")     'vterm)
 (global-set-key (kbd "C-x n")   'global-display-line-numbers-mode)
@@ -376,3 +377,4 @@ compilation-error-regexp-alist-alist
 ;; Disable backup files like file~
 (setq make-backup-files nil)
 (setq shell-file-name "/usr/bin/bash")
+(put 'dired-find-alternate-file 'disabled nil)
