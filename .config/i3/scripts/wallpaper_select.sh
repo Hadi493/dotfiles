@@ -33,6 +33,6 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
             echo "$selected_wallpaper_path" > "$HOME/.cache/last_wallpaper.path"
             wal -i "$selected_wallpaper_path"
 			sleep 1
-			twmnc --title "swaync" --content "Wallpaper changed: [$foldername] $filename"
+			twmnc --title "feh" --content "Wallpaper changed: [$foldername] $filename"
         fi
     done
