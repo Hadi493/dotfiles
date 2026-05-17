@@ -1,6 +1,13 @@
 vim.opt.shell = "bash"
 vim.env.PATH = vim.fn.stdpath('config') .. '/node_modules/.bin:' .. vim.env.PATH
 
+-- Shim for deprecated vim.tbl_flatten
+if vim.iter then
+  vim.tbl_flatten = function(t)
+    return vim.iter(t):flatten():totable()
+  end
+end
+
 -- Hadi's neovim config
 -- keymaps are in lua/config/mappings.lua
 -- install a patched font & ensure your terminal supports glyphs
@@ -45,7 +52,7 @@ Plug('nvim-tree/nvim-tree.lua') --file explorer
 Plug('windwp/nvim-autopairs') --autopairs 
 Plug('lewis6991/gitsigns.nvim') --git
 Plug('numToStr/Comment.nvim') --easier comments
-Plug('norcalli/nvim-colorizer.lua') --color highlight
+Plug('NvChad/nvim-colorizer.lua') --color highlight
 Plug('ibhagwan/fzf-lua') --fuzzy finder and grep
 Plug('numToStr/FTerm.nvim') --floating terminal
 Plug('ron-rs/ron.vim') --ron syntax highlighting
@@ -81,6 +88,7 @@ Plug 'nvim-mini/mini.nvim'
 
 vim.call('plug#end')
 vim.g.grammarous_lang = 'en-US,ar' -- For English (US) and Arabic
+vim.g.livepreview_previewer = 'zathura'
 
 -- move config and plugin config to alternate files
 require("config.theme")

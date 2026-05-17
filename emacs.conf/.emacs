@@ -13,10 +13,13 @@
 (defun rc/get-default-font ()
   (cond
    ((eq system-type 'windows-nt) "Iosevka 20")
-   ;; ((eq system-type 'gnu/linux) "ComicShannsMono Nerd Font 20")))
-   ((eq system-type 'gnu/linux) "Iosevka SS04 18")))
+   ((eq system-type 'gnu/linux) "Iosevka Term SS04 18")))
 
 (add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))
+
+;; Symbols fallback
+(set-fontset-font t '(#xe000 . #xfaff) "Symbols Nerd Font")
+(set-fontset-font t '(#xf0000 . #xfffff) "Symbols Nerd Font")
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
