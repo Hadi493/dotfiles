@@ -311,8 +311,8 @@ function fish_prompt
     echo -n "$USER"
     # set_color 00ff8f
     set_color 73c936
-	echo -n "@"
-	# echo -n "[ ]"
+    echo -n "@"
+    # echo -n "[]"
     # set_color 00ff87
     set_color 73c936
     echo -n "$os_name"
