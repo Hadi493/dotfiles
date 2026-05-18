@@ -67,6 +67,11 @@ link_fish() {
     link_one "$DOTFILES_DIR/.config/fish" "$HOME/.config/fish"
 }
 
+link_nushell() {
+    echo     "Linking Nushell configuration..."
+    link_one "$DOTFILES_DIR/.config/nushell" "$HOME/.config/nushell" 
+}
+
 link_helix() {
     echo     "Linking Helix configuration..."
     link_one "$DOTFILES_DIR/.config/helix" "$HOME/.config/helix"
@@ -164,6 +169,7 @@ link_config() {
     link_cava
     link_mpv
     link_fish
+    link_nushell
     link_helix
     link_hypr
     link_i3
@@ -224,6 +230,7 @@ Commands:
   cava       Link cava configuration
   mpv        Link mpv configuration
   fish       Link Fish configuration
+  nushell    Link Nushell Configuration
   helix      Link Helix configuration
   hypr       Link Hyprland configuration
   i3         Link i3 configuration
@@ -256,6 +263,7 @@ case "$cmd" in
     cava           ) link_cava      ;;
     mpv            ) link_mpv       ;;
     fish           ) link_fish      ;;
+    nushell        ) link_nushell   ;;    
     helix          ) link_helix     ;;
     hypr           ) link_hypr      ;;
     i3             ) link_i3        ;;
