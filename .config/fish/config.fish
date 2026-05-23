@@ -42,6 +42,8 @@ set -Ux ANDROID_SDK_ROOT ~/Android/Sdk
 set -Ux PATH $PATH $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
 set -Ux VIRTUAL_ENV_DISABLE_PROMPT 1
 
+set -Ux EDITOR vim
+
 # ===============================================
 # HISTORY SETTINGS
 # ===============================================
