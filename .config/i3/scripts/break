@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while true; do
+    sleep 2760  # 45 minutes in seconds
+    twmnc "Time to refresh! Step away for 5 mins ||                      ||"
+done
