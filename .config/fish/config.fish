@@ -181,14 +181,8 @@ alias cl="c ;; l"
 # yay
 alias yayf="yay -Slq | fzf --multi --preview 'yay -Sii {1}' --preview-window=down:75% | xargs -ro yay -S"
 
-#play
-alias playurl="~/.config/waybar/scripts/play-song.sh"
-
 # configs
 alias fconf="nv ~/.config/fish/config.fish"
-alias niri-config="nv ~/.config/niri/config.kdl"
-alias hyprconf="nv ~/.config/hypr/hyprland.conf"
-alias whconf="nv ~/.config/hypr/scripts/wallpaper_changer.sh"
 alias cdwm="nv ~/cg-dwm/config.h"
 alias mdwm="cd ~/cg-dwm; sudo make clean install; cd -"
 
@@ -198,7 +192,7 @@ alias bjrnl="nv ~/jrnls/bjrnl.md"
 alias ht="nv ~/jrnls/ht.daily.md"
 
 # Logout from i3
-alias logout="hyprctl dispatch exit"
+alias logout="i3-msg exit"
 
 # Restart i3 (without logging out)
 alias i3-restart="i3-msg restart"
@@ -269,9 +263,6 @@ alias set-wallpaper="feh --bg-fill"
 
 
 alias sys-upgrade='sudo timeshift --create --comments "Before Upgrade" --tags D && sudo pacman -Syu'
-
-# clean caches
-alias callc="~/.config/hypr/scripts/clean_arch.sh"
 
 # uptime
 alias uptime="uptime -p | bat -l asm"

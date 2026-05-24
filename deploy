@@ -73,17 +73,12 @@ link_nushell() {
 }
 
 link_helix() {
-    echo     "Linking Helix configuration..."
+    echo "Linking Helix configuration..."
     link_one "$DOTFILES_DIR/.config/helix" "$HOME/.config/helix"
 }
 
-link_hypr() {
-    echo     "Linking Hyprland configuration..."
-    link_one "$DOTFILES_DIR/.config/hypr" "$HOME/.config/hypr"
-}
-
 link_i3() {
-    echo     "Linking i3 configuration..."
+    echo "Linking i3 configuration..."
     link_one "$DOTFILES_DIR/.config/i3" "$HOME/.config/i3"
 }
 
@@ -108,33 +103,18 @@ link_polybar() {
 }
 
 link_rofi() {
-    echo     "Linking Rofi configuration..."
+    echo "Linking Rofi configuration..."
     link_one "$DOTFILES_DIR/.config/rofi" "$HOME/.config/rofi"
 }
 
-link_swaync() {
-    echo     "Linking SwayNC configuration..."
-    link_one "$DOTFILES_DIR/.config/swaync" "$HOME/.config/swaync"
-}
-
-link_tofi() {
-    echo     "Linking Tofi configuration..."
-    link_one "$DOTFILES_DIR/.config/tofi" "$HOME/.config/tofi"
-}
-
 link_twmn() {
-    echo     "Linking twmn configuration..."
+    echo "Linking twmn configuration..."
     link_one "$DOTFILES_DIR/.config/twmn" "$HOME/.config/twmn"
 }
 
 link_picom() {
-    echo     "Linking picom configuration..."
+    echo "Linking picom configuration..."
     link_one "$DOTFILES_DIR/.config/picom" "$HOME/.config/picom"
-}
-
-link_waybar() {
-    echo     "Linking Waybar configuration..."
-    link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
 }
 
 link_flameshot() {
@@ -171,18 +151,14 @@ link_config() {
     link_fish
     link_nushell
     link_helix
-    link_hypr
     link_i3
     link_kitty
     link_nvim
     link_vim
     link_polybar
     link_rofi
-    link_swaync
-    link_tofi
     link_twmn
     link_picom
-    link_waybar
     link_flameshot
     link_fonts
     link_nob
@@ -199,7 +175,6 @@ link_bin() {
         "paru"
         "toofan"
         "wal"
-        "wlogout"
         "yay"
     )
 
@@ -232,21 +207,16 @@ Commands:
   fish       Link Fish configuration
   nushell    Link Nushell Configuration
   helix      Link Helix configuration
-  hypr       Link Hyprland configuration
   i3         Link i3 configuration
   kitty      Link Kitty configuration
   nvim       Link Neovim configuration
   vim        Link Vim configuration
   polybar    Link Polybar configuration
   rofi       Link Rofi configuration
-  swaync     Link SwayNC configuration
-  tofi       Link Tofi configuration
   twmn       Link twmn configuration
   picom      Link picom configuration
-  waybar     Link Waybar configuration
   flameshot  Link Flameshot configuration
   nob        Link Nob library
-
 EOF
 }
 
@@ -265,18 +235,14 @@ case "$cmd" in
     fish           ) link_fish      ;;
     nushell        ) link_nushell   ;;    
     helix          ) link_helix     ;;
-    hypr           ) link_hypr      ;;
     i3             ) link_i3        ;;
     kitty          ) link_kitty     ;;
     nvim           ) link_nvim      ;;
     vim            ) link_vim       ;;
     polybar        ) link_polybar   ;;
     rofi           ) link_rofi      ;;
-    swaync         ) link_swaync    ;;
-    tofi           ) link_tofi      ;;
     twmn           ) link_twmn      ;;
     picom          ) link_picom     ;;
-    waybar         ) link_waybar    ;;
     flameshot      ) link_flameshot ;;
     nob            ) link_nob       ;;
     -h|--help|help ) usage          ;;
