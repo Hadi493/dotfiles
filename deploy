@@ -194,7 +194,7 @@ link_bin() {
     echo "Linking binaries..."
     local files=(
         "boomer"
-        "coomer"
+        "wayland-boomer"
         "cg-timer"
         "paru"
         "toofan"
