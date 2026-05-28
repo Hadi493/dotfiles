@@ -197,23 +197,14 @@ alias jrnl="nv ~/jrnls/jrnl.daily.md"
 alias bjrnl="nv ~/jrnls/bjrnl.md"
 alias ht="nv ~/jrnls/ht.daily.md"
 
-# Logout from i3
+# Logout from Hyprland
 alias logout="hyprctl dispatch exit"
-
-# Restart i3 (without logging out)
-alias i3-restart="i3-msg restart"
-
-# Reload i3 config
-alias i3-reload="i3-msg reload"
 
 # yt-dlp
 alias dv="yt-dlp --no-playlist -f \"bestvideo+bestaudio\" --cookies-from-browser firefox"
 
 # check video quality
 alias vqc="ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0"
-
-# # boomer for zoomer
-# alias boomer="~/.config/boomer/boomer"
 
 # Editor aliases
 alias nv="nvim"

@@ -51,7 +51,7 @@ This configuration depends on a variety of packages to be fully functional. Here
 - **`brave`**: Web browser.
 
 #### Other Tools
-- **`boomer`**: A tool for zoom-in.
+- **`wayland-boomer`**: A tool for zoom-in.
 - **`cg-timer`**: A timer application. (personal)
 - **`walker`**: An application launcher.
 - **`elephant`**: A helper for `walker`.
