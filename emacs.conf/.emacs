@@ -335,6 +335,17 @@
  'asm-mode
  )
 
+(use-package hl-todo
+  :ensure t
+  :init
+  (global-hl-todo-mode)
+  :config
+  (setq hl-todo-keyword-faces
+        '(("TODO"    . "#fe8019")
+          ("WARNING" . "#fabd2f")
+          ("FIX"     . "#fb4934")
+          ("NOTE"    . "#8bd5ca"))))
+
 (load "~/.emacs.shadow/shadow-rc.el" t)
 
 (defun astyle-buffer (&optional justify)
