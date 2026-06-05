@@ -1,0 +1,17 @@
+#!/bin/bash
+
+STATE_FILE="/tmp/hypr_opacity_toggle"
+
+if [ ! -f "$STATE_FILE" ]; then
+    echo "1" > "$STATE_FILE"
+fi
+
+STATE=$(cat "$STATE_FILE")
+
+if [ "$STATE" = "1" ]; then
+    hyprctl dispatch setprop active opacity 0.88
+    echo "0" > "$STATE_FILE"
+else
+    hyprctl dispatch setprop active opacity 1.0
+    echo "1" > "$STATE_FILE"
+fi
