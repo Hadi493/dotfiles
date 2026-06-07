@@ -1,0 +1,15 @@
+#!/bin/bash
+
+PIDFILE="/tmp/wf_recording.pid"
+OUTDIR="$HOME/Videos/screen-record"
+
+if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+    kill "$(cat "$PIDFILE")"
+    rm -f "$PIDFILE"
+    notify-send -t 2000 "Recording Stopped" "Saved to $OUTDIR"
+else
+    FILE="$OUTDIR/recording_$(date +%Y-%m-%d_%H-%M-%S).mp4"
+    wf-recorder -f "$FILE" --audio &>/dev/null &
+    echo $! > "$PIDFILE"
+    notify-send -t 2000 "Recording Started" "Saving to $(basename "$FILE")"
+fi
