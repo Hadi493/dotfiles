@@ -12,6 +12,7 @@
 (load "~/.emacs.rc/editing-rc.el")
 (load "~/.emacs.rc/programming-rc.el")
 (load "~/.emacs.rc/simpc-rc.el")
+(load "~/.emacs.rc/media-rc.el")
 
 ;; Specific components
 (load "~/.emacs.rc/misc-rc.el")
