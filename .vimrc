@@ -5,7 +5,7 @@ set termencoding=utf-8
 syntax on
 filetype plugin indent on
 " set background=dark
-colorscheme murphy
+colorscheme koehler 
 " colorscheme slate
 " colorscheme wildcharm
 set number

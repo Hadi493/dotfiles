@@ -134,7 +134,8 @@
 (require 'jai-mode nil t)
 
 (require 'simpc-mode nil t)
-(add-to-list 'auto-mode-alist '("\\.[b]\\'" . simpc-mode))
+(add-to-list 'load-path (expand-file-name "~/.emacs.rc/simpc/"))
+(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 (require 'umka-mode nil t)
 
