@@ -32,6 +32,7 @@
 
 ;; Git Gutter
 (use-package git-gutter
+  :demand t
   :config
   (global-git-gutter-mode t)
   :bind (("C-c v n" . git-gutter:next-hunk)

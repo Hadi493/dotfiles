@@ -34,7 +34,6 @@
 
 (use-package corfu
   :config
-  (global-corfu-mode)
   (setq corfu-auto t
         corfu-cycle t
         corfu-idle-delay 0.08
@@ -42,11 +41,20 @@
         corfu-count 12
         corfu-on-exact-match nil))
 
+;; Corfu only in programming modes — no popups in text/markdown
+(add-hook 'prog-mode-hook 'corfu-mode)
+
+;; Dabbrev (words from open buffers) in text modes
+(dolist (hook '(text-mode-hook markdown-mode-hook))
+  (add-hook hook (lambda ()
+                   (add-to-list 'completion-at-point-functions #'cape-dabbrev))))
+
+;; Extra backends in programming modes
 (use-package cape
-  :config
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol))
+  :hook (prog-mode . (lambda ()
+                        (add-to-list 'completion-at-point-functions #'cape-file)
+                        (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+                        (add-to-list 'completion-at-point-functions #'cape-elisp-symbol))))
 
 ;; C/C++ headers via company-c-headers bridged to Corfu
 (use-package company-c-headers
