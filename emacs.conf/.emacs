@@ -18,6 +18,9 @@
 (load "~/.emacs.shadow/shadow-rc.el" t)
 
 (global-set-key (kbd "C-c c")   'rc/smart-compile)
+(global-set-key (kbd "C-x c")   'compile)
+(global-set-key (kbd "C-x k")   'kill-compilation)
+(global-set-key (kbd "C-k")     'kill-buffer)
 (global-set-key (kbd "C-c C-w") 'count-words)
 
 (add-hook 'emacs-lisp-mode-hook
