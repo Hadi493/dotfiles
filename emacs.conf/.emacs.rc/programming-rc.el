@@ -27,7 +27,7 @@
   :bind (("C-c m s" . magit-status)
          ("C-c m l" . magit-log))
   :config
-  (setq magit-auto-revert-mode nil
+  (setq magit-auto-revert-mode t
         magit-status-show-untracked-files 'all))
 
 ;; Git Gutter
