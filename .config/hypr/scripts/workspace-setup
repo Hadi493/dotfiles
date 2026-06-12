@@ -29,28 +29,41 @@ LAYOUT=(
 # Don't edit below this line
 # ============================================================
 
-unfloat() {
-  if hyprctl activewindow | grep -q "floating: 1"; then
-    hyprctl dispatch togglefloating
-    sleep 0.2
-  fi
+sleep 2
+
+window_count_on_ws() {
+  hyprctl clients | grep -c "workspace: $1 "
 }
 
-sleep 2
+wait_for_new_window() {
+  local ws="$1" before="$2" i=0
+  while [ "$i" -lt 40 ]; do
+    [ "$(window_count_on_ws "$ws")" -gt "$before" ] && { sleep 0.5; return 0; }
+    sleep 0.5
+    i=$((i + 1))
+  done
+}
+
+unfloat() {
+  hyprctl activewindow | grep -q "floating: 1" && { hyprctl dispatch togglefloating; sleep 0.3; }
+}
 
 for entry in "${LAYOUT[@]}"; do
   IFS='|' read -r ws title cmd flags <<< "$entry"
 
   hyprctl dispatch workspace "$ws"
-  sleep 0.3
+  sleep 0.5
+
+  before=$(window_count_on_ws "$ws")
 
   hyprctl dispatch exec "$cmd"
-  sleep 1
+
+  wait_for_new_window "$ws" "$before"
 
   if [[ "$flags" == *"g"* ]]; then
     unfloat
     hyprctl dispatch togglegroup
-    sleep 0.2
+    sleep 0.3
   fi
 done
 
