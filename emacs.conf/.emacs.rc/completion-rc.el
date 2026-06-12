@@ -28,7 +28,7 @@
 
 (use-package orderless
   :config
-  (setq completion-styles '(orderless basic)
+  (setq completion-styles '(basic orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
 
@@ -36,7 +36,7 @@
   :config
   (setq corfu-auto t
         corfu-cycle t
-        corfu-idle-delay 0.08
+        corfu-idle-delay 0.15
         corfu-min-width 60
         corfu-count 12
         corfu-on-exact-match nil))
@@ -53,8 +53,7 @@
 (use-package cape
   :hook (prog-mode . (lambda ()
                         (add-to-list 'completion-at-point-functions #'cape-file)
-                        (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-                        (add-to-list 'completion-at-point-functions #'cape-elisp-symbol))))
+                        (add-to-list 'completion-at-point-functions #'cape-dabbrev))))
 
 ;; C/C++ headers via company-c-headers bridged to Corfu
 (use-package company-c-headers
