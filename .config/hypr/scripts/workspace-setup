@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# ============================================================
+# workspace-setup.sh - Hyprland Workspace Auto-Setup Script
+# ============================================================
+# Edit the LAYOUT array below to customize your workspace layout.
+#
+# Format: "workspace|title|command|flags"
+#   workspace - workspace number (1-10)
+#   title     - any label (for readability only)
+#   command   - command to execute
+#   flags:
+#     g - enable group/tab mode (first window starts the group)
+#
+# Examples:
+#   "1|kitty|kitty|g"    ← workspace 1: kitty, starts group
+#   "1|emacs|emacs|"     ← workspace 1: emacs joins kitty's group
+#   "2|firefox|firefox|" ← workspace 2: firefox
+# ============================================================
+
+LAYOUT=(
+  "1|kitty|kitty|g"
+  "1|emacs|emacs|"
+  "2|firefox|firefox|"
+  "3|Facebook|brave-origin --profile-directory=Default --app=https://facebook.com|"
+)
+
+# ============================================================
+# Don't edit below this line
+# ============================================================
+
+unfloat() {
+  if hyprctl activewindow | grep -q "floating: 1"; then
+    hyprctl dispatch togglefloating
+    sleep 0.2
+  fi
+}
+
+sleep 2
+
+for entry in "${LAYOUT[@]}"; do
+  IFS='|' read -r ws title cmd flags <<< "$entry"
+
+  hyprctl dispatch workspace "$ws"
+  sleep 0.3
+
+  hyprctl dispatch exec "$cmd"
+  sleep 1
+
+  if [[ "$flags" == *"g"* ]]; then
+    unfloat
+    hyprctl dispatch togglegroup
+    sleep 0.2
+  fi
+done
+
+hyprctl dispatch workspace 1
