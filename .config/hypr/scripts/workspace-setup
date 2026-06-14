@@ -22,7 +22,7 @@ LAYOUT=(
   "1|kitty|kitty|g"
   "1|emacs|emacs|"
   "2|firefox|firefox|"
-  "3|Facebook|brave-origin --profile-directory=Default --app=https://facebook.com|"
+  "3|Discord|brave-origin --profile-directory=Default --app=https://discord.com/channels/@me|"
 )
 
 # ============================================================
