@@ -59,4 +59,15 @@
          "* TODO %(org-cliplink-capture) \n  SCHEDULED: %t\n" :empty-lines 1)))
 (define-key global-map (kbd "C-c C-c") 'org-capture)
 
+;; Org-roam: knowledge management / Zettelkasten
+(use-package org-roam
+  :after org
+  :custom
+  (org-roam-directory (file-truename "~/Documents/RoamNotes"))
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture))
+  :config
+  (org-roam-db-autosync-mode))
+
 (provide 'org-mode-rc)

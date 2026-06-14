@@ -14,6 +14,32 @@
          ("M-<up>" . move-text-up)
          ("M-<down>" . move-text-down)))
 
+;; which-key: shows available keybindings as you type a prefix
+(use-package which-key
+  :config
+  (which-key-mode 1))
+
+;; avy: jump cursor to any visible character in 2-3 keystrokes
+(use-package avy
+  :bind (("C-c j" . avy-goto-char-timer)
+         ("C-c C-j" . avy-goto-line)))
+
+;; rainbow-delimiters: colorize nested parentheses by depth
+(use-package rainbow-delimiters
+  :commands rainbow-delimiters-mode
+  :init
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  :config
+  (set-face-attribute 'rainbow-delimiters-depth-1-face nil :foreground "#FFB454")
+  (set-face-attribute 'rainbow-delimiters-depth-2-face nil :foreground "#59C2FF")
+  (set-face-attribute 'rainbow-delimiters-depth-3-face nil :foreground "#AAD94C")
+  (set-face-attribute 'rainbow-delimiters-depth-4-face nil :foreground "#D2A6FF")
+  (set-face-attribute 'rainbow-delimiters-depth-5-face nil :foreground "#39BAE6")
+  (set-face-attribute 'rainbow-delimiters-depth-6-face nil :foreground "#FFB454")
+  (set-face-attribute 'rainbow-delimiters-depth-7-face nil :foreground "#59C2FF")
+  (set-face-attribute 'rainbow-delimiters-depth-8-face nil :foreground "#AAD94C")
+  (set-face-attribute 'rainbow-delimiters-depth-9-face nil :foreground "#D2A6FF"))
+
 ;; Whitespace handling
 (defun rc/set-up-whitespace-handling ()
   (add-to-list 'write-file-functions 'delete-trailing-whitespace))

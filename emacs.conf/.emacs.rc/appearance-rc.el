@@ -17,7 +17,16 @@
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
-(rc/require-theme 'gruber-darker)
+(add-to-list 'custom-theme-load-path
+             (file-name-as-directory
+              (expand-file-name "~/.emacs.rc")))
+
+;; (rc/require-theme 'gruber-darker)
+
+;; Optional: load gruber-darker-ayu blend instead (comment above, uncomment below)
+(load-theme 'gruber-darker-ayu t)
+;; Note: use `load-theme' directly — rc/require-theme would try to install
+;; the theme as an ELPA package, which doesn't exist for this custom theme.
 
 (use-package ligature
   :config
@@ -41,5 +50,9 @@
 
 (global-display-line-numbers-mode 1)
 (setq-default display-line-numbers-type 'relative)
+
+;; Better mode-line with diagnostics, git info, etc.
+(use-package doom-modeline
+  :init (doom-modeline-mode 1))
 
 (provide 'appearance-rc)
