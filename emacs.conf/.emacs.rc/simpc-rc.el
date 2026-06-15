@@ -1,10 +1,11 @@
-;;; simpc-mode configuration
+;;; simpc-mode configuration (kept for reference, not default)
 
-;; Requires external: 'astyle' for formatting
 (add-to-list 'load-path (expand-file-name "~/.emacs.rc/simpc/"))
 (require 'simpc-mode nil t)
 
-(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
+;; Use c-ts-mode (tree-sitter) instead of simpc-mode by default
+;; M-x simpc-mode to switch manually if needed
+(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . c-ts-mode))
 
 (defun astyle-buffer (&optional justify)
   "Format the current buffer using astyle."
@@ -23,8 +24,6 @@
 (add-hook 'simpc-mode-hook
           (lambda ()
             (interactive)
-            ;; Using astyle for fill-paragraph is aggressive, 
-            ;; but keeping it as per user's original config.
             (setq-local fill-paragraph-function 'astyle-buffer)))
 
 (provide 'simpc-rc)
