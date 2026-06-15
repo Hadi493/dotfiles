@@ -1,55 +1,29 @@
 ;;; General editing improvements
 
-(use-package multiple-cursors
-  :bind (("C-S-c C-S-c" . mc/edit-lines)
-         ("C->"         . mc/mark-next-like-this)
-         ("C-<"         . mc/mark-previous-like-this)
-         ("C-c C-<"     . mc/mark-all-like-this)
-         ("C-\""        . mc/skip-to-next-like-this)
-         ("C-:"         . mc/skip-to-previous-like-this)))
+;;; Multiple cursors
+(rc/require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->")         'mc/mark-next-like-this)
+(global-set-key (kbd "C-<")         'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<")     'mc/mark-all-like-this)
+(global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
 
-(use-package move-text
-  :bind (("M-p" . move-text-up)
-         ("M-n" . move-text-down)
-         ("M-<up>" . move-text-up)
-         ("M-<down>" . move-text-down)))
+;;; Move Text
+(rc/require 'move-text)
+(global-set-key (kbd "M-p") 'move-text-up)
+(global-set-key (kbd "M-n") 'move-text-down)
+(global-set-key (kbd "M-<up>") 'move-text-up)
+(global-set-key (kbd "M-<down>") 'move-text-down)
 
-;; which-key: shows available keybindings as you type a prefix
-(use-package which-key
-  :config
-  (which-key-mode 1))
-
-;; avy: jump cursor to any visible character in 2-3 keystrokes
-(use-package avy
-  :bind (("C-c j" . avy-goto-char-timer)
-         ("C-c C-j" . avy-goto-line)))
-
-;; rainbow-delimiters: colorize nested parentheses by depth
-(use-package rainbow-delimiters
-  :commands rainbow-delimiters-mode
-  :init
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-  :config
-  (set-face-attribute 'rainbow-delimiters-depth-1-face nil :foreground "#FFB454")
-  (set-face-attribute 'rainbow-delimiters-depth-2-face nil :foreground "#59C2FF")
-  (set-face-attribute 'rainbow-delimiters-depth-3-face nil :foreground "#AAD94C")
-  (set-face-attribute 'rainbow-delimiters-depth-4-face nil :foreground "#D2A6FF")
-  (set-face-attribute 'rainbow-delimiters-depth-5-face nil :foreground "#39BAE6")
-  (set-face-attribute 'rainbow-delimiters-depth-6-face nil :foreground "#FFB454")
-  (set-face-attribute 'rainbow-delimiters-depth-7-face nil :foreground "#59C2FF")
-  (set-face-attribute 'rainbow-delimiters-depth-8-face nil :foreground "#AAD94C")
-  (set-face-attribute 'rainbow-delimiters-depth-9-face nil :foreground "#D2A6FF"))
-
-;; Whitespace handling
+;;; Whitespace mode handling
 (defun rc/set-up-whitespace-handling ()
+  (interactive)
   (add-to-list 'write-file-functions 'delete-trailing-whitespace))
 
-(let ((hooks '(c-mode-hook
-               c-ts-mode-hook
+(let ((hooks '(tuareg-mode-hook
                c++-mode-hook
-               c++-ts-mode-hook
-               python-mode-hook
-               python-ts-mode-hook
+               c-mode-hook
                simpc-mode-hook
                emacs-lisp-mode-hook
                java-mode-hook
@@ -58,42 +32,60 @@
                scala-mode-hook
                markdown-mode-hook
                haskell-mode-hook
-               yaml-mode-hook)))
+               python-mode-hook
+               erlang-mode-hook
+               asm-mode-hook
+               fasm-mode-hook
+               go-mode-hook
+               nim-mode-hook
+               yaml-mode-hook
+               porth-mode-hook)))
   (dolist (hook hooks)
     (add-hook hook 'rc/set-up-whitespace-handling)))
 
-;; Word wrap
+;;; Word wrap
 (defun rc/enable-word-wrap ()
+  (interactive)
   (toggle-word-wrap 1))
 
 (add-hook 'markdown-mode-hook 'rc/enable-word-wrap)
 
-;; Delete word backward without copying to kill-ring
-(defun rc/delete-word-backward ()
-  (interactive)
-  (delete-region (point) (save-excursion (backward-word) (point))))
-
-(global-set-key (kbd "C-<backspace>") 'rc/delete-word-backward)
-
-;; Unfill paragraph
+;;; Unfill paragraph
 (defun rc/unfill-paragraph ()
+  "Replace newline chars in current paragraph by single spaces.
+This command does the inverse of `fill-paragraph'."
   (interactive)
-  (let ((fill-column 90002000))
+  (let ((fill-column 90002000)) ; 90002000 is just random
     (fill-paragraph nil)))
 
 (global-set-key (kbd "C-c M-q") 'rc/unfill-paragraph)
 
-;; Auto-save on idle
+;; Save to disk on idle (modern style)
 (setq auto-save-visited-interval 30)
 (if (fboundp 'auto-save-visited-mode)
     (auto-save-visited-mode 1)
   (setq auto-save-default t))
+;;
+;; Notification in the echo area
+(defun rc/show-save-status ()
+  "Show a message only for auto-saves, not manual saves."
+  (when (not (memq this-command '(save-buffer save-some-buffers)))
+    (message "(Auto-saving %s...done)" (buffer-name))))
 
-;; Grammar and prose
-(use-package writegood-mode
-  :hook ((text-mode markdown-mode) . writegood-mode))
+(add-hook 'after-save-hook 'rc/show-save-status)
 
+
+;; Prose and Grammar
+;; Needs 'aspell' and 'LanguageTool' installed on the system
+(rc/require 'writegood-mode 'langtool)
 (add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'text-mode-hook 'writegood-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'writegood-mode)
+
+;; Try to find LanguageTool jar automatically
+(let ((lt-path "/usr/share/languagetool/languagetool-commandline.jar"))
+  (when (file-exists-p lt-path)
+    (setq langtool-language-tool-jar lt-path)))
 
 (provide 'editing-rc)

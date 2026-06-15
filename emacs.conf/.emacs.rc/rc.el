@@ -1,11 +1,7 @@
-(require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-
-(eval-when-compile
-  (require 'use-package))
-
-(setq use-package-always-ensure t)
+;; (add-to-list 'package-archives
+;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (defvar rc/package-contents-refreshed nil)
 
@@ -24,8 +20,15 @@
     (rc/require-one-package package)))
 
 (defun rc/require-theme (theme)
-  (let ((theme-package (intern (concat (symbol-name theme) "-theme"))))
+  (let ((theme-package (->> theme
+                            (symbol-name)
+                            (funcall (-flip #'concat) "-theme")
+                            (intern))))
     (rc/require theme-package)
     (load-theme theme t)))
 
-(provide 'rc)
+(rc/require 'dash)
+(require 'dash)
+
+(rc/require 'dash-functional)
+(require 'dash-functional)

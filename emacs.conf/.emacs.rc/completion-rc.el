@@ -1,70 +1,51 @@
-;;; Completion configuration (Vertico + Consult + Corfu)
+;;; Completion configuration (Ido, Helm, Company, Smex)
 
-;; NOTE: Remove old packages:
-;;   M-x package-delete RET helm RET
-;;   M-x package-delete RET helm-core RET
-;;   M-x package-delete RET smex RET
-;;   M-x package-delete RET ido-completing-read+ RET
+;;; Ido
+(rc/require 'smex 'ido-completing-read+)
+(require 'ido-completing-read+)
 
-(use-package vertico
-  :config
-  (vertico-mode)
-  (setq vertico-cycle t))
+(ido-mode 1)
+(ido-everywhere 1)
+(ido-ubiquitous-mode 1)
 
-(use-package marginalia
-  :config
-  (marginalia-mode))
+(global-set-key (kbd "M-x")     'smex)
 
-(use-package consult
-  :bind (("C-x b" . consult-buffer)
-         ("C-s" . consult-line)
-         ("C-c h g g" . consult-git-grep)
-         ("C-c h f" . consult-find)
-         ("C-c h r" . consult-recent-file)
-         ("C-c h a" . consult-org-agenda)
-         ("M-y" . consult-yank-pop))
-  :config
-  (setq consult-narrow-key "<"))
+;;; Helm
+(rc/require 'helm)
+(setq helm-ff-transformer-show-only-basename nil)
 
-(use-package orderless
-  :config
-  (setq completion-styles '(basic orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
+(global-set-key (kbd "C-c h t") 'helm-cmd-t)
+(global-set-key (kbd "C-c h g g") 'helm-git-grep)
+(global-set-key (kbd "C-c h g l") 'helm-ls-git-ls)
+(global-set-key (kbd "C-c h f") 'helm-find)
+(global-set-key (kbd "C-c h a") 'helm-org-agenda-files-headings)
+(global-set-key (kbd "C-c h r") 'helm-recentf)
 
-(use-package corfu
-  :config
-  (setq corfu-auto t
-        corfu-cycle t
-        corfu-idle-delay 0.15
-        corfu-min-width 60
-        corfu-count 12
-        corfu-on-exact-match nil))
+;; Company
+(rc/require 'company 'company-c-headers)
+(require 'company)
+(global-company-mode)
 
-;; Corfu only in programming modes — no popups in text/markdown
-(add-hook 'prog-mode-hook 'corfu-mode)
+;; Add standard header paths for C/C++ completion
+(setq company-c-headers-path-system '("/usr/include" "/usr/local/include"))
 
-;; Dabbrev (words from open buffers) in text modes
-(dolist (hook '(text-mode-hook markdown-mode-hook))
-  (add-hook hook (lambda ()
-                   (add-to-list 'completion-at-point-functions #'cape-dabbrev))))
+;; Better backend grouping: grouped backends are tried until one returns results
+(setq company-backends '((company-capf company-c-headers company-files company-keywords)
+                         (company-dabbrev company-dabbrev-code company-ispell)))
 
-;; Extra backends in programming modes
-(use-package cape
-  :hook (prog-mode . (lambda ()
-                        (add-to-list 'completion-at-point-functions #'cape-file)
-                        (add-to-list 'completion-at-point-functions #'cape-dabbrev))))
+;; Snappier feel
+(setq company-idle-delay 0.05
+      company-minimum-prefix-length 2
+      company-dabbrev-downcase nil
+      company-dabbrev-ignore-case nil
+      company-dabbrev-other-buffers t)
 
-;; C/C++ headers via company-c-headers bridged to Corfu
-(use-package company-c-headers
-  :after corfu
-  :config
-  (defun rc/enable-c-headers ()
-    (setq-local completion-at-point-functions
-                (cons (cape-company-to-capf #'company-c-headers)
-                      completion-at-point-functions)))
-  (add-hook 'c-mode-hook #'rc/enable-c-headers)
-  (add-hook 'c-ts-mode-hook #'rc/enable-c-headers)
-  (add-hook 'c++-mode-hook #'rc/enable-c-headers))
+(add-hook 'text-mode-hook 'company-mode)
+(add-hook 'markdown-mode-hook 'company-mode)
+
+(add-hook 'tuareg-mode-hook
+          (lambda ()
+            (interactive)
+            (company-mode 1)))
 
 (provide 'completion-rc)
