@@ -10,9 +10,9 @@ num-results = 5
 font = Iosevka Nerd Font
 font-size = 20
 
-text-color = #4e4e5f
+text-color = #ffffff
 
 prompt-text = " : "
 
-background-color = #11111bd9
-selection-color = #83A4E7
+background-color = #181818d9
+selection-color = #6DCFFF

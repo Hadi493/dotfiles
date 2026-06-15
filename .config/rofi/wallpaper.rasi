@@ -1,34 +1,33 @@
-/* Catppuccin Mocha Colors from config.rasi */
 * {
-    base:      #1e1e2e;
-    mantle:    #181825;
-    crust:     #11111b;
-    text:      #cdd6f4;
-    subtext0:  #a6adc8;
-    subtext1:  #bac2de;
-    surface0:  #313244;
-    surface1:  #45475a;
-    surface2:  #585b70;
-    overlay0:  #6c7086;
-    overlay1:  #7f849c;
-    overlay2:  #9399b2;
-    blue:      #89b4fa;
-    lavender:  #b4befe;
-    sapphire:  #74c7ec;
-    sky:       #89dceb;
-    teal:      #94e2d5;
-    green:     #a6e3a1;
-    yellow:    #f9e2af;
-    peach:     #fab387;
-    maroon:    #eba0ac;
-    red:       #f38ba8;
-    mauve:     #cba6f7;
-    pink:      #f5c2e7;
-    flamingo:  #f2cdcd;
-    rosewater: #f5e0dc;
+    base:      #181818;
+    mantle:    #0d0d0d;
+    crust:     #0d0d0d;
+    text:      #ffffff;
+    subtext0:  #6B7B8E;
+    subtext1:  #ffffff;
+    surface0:  #1c1c2a;
+    surface1:  #2a2a3e;
+    surface2:  #363652;
+    overlay0:  #6B7B8E;
+    overlay1:  #6B7B8E;
+    overlay2:  #95a99f;
+    blue:      #6DCFFF;
+    lavender:  #E0B8FF;
+    sapphire:  #4AC8E6;
+    sky:       #4AC8E6;
+    teal:      #A8F0D8;
+    green:     #C5E665;
+    yellow:    #E6B450;
+    gold:      #E6B450;
+    peach:     #FFA375;
+    maroon:    #FFA375;
+    red:       #FF7B85;
+    mauve:     #E0B8FF;
+    pink:      #E0B8FF;
+    flamingo:  #FFA375;
+    rosewater: #ffffff;
 
     font: "Iosevka Nerd Font 15";
-    icon-theme: "Tela-circle-blue-dark";
     border-radius: 8px;
 }
 
@@ -51,7 +50,7 @@ window {
     border-radius: @border-radius;
     background-color: @base;
     border: 2px solid;
-    border-color: @surface1;
+    border-color: @gold;
 }
 
 mainbox {
@@ -117,12 +116,12 @@ element {
     cursor: pointer;
     background-color: @base;
     color: @text;
-    border-radius: 8px;
+    border-radius: @border-radius;
 }
 
 element selected.normal {
-    background-color: @surface0;
-    text-color: @text;
+    background-color: @surface2;
+    text-color: @gold;
     border: 0px;
 }
 

@@ -24,34 +24,34 @@ configuration {
     click-to-exit: true;
 }
 
-/* Catppuccin Mocha Colors - Match Polybar */
 * {
-    base:      #1e1e2e;
-    mantle:    #181825;
-    crust:     #11111b;
-    text:      #cdd6f4;
-    subtext0:  #a6adc8;
-    subtext1:  #bac2de;
-    surface0:  #313244;
-    surface1:  #45475a;
-    surface2:  #585b70;
-    overlay0:  #6c7086;
-    overlay1:  #7f849c;
-    overlay2:  #9399b2;
-    blue:      #89b4fa;
-    lavender:  #b4befe;
-    sapphire:  #74c7ec;
-    sky:       #89dceb;
-    teal:      #94e2d5;
-    green:     #a6e3a1;
-    yellow:    #f9e2af;
-    peach:     #fab387;
-    maroon:    #eba0ac;
-    red:       #f38ba8;
-    mauve:     #cba6f7;
-    pink:      #f5c2e7;
-    flamingo:  #f2cdcd;
-    rosewater: #f5e0dc;
+    base:      #181818;
+    mantle:    #0d0d0d;
+    crust:     #0d0d0d;
+    text:      #ffffff;
+    subtext0:  #6B7B8E;
+    subtext1:  #ffffff;
+    surface0:  #1c1c2a;
+    surface1:  #2a2a3e;
+    surface2:  #363652;
+    overlay0:  #6B7B8E;
+    overlay1:  #6B7B8E;
+    overlay2:  #95a99f;
+    blue:      #6DCFFF;
+    lavender:  #E0B8FF;
+    sapphire:  #4AC8E6;
+    sky:       #4AC8E6;
+    teal:      #A8F0D8;
+    green:     #C5E665;
+    yellow:    #E6B450;
+    gold:      #E6B450;
+    peach:     #FFA375;
+    maroon:    #FFA375;
+    red:       #FF7B85;
+    mauve:     #E0B8FF;
+    pink:      #E0B8FF;
+    flamingo:  #FFA375;
+    rosewater: #ffffff;
 }
 
 window {
@@ -62,21 +62,21 @@ window {
     width: 600px;
     height: 610px;
     spacing: 0px;
-    border-radius: 12px;
+    border-radius: 16px;
     cursor: "default";
     background-color: @base;
     border: 2px solid;
-    border-color: @surface1;
+    border-color: @gold;
+    padding: 4px;
 }
 
 mainbox {
     enabled: true;
-    spacing: 10px;
+    spacing: 12px;
     margin: 0px;
-    padding: 15px;
+    padding: 20px;
     border: 0px solid;
-    border-radius: 0px 0px 0px 0px;
-    border-color: @surface1;
+    border-radius: 12px;
     background-color: transparent;
     orientation: vertical;
     children: [ "listview", "inputbar" ];
@@ -84,12 +84,11 @@ mainbox {
 
 inputbar {
     enabled: true;
-    spacing: 10px;
+    spacing: 12px;
     margin: 0px;
-    padding: 12px;
+    padding: 14px 16px;
     border: 0px solid;
-    border-radius: 8px;
-    border-color: @surface1;
+    border-radius: 12px;
     background-color: @surface0;
     text-color: @text;
     children: [ "prompt", "entry" ];
@@ -97,19 +96,11 @@ inputbar {
 
 prompt {
     enabled: true;
-    background-color: @mauve;
-    text-color: @crust;
-    padding: 8px 12px;
-    border-radius: 6px;
+    background-color: @gold;
+    text-color: @base;
+    padding: 8px 14px;
+    border-radius: 8px;
     font: "Iosevka Nerd Font Mono Bold 14";
-}
-
-textbox-prompt-colon {
-    enabled: true;
-    expand: false;
-    str: ":";
-    background-color: inherit;
-    text-color: inherit;
 }
 
 entry {
@@ -117,7 +108,7 @@ entry {
     background-color: transparent;
     text-color: @text;
     cursor: text;
-    placeholder: "Search applications...";
+    placeholder: "Search...";
     placeholder-color: @subtext0;
     padding: 8px 4px;
 }
@@ -133,13 +124,11 @@ listview {
     reverse: false;
     fixed-height: true;
     fixed-columns: true;
-    
-    spacing: 12px;
+    spacing: 8px;
     margin: 0px;
     padding: 0px;
     border: 0px solid;
     border-radius: 0px;
-    border-color: @surface1;
     background-color: transparent;
     text-color: @text;
     cursor: "default";
@@ -157,10 +146,9 @@ element {
     enabled: true;
     spacing: 10px;
     margin: 0px;
-    padding: 10px;
+    padding: 12px 10px;
     border: 0px solid;
-    border-radius: 8px;
-    border-color: @surface1;
+    border-radius: 10px;
     background-color: transparent;
     text-color: @text;
     cursor: pointer;
@@ -173,42 +161,42 @@ element normal.normal {
 
 element normal.urgent {
     background-color: @red;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element normal.active {
     background-color: @green;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element selected.normal {
-    background-color: @surface0;
-    text-color: @text;
+    background-color: @surface2;
+    text-color: @gold;
 }
 
 element selected.urgent {
     background-color: @red;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element selected.active {
     background-color: @green;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element alternate.normal {
-    background-color: transparent;
+    background-color: @surface0;
     text-color: @text;
 }
 
 element alternate.urgent {
     background-color: @red;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element alternate.active {
     background-color: @green;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element-icon {
@@ -227,7 +215,6 @@ element-text {
     horizontal-align: 0.5;
 }
 
-/* Optional: Custom colors for different modes */
 mode-switcher{
     enabled: true;
     spacing: 10px;
@@ -235,23 +222,20 @@ mode-switcher{
     padding: 0px;
     border: 0px solid;
     border-radius: 0px;
-    border-color: @surface1;
     background-color: transparent;
     text-color: @text;
 }
 
 button {
-    padding: 8px;
+    padding: 8px 16px;
     border: 0px solid;
-    border-radius: 6px;
-    border-color: @surface1;
+    border-radius: 8px;
     background-color: @surface0;
     text-color: @text;
     cursor: pointer;
 }
 
 button selected {
-    background-color: @mauve;
-    text-color: @crust;
+    background-color: @gold;
+    text-color: @base;
 }
-

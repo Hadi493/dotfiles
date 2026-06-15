@@ -6,15 +6,16 @@
 # Rofi theme matching your waybar
 ROFI_THEME="
 * {
-    bg-col: #1e1e2e;
-    bg-col-light: #313244;
-    border-col: #f38ba8;
-    selected-col: #45475a;
-    red: #f38ba8;
-    blue: #89b4fa;
-    fg-col: #cdd6f4;
-    fg-col2: #f38ba8;
-    grey: #6c7086;
+    bg-col: #181818;
+    bg-col-light: #1c1c2a;
+    border-col: #FF7B85;
+    selected-col: #2a2a3e;
+    red: #FF7B85;
+    blue: #6DCFFF;
+    fg-col: #ffffff;
+    fg-col2: #FF7B85;
+    gold: #E6B450;
+    grey: #6B7B8E;
     width: 300;
     font: \"Iosevka Nerd Font 14\";
 }
@@ -74,7 +75,7 @@ element-icon {
 
 element selected {
     background-color: @selected-col;
-    text-color: @fg-col2;
+    text-color: @gold;
 }
 "
 
