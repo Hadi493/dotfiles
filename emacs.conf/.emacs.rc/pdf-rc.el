@@ -17,8 +17,8 @@
                                (pdf-annot-minor-mode 1)
                                (display-line-numbers-mode -1)))
 
-;; Use midnight mode for dark themes (optional, uncomment to enable by default)
-;; (add-hook 'pdf-view-mode-hook (lambda () (pdf-view-midnight-minor-mode)))
+;; Use midnight mode for dark themes
+(add-hook 'pdf-view-mode-hook 'pdf-view-midnight-minor-mode)
 
 ;; Keybinding to toggle midnight mode
 (with-eval-after-load 'pdf-view
