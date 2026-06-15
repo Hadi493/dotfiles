@@ -85,6 +85,9 @@
             (prev-line (string-trim-left (string-trim-right (car prev))))
             (prev-indent (cdr prev)))
         (cond
+         ;; Preprocessor directive → column 0
+         ((string-prefix-p "#" cur-line)
+          0)
          ;; Indent after {
          ((string-suffix-p "{" prev-line)
           (if (string-prefix-p "}" cur-line)
@@ -93,19 +96,23 @@
          ;; Outdent before }
          ((string-prefix-p "}" cur-line)
           (max (- prev-indent indent-len) 0))
+         ;; else/while/catch after } → outdent to match if/do/try level
+         ((and (string-prefix-p "}" (string-trim-left prev-line))
+               (string-match-p "^\\(else\\|while\\|catch\\)\\b" cur-line))
+          (max (- prev-indent indent-len) 0))
          ;; Indent after if/for/while/else WITHOUT braces
          ((and (string-match-p "^\\(if\\|for\\|while\\|else\\)\\b" prev-line)
                (not (string-suffix-p "{" prev-line))
                (not (string-suffix-p ";" prev-line)))
           (+ prev-indent indent-len))
          ;; Switch/case
-         ((string-match-p "^switch\\s-*(.+)" prev-line)
+         ((string-match-p "^switch\\s-*(" prev-line)
           prev-indent)
          ((string-suffix-p ":" prev-line)
-          (if (string-prefix-p "case" cur-line)
+          (if (string-match-p "^\\(case\\|default\\)\\b" cur-line)
               prev-indent
             (+ prev-indent indent-len)))
-         ((string-prefix-p "case" cur-line)
+         ((string-match-p "^\\(case\\|default\\)\\b" cur-line)
           (max (- prev-indent indent-len) 0))
          (t prev-indent))))))
 
