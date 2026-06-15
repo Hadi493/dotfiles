@@ -88,4 +88,10 @@ This command does the inverse of `fill-paragraph'."
   (when (file-exists-p lt-path)
     (setq langtool-language-tool-jar lt-path)))
 
+;;; Window resize
+(global-set-key (kbd "C-S-<up>")    'enlarge-window)
+(global-set-key (kbd "C-S-<down>")  'shrink-window)
+(global-set-key (kbd "C-S-<left>")  'shrink-window-horizontally)
+(global-set-key (kbd "C-S-<right>") 'enlarge-window-horizontally)
+
 (provide 'editing-rc)
