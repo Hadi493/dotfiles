@@ -1,5 +1,6 @@
 (setq custom-file "~/.emacs.custom.el")
 
+(package-initialize)
 (add-to-list 'load-path "~/.emacs.local/")
 
 ;; Modular config
