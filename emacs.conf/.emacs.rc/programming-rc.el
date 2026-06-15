@@ -11,7 +11,7 @@
 
 ;; LSP for C and Python (built-in Eglot)
 (use-package eglot
-  :hook ((c-mode c-ts-mode c++-mode c++-ts-mode python-mode python-ts-mode) . eglot-ensure)
+  :hook ((c-mode c-ts-mode c++-mode c++-ts-mode simpc-mode python-mode python-ts-mode) . eglot-ensure)
   :config
   (setq eldoc-echo-area-prefer-doc-buffer-p t))
 
