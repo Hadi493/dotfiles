@@ -1,20 +1,24 @@
 (global-set-key (kbd "C-x a") 'org-agenda)
-(global-set-key (kbd "C-c x j") #'org-clock-jump-to-current-clock)
+(global-set-key (kbd "C-c C-x j") #'org-clock-jump-to-current-clock)
 
 (setq org-agenda-files (list "~/Documents/Agenda/"))
+
 (setq org-export-backends '(md))
 
 (defun rc/org-increment-move-counter ()
   (interactive)
-  (cl-flet ((default (x d) (if x x d)))
-    (let* ((point (point))
-           (move-counter-name "MOVE_COUNTER")
-           (move-counter-value (-> (org-entry-get point move-counter-name)
-                                   (default "0")
-                                   (string-to-number)
-                                   (1+))))
-      (org-entry-put point move-counter-name
-                     (number-to-string move-counter-value))))
+
+  (defun default (x d)
+    (if x x d))
+
+  (let* ((point (point))
+         (move-counter-name "MOVE_COUNTER")
+         (move-counter-value (-> (org-entry-get point move-counter-name)
+                                 (default "0")
+                                 (string-to-number)
+                                 (1+))))
+    (org-entry-put point move-counter-name
+                   (number-to-string move-counter-value)))
   nil)
 
 (defun rc/org-get-heading-name ()
@@ -35,9 +39,11 @@
         ("w" "Work" ((agenda "" ((org-agenda-tag-filter-preset (list "+work"))))))
         ))
 
-;; org-cliplink
-(use-package org-cliplink
-  :bind (("C-x p i" . org-cliplink)))
+;;; org-cliplink
+
+(rc/require 'org-cliplink)
+
+(global-set-key (kbd "C-x p i") 'org-cliplink)
 
 (defun rc/cliplink-task ()
   (interactive)
@@ -51,23 +57,11 @@
                         "\n  [[" url "]]"))))))
 (global-set-key (kbd "C-x p t") 'rc/cliplink-task)
 
-;; org-capture
+;;; org-capture
+
 (setq org-capture-templates
       '(("p" "Capture task" entry (file "~/Documents/Agenda/Tasks.org")
          "* TODO %?\n  SCHEDULED: %t\n")
         ("K" "Cliplink capture task" entry (file "~/Documents/Agenda/Tasks.org")
          "* TODO %(org-cliplink-capture) \n  SCHEDULED: %t\n" :empty-lines 1)))
-(define-key global-map (kbd "C-c C-c") 'org-capture)
-
-;; Org-roam: knowledge management / Zettelkasten
-(use-package org-roam
-  :after org
-  :custom
-  (org-roam-directory (file-truename "~/Documents/RoamNotes"))
-  :bind (("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture))
-  :config
-  (org-roam-db-autosync-mode))
-
-(provide 'org-mode-rc)
+(define-key global-map "\C-cc" 'org-capture)
