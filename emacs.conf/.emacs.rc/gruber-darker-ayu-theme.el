@@ -172,8 +172,9 @@
    ;; Corfu
    `(corfu-default ((t (:background ,gruber-darker-ayu-bg+1
                                     :foreground ,gruber-darker-ayu-fg))))
-   `(corfu-current ((t (:background ,gruber-darker-ayu-gold
-                                    :foreground ,gruber-darker-ayu-bg))))
+   `(corfu-current ((t (:background ,gruber-darker-ayu-bg+3
+                                    :foreground ,gruber-darker-ayu-fg
+                                    :weight bold))))
    `(corfu-bar ((t (:background ,gruber-darker-ayu-gold))))
    `(corfu-border ((t (:background ,gruber-darker-ayu-bg+2))))
    `(corfu-popupinfo ((t (:background ,gruber-darker-ayu-bg+1
@@ -683,8 +684,9 @@
                                              :foreground ,gruber-darker-ayu-bg))))
 
    ;; Vertico
-   `(vertico-current ((t (:background ,gruber-darker-ayu-bg+2
-                                      :foreground ,gruber-darker-ayu-fg))))
+   `(vertico-current ((t (:background ,gruber-darker-ayu-bg+3
+                                      :foreground ,gruber-darker-ayu-fg
+                                      :weight bold))))
    `(vertico-group-title ((t (:foreground ,gruber-darker-ayu-gold :bold t))))
    `(vertico-group-separator ((t (:foreground ,gruber-darker-ayu-bg+2
                                               :strike-through t))))
