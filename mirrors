@@ -1,0 +1,4 @@
+    url = ssh://git@v15.next.forgejo.org:2150/hadi/dotfiles.git
+    url = ssh://git@codeberg.org/Hadi493/dotfiles.git
+	url = git@github.com:Hadi493/dotfiles
+	url = git@gitlab.com:Hadi493/dotfiles
