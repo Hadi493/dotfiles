@@ -3,9 +3,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.rc/simpc/"))
 (require 'simpc-mode nil t)
 
-;; Use c-ts-mode (tree-sitter) instead of simpc-mode by default
-;; M-x simpc-mode to switch manually if needed
-(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . c-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 (defun astyle-buffer (&optional justify)
   "Format the current buffer using astyle."
