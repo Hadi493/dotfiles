@@ -105,7 +105,7 @@ AUR_PACKAGES=(
     hyprshot
     python-pywal
     walker elephant elephant-desktopapplications
-    google-chrome
+    brave-origin-bin
     firefox
     coomer
     look-bin
