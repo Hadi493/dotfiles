@@ -17,11 +17,8 @@ set -g fish_greeting ''
 # FISH AUTOCOMPLETION & SYNTAX HIGHLIGHTING
 # ===============================================
 
-# Pager colors
-set -g fish_pager_color_completion ffdd33
-set -g fish_pager_color_description B3A06D 73c936
-set -g fish_pager_color_prefix white --bold --underline
-set -g fish_pager_color_progress brwhite --background=181818
+# Theme
+source ~/.config/fish/themes/gruber-darker-ayu.fish
 
 # ===============================================
 # AUTOCOMPLETION SETTINGS
@@ -296,73 +293,51 @@ set -g os_name (string replace 'NAME=' '' (grep '^NAME=' /etc/os-release) | stri
 # fish prompt (left prompt)
 function fish_prompt
     set -l last_status $status
-    # set_color 00ffaf
-    set_color 73c936
+
+    set_color E6B450
     echo -n "╭──("
-    # set_color 00ff87
-    set_color 73c936
+    set_color E6B450
     echo -n "$USER"
-    # set_color 00ff8f
-    set_color 73c936
+    set_color 6B7B8E
     echo -n "@"
-    # echo -n "[]"
-    # set_color 00ff87
-    set_color 73c936
+    set_color C5E665
     echo -n "$os_name"
-    # set_color 00ffaf
-    set_color 73c936
+    set_color E6B450
     echo -n ")"
 
-     # Virtual env
     if set -q VIRTUAL_ENV
-		set_color ffdd33
+        set_color C5E665
         echo -n "-("(basename $VIRTUAL_ENV)")"
     end
 
-    # set_color 00ffaf
-    set_color 73c936
+    set_color E6B450
     echo -n "-["
-    # set_color 00ffaf
-    set_color 73c936
-    # set_color 73c936
+    set_color FFD064
     echo -n (prompt_pwd)
-    # set_color 00ffaf
-    set_color 73c936
+    set_color E6B450
     echo -n "]"
 
-
-
-    # git branch with status
     if git rev-parse --git-dir >/dev/null 2>&1
         set -l git_branch (git rev-parse --abbrev-ref HEAD 2>/dev/null)
         set -l git_status (git status --porcelain 2>/dev/null)
-        set_color ffdd33
+        set_color C5E665
         echo -n "  $git_branch"
-
-        # Show git status indicators
         if test -n "$git_status"
-            set_color ffdd33
+            set_color FFD064
             echo -n "*"
         end
-        set_color ff87d7
-        echo -n ""
     end
 
-    # Show exit status if non-zero
     if test $last_status -ne 0
-        set_color ffdd45
+        set_color FF7B85
         echo -n " [$last_status]"
     end
 
     echo
-    # set_color 00ffaf
-    set_color 73c936
+    set_color E6B450
     echo -n "╰─"
-    # set_color 00ffaf
-    set_color 73c936
-    # echo -n " ❯❯ "
-	echo -n "\$ "
-    set_color 73c936
+    set_color E6B450
+    echo -n "\$ "
 end
 
 
@@ -427,22 +402,19 @@ end
 
 # Right prompt with time and additional info
 function fish_right_prompt
-    set_color 73c936
     set -l cmd_duration $CMD_DURATION
-    set_color 73c936
     set -l timestamp (date "+%H:%M:%S")
 
     # Show command duration if > 2 seconds
     if test $cmd_duration -gt 2000
         set -l duration_seconds (math "$cmd_duration / 1000")
-        set_color 73c936
+        set_color 6B7B8E
         echo -n "⏱ {$duration_seconds}s "
     end
 
     # Show current time
-    set_color 666666
+    set_color 3d4658
     echo -n "$timestamp"
-    set_color 73c936
 end
 
 # Title function to set terminal title
