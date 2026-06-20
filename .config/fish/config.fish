@@ -162,6 +162,9 @@ set -gx PATH $HOME/.local/bin $PATH
 # source fish config
 alias sfc="source ~/.config/fish/config.fish"
 
+# Tor status
+alias tor-status="systemctl status tor"
+
 # Basic file operations
 alias l="eza --long --header --git --icons --group-directories-first"
 alias ls="ls -a"
