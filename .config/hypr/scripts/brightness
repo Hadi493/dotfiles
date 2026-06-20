@@ -1,0 +1,25 @@
+#!/bin/bash
+STEP=0.05
+BUS=rs.wl-gammarelay
+
+# Check if daemon is running
+if ! busctl --user status "$BUS" >/dev/null 2>&1; then
+  wl-gammarelay-rs run &
+  sleep 1
+fi
+
+CURRENT=$(busctl --user get-property "$BUS" / rs.wl.gammarelay Brightness 2>/dev/null | awk '{print $2}')
+[ -z "$CURRENT" ] && CURRENT=1.0
+
+case "$1" in
+  up)   NEW=$(echo "$CURRENT + $STEP" | bc -l 2>/dev/null)
+        [ -z "$NEW" ] && NEW=1.0
+        [ "$(echo "$NEW > 1.0" | bc -l 2>/dev/null)" -eq 1 ] && NEW=1.0 ;;
+  down) NEW=$(echo "$CURRENT - $STEP" | bc -l 2>/dev/null)
+        [ -z "$NEW" ] && NEW=0.5
+        [ "$(echo "$NEW < 0.1" | bc -l 2>/dev/null)" -eq 1 ] && NEW=0.1 ;;
+esac
+
+busctl --user set-property "$BUS" / rs.wl.gammarelay Brightness d "$NEW"
+PERCENT=$(echo "$NEW * 100" | bc -l 2>/dev/null | cut -d. -f1)
+swayosd-client --brightness "${PERCENT:-50}" 2>/dev/null || true
