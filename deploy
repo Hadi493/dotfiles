@@ -117,6 +117,11 @@ link_waybar() {
     link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
 }
 
+link_tmux() {
+    echo     "Linking Tmux configuration..."
+    link_one "$DOTFILES_DIR/.config/tmux" "$HOME/.config/tmux"
+}
+
 link_flameshot() {
     echo     "Linking Flameshot configuration..."
     link_one "$DOTFILES_DIR/.config/flameshot" "$HOME/.config/flameshot"
@@ -157,6 +162,7 @@ link_config() {
     link_vim
     link_rofi
     link_swaync
+    link_tmux
     link_tofi
     link_waybar
     link_flameshot
@@ -215,8 +221,9 @@ Commands:
   swaync     Link SwayNC configuration
   tofi       Link Tofi configuration
   waybar     Link Waybar configuration
-  flameshot  Link Flameshot configuration
-  nob        Link Nob library
+  flameshot      Link Flameshot configuration
+  tmux           Link Tmux configuration
+  nob            Link Nob library
 
 EOF
 }
@@ -245,6 +252,7 @@ case "$cmd" in
     tofi           ) link_tofi      ;;
     waybar         ) link_waybar    ;;
     flameshot      ) link_flameshot ;;
+    tmux           ) link_tmux      ;;
     nob            ) link_nob       ;;
     -h|--help|help ) usage          ;;
     *              )
