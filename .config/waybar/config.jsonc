@@ -4,7 +4,7 @@
     "height": 0,
     "output": "HDMI-A-2",
     "spacing": 0,
-    "margin": 3,
+    "margin": 10,
     "modules-left": [
         "hyprland/workspaces",
         "hyprland/window"
