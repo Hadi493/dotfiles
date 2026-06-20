@@ -1,15 +1,24 @@
 #!/bin/bash
 
-PIDFILE="/tmp/wf_recording.pid"
 OUTDIR="$HOME/Videos/screen-record"
+MONITOR=$(hyprctl -j activeworkspace 2>/dev/null | jq -r '.monitor // "HDMI-A-2"')
+AUDIO_SRC="$(pactl get-default-sink 2>/dev/null).monitor"
 
-if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
-    kill "$(cat "$PIDFILE")"
-    rm -f "$PIDFILE"
+mkdir -p "$OUTDIR"
+
+if pgrep -x "wf-recorder" >/dev/null; then
+    pkill -x "wf-recorder"
     notify-send -t 2000 "Recording Stopped" "Saved to $OUTDIR"
 else
     FILE="$OUTDIR/recording_$(date +%Y-%m-%d_%H-%M-%S).mp4"
-    wf-recorder -f "$FILE" --audio &>/dev/null &
-    echo $! > "$PIDFILE"
-    notify-send -t 2000 "Recording Started" "Saving to $(basename "$FILE")"
+    wf-recorder -o "$MONITOR" -f "$FILE" \
+        -c libx264 -p preset=medium -p crf=18 \
+        -x yuv420p --audio="$AUDIO_SRC" --audio-backend=pipewire --no-damage 2>/tmp/wf_recorder_error.log &
+    sleep 1
+    if pgrep -x "wf-recorder" >/dev/null; then
+        notify-send -t 2000 "Recording Started" "Monitor: $MONITOR"
+    else
+        ERR=$(cat /tmp/wf_recorder_error.log 2>/dev/null)
+        notify-send -u critical -t 4000 "Recording Failed" "${ERR:-check /tmp/wf_recorder_error.log}"
+    fi
 fi
