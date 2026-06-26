@@ -2,23 +2,36 @@
 
 OUTDIR="$HOME/Videos/screen-record"
 MONITOR=$(hyprctl -j activeworkspace 2>/dev/null | jq -r '.monitor // "HDMI-A-2"')
-AUDIO_SRC="$(pactl get-default-sink 2>/dev/null).monitor"
+NULL_SINK="recording_mix"
+SYS_AUDIO="$(pactl get-default-sink).monitor"
+MIC_SOURCE="alsa_input.pci-0000_00_1f.3.analog-stereo"
 
 mkdir -p "$OUTDIR"
 
 if pgrep -x "wf-recorder" >/dev/null; then
     pkill -x "wf-recorder"
+    sleep 1
+    pactl unload-module "$(pactl list modules short | grep "$NULL_SINK" | head -1 | awk '{print $1}')" 2>/dev/null
+    pactl unload-module "$(pactl list modules short | grep "recording-loopback-sys" | head -1 | awk '{print $1}')" 2>/dev/null
+    pactl unload-module "$(pactl list modules short | grep "recording-loopback-mic" | head -1 | awk '{print $1}')" 2>/dev/null
     notify-send -t 2000 "Recording Stopped" "Saved to $OUTDIR"
 else
+    null_id=$(pactl load-module module-null-sink sink_name="$NULL_SINK" sink_properties=device.description=Recording_Mix)
+    loop_sys=$(pactl load-module module-loopback source="$SYS_AUDIO" sink="$NULL_SINK" latency_msec=1)
+    loop_mic=$(pactl load-module module-loopback source="$MIC_SOURCE" sink="$NULL_SINK" latency_msec=1)
+
     FILE="$OUTDIR/recording_$(date +%Y-%m-%d_%H-%M-%S).mp4"
     wf-recorder -o "$MONITOR" -f "$FILE" \
         -c libx264 -p preset=medium -p crf=18 \
-        -x yuv420p --audio="$AUDIO_SRC" --audio-backend=pipewire --no-damage 2>/tmp/wf_recorder_error.log &
+        -x yuv420p --audio="${NULL_SINK}.monitor" --audio-backend=pipewire --no-damage 2>/tmp/wf_recorder_error.log &
     sleep 1
     if pgrep -x "wf-recorder" >/dev/null; then
         notify-send -t 2000 "Recording Started" "Monitor: $MONITOR"
     else
         ERR=$(cat /tmp/wf_recorder_error.log 2>/dev/null)
         notify-send -u critical -t 4000 "Recording Failed" "${ERR:-check /tmp/wf_recorder_error.log}"
+        pactl unload-module "$null_id" 2>/dev/null
+        pactl unload-module "$loop_sys" 2>/dev/null
+        pactl unload-module "$loop_mic" 2>/dev/null
     fi
 fi

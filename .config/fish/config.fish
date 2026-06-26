@@ -315,7 +315,7 @@ function fish_prompt
 
     set_color E6B450
     echo -n "-["
-    set_color FFD064
+    set_color E6B450
     echo -n (prompt_pwd)
     set_color E6B450
     echo -n "]"
@@ -326,7 +326,7 @@ function fish_prompt
         set_color C5E665
         echo -n "  $git_branch"
         if test -n "$git_status"
-            set_color FFD064
+            set_color E6B450
             echo -n "*"
         end
     end
@@ -408,14 +408,12 @@ function fish_right_prompt
     set -l cmd_duration $CMD_DURATION
     set -l timestamp (date "+%H:%M:%S")
 
-    # Show command duration if > 2 seconds
     if test $cmd_duration -gt 2000
         set -l duration_seconds (math "$cmd_duration / 1000")
         set_color 6B7B8E
         echo -n "⏱ {$duration_seconds}s "
     end
 
-    # Show current time
     set_color 3d4658
     echo -n "$timestamp"
 end
