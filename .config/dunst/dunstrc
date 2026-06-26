@@ -41,7 +41,7 @@
     always_run_script = true
     title = Dunst
     class = Dunst
-    corner_radius = 0
+    corner_radius = 12
     mouse_left_click = close_current
     mouse_middle_click = do_action
     mouse_right_click = close_all
@@ -57,7 +57,7 @@
 
 [urgency_normal]
     background = "#181818DD"
-    foreground = "#C5E665"
+    foreground = "#E6B450"
     timeout = 10
 
 [urgency_critical]

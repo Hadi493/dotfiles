@@ -1,0 +1,83 @@
+* {
+    background-image: none;
+    font-family: "Iosevka Nerd Font";
+}
+
+window {
+    background-color: rgba(24, 24, 24, 0.85);
+    border-radius: 14px;
+}
+
+button {
+    color: #ffffff;
+    background-color: rgba(40, 40, 40, 0.9);
+    border: 1px solid #363652;
+    border-radius: 12px;
+    font-size: 32px;
+    margin: 10px;
+    padding: 20px 30px;
+    transition: all 0.2s ease;
+}
+
+button:focus,
+button:active,
+button:hover {
+    background-color: rgba(54, 54, 82, 0.95);
+    border-color: #E6B450;
+    color: #E6B450;
+    outline-style: none;
+}
+
+#lock {
+    color: #6DCFFF;
+}
+
+#lock:hover {
+    color: #A8F0D8;
+    border-color: #A8F0D8;
+}
+
+#logout {
+    color: #E0B8FF;
+}
+
+#logout:hover {
+    color: #E6B450;
+    border-color: #E6B450;
+}
+
+#suspend {
+    color: #FFA375;
+}
+
+#suspend:hover {
+    color: #E6B450;
+    border-color: #E6B450;
+}
+
+#reboot {
+    color: #C5E665;
+}
+
+#reboot:hover {
+    color: #E6B450;
+    border-color: #E6B450;
+}
+
+#shutdown {
+    color: #FF7B85;
+}
+
+#shutdown:hover {
+    border-color: #FF7B85;
+    color: #FF7B85;
+}
+
+#hibernate {
+    color: #6DCFFF;
+}
+
+#hibernate:hover {
+    color: #A8F0D8;
+    border-color: #A8F0D8;
+}

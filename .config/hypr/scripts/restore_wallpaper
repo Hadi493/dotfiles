@@ -12,8 +12,7 @@ if [ -f "$LAST_WALLPAPER_CACHE" ]; then
     if [ -n "$WALLPAPER_PATH" ]; then
         swaybg -i "$WALLPAPER_PATH" -m fill &
         
-        # Set colors
-        wal -i "$WALLPAPER_PATH"
+        # Refresh waybar & notifications (colors are hand-coded)
         killall -SIGUSR2 waybar
         killall swaync
         dbus-launch swaync &

@@ -2,27 +2,32 @@
     "layer": "top",
     "position": "top",
     "height": 0,
-    "output": "HDMI-A-2",
-    "spacing": 0,
-    "margin": 10,
+    "spacing": 6,
+    "margin": "6 10 0 10",
     "modules-left": [
+        "custom/separator",
         "hyprland/workspaces",
+        "custom/separator",
         "hyprland/window"
     ],
     "modules-center": [
         "clock"
     ],
     "modules-right": [
-        "tray",
+        "network",
         "pulseaudio",
         "pulseaudio#microphone",
         "cpu",
         "memory",
-        "temperature",
+        "disk",
+        "custom/temperature",
+        "custom/separator",
         "battery",
         "backlight",
+        "custom/separator",
+        "tray",
         "custom/updates",
-        "custom/wlogout"
+        "custom/power"
     ],
 
     "hyprland/workspaces": {
@@ -35,14 +40,20 @@
 
     "hyprland/window": {
         "format": "{}",
-        "separate-outputs": true
+        "separate-outputs": true,
+        "rewrite": {
+            "(.*) - Brave": " $1",
+            "(.*) - kitty": " $1",
+            "(.*) - Code": "󰨞 $1",
+            "(.*) - Nautilus": "󰉋 $1"
+        }
     },
 
     "clock": {
         "interval": 1,
-        "format": "{:%I:%M:%S %p - %d/%m}",
-        "format-alt": "󰃮 {:%D}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%I:%M %p}",
+        "format-alt": "󰃮 {:%a %d %b}",
+        "tooltip-format": "<big>{:%A %d %B %Y}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
             "mode-mon-col": 3,
@@ -51,10 +62,10 @@
             "on-click-right": "mode",
             "format": {
                 "months": "<span color='#E6B450'><b>{}</b></span>",
-                "days": "<span color='#ffffff'>{}</span>",
-                "weeks": "<span color='#FFD064'><b>W{}</b></span>",
-                "weekdays": "<span color='#6DCFFF'><b>{}</b></span>",
-                "today": "<span color='#C5E665'><b><u>{}</u></b></span>"
+                "days": "<span color='#d4be98'>{}</span>",
+                "weeks": "<span color='#7daea3'><b>W{}</b></span>",
+                "weekdays": "<span color='#d3869b'><b>{}</b></span>",
+                "today": "<span color='#a9b665'><b><u>{}</u></b></span>"
             }
         },
         "actions": {
@@ -65,30 +76,36 @@
         }
     },
 
-    "custom/updates": {
-        "format": "󰚰 {}",
-        "return-type": "json",
-        "exec": "~/.config/waybar/scripts/updates.sh",
-        "interval": 3600,
-        "on-click": "kitty -e yay -Syu",
-        "signal": 8
+    "network": {
+        "format-wifi": "󰖩 {signalStrength}%",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰖪",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "interval": 10,
+        "on-click": "kitty -e nmtui"
     },
 
     "cpu": {
         "format": "󰘚 {usage}%",
-        "interval": 2
+        "interval": 3,
+        "tooltip": true
     },
 
     "memory": {
-        "format": "󰍛 {}%",
+        "format": "󰍛 {percentage}%",
         "tooltip": true,
         "interval": 10
     },
 
-    "temperature": {
-        "critical-threshold": 80,
-        "format": "{icon} {temperatureC}°C",
-        "format-icons": ["󱃃", "󰔏", "󱃂"],
+    "disk": {
+        "format": "󰋊 {percentage_used}%",
+        "tooltip": true,
+        "interval": 60
+    },
+
+    "custom/temperature": {
+        "format": "󰔏 {}°C",
+        "exec": "/home/hadi/.config/waybar/scripts/temperature.sh",
         "interval": 10,
         "on-click": "kitty -e s-tui"
     },
@@ -137,20 +154,35 @@
 
     "backlight": {
         "format": "{icon} {percent}%",
-        "format-icons": ["󰃞 ", "󰃟 ", "󰃠 "],
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set +5%",
         "on-scroll-down": "brightnessctl set 5%-"
     },
 
     "tray": {
-        "icon-size": 20,
-        "spacing": 5
+        "icon-size": 18,
+        "spacing": 6
     },
 
-    "custom/wlogout": {
-        "tooltip": "true",
-        "tooltip-format": "wlogout",
-        "format": " ",
+    "custom/updates": {
+        "format": "󰚰 {}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/updates.sh",
+        "interval": 3600,
+        "on-click": "kitty -e yay -Syu",
+        "signal": 8
+    },
+
+    "custom/power": {
+        "tooltip": true,
+        "tooltip-format": "Power Menu",
+        "format": "⏻",
         "on-click": "~/.config/waybar/scripts/wlogout.sh"
+    },
+
+    "custom/separator": {
+        "format": "",
+        "interval": "once",
+        "tooltip": false
     }
 }

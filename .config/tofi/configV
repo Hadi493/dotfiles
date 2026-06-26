@@ -1,6 +1,6 @@
 width = 100%
 height = 100%
-border-width = 0
+border-width = 2
 outline-width = 0
 padding-top = 33%
 padding-left = 10%
@@ -11,10 +11,12 @@ num-results = 5
 font = Iosevka Nerd Font
 font-size = 20
 
-text-color = #ffffff
+text-color = #d4be98
 
-prompt-text = " : "
+prompt-text = "  "
 
 background-color = #181818d8
-selection-color = #6DCFFF
+selection-color = #7daea3
+selection-background = #282828
+background-border = #323232
 

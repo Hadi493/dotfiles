@@ -16,7 +16,7 @@
       "type": "title",
       "key": "  \ue8c5  user",
       "format": "{6}{7}{8}",
-      "keyColor": "#FFD064"
+      "keyColor": "#E6B450"
     },
     {
       "type": "chassis",
@@ -60,20 +60,20 @@
     },
     {
       "type": "cpu",
-      "format": "{1} @ {7}",
       "key": "  \uf0bc  CPU",
+      "format": "{1} @ {7}",
       "keyColor": "#FF7B85"
     },
     {
       "type": "gpu",
-      "format": "{1} {2}",
       "key": "  \uf08a  GPU",
+      "format": "{1} {2}",
       "keyColor": "#FF7B85"
     },
     {
       "type": "gpu",
-      "format": "{3}",
       "key": "  \uf020  GPU Driver",
+      "format": "{3}",
       "keyColor": "#4AC8E6"
     },
     {
