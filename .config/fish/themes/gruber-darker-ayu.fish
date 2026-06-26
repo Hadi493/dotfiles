@@ -2,7 +2,7 @@
 
 set -g fish_color_normal        ffffff
 set -g fish_color_command       E6B450
-set -g fish_color_param         ffffff
+set -g fish_color_param         F5CD98
 set -g fish_color_error         FF7B85
 set -g fish_color_quote         C5E665
 set -g fish_color_redirection   FFA375
