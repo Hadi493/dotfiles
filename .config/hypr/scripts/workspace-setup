@@ -21,7 +21,7 @@
 LAYOUT=(
   "1|kitty|kitty|g"
   "1|emacs|emacs|"
-  "1|Discord|discord"
+  "2|Discord|discord"
 )
 
 # ============================================================
