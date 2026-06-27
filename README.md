@@ -24,6 +24,3 @@ To deploy the configurations, use the provided `deploy` script:
 # Link all configurations (default)
 ./deploy all
 ```
-
-## License:
-This project is licensed under the [MIT License](LICENSE).
