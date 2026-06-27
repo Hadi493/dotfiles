@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+case "${1:-clip}" in
+    clip)
+        cliphist list | tofi -c ~/.config/tofi/configV | cliphist decode | wl-copy
+        ;;
+    pass)
+        if ! command -v pass &>/dev/null; then
+            notify-send -u critical "pass" "not installed — run: pacman -S pass"
+            exit 1
+        fi
+        entries=$(find "${PASSWORD_STORE_DIR:-$HOME/.password-store}" -name '*.gpg' -printf '%P\n' 2>/dev/null | sed 's/\.gpg$//' | sort)
+        if [ -z "$entries" ]; then
+            notify-send -u critical "pass" "password store empty — run: pass init <gpg-id>"
+            exit 0
+        fi
+        choice=$(echo "$entries" | tofi \
+            --font="IosevkaTerm Nerd Font" --font-size=18 \
+            --prompt-text="pass> " \
+            --text-color="#d4be98" \
+            --background-color="#181818d8" \
+            --selection-color="#7daea3" \
+            --selection-background="#282828" \
+            --border-color="#323232" \
+            --width=40% --height=40% \
+            --padding-top=20 --padding-left=20 --padding-right=20 \
+            --result-spacing=15 --num-results=8 \
+            --border-width=2)
+        [ -n "$choice" ] && pass -c "$choice" 2>/dev/null && notify-send "pass" "copied $choice"
+        ;;
+esac
