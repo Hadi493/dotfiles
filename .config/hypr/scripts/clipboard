@@ -15,7 +15,7 @@ case "${1:-clip}" in
         list=$(cliphist list)
         [ -z "$list" ] && [ -z "$pinned" ] && exit 0
 
-        combined=$(printf '%s\n' "${pinned:+$pinned}" "$list" | grep -v '^$')
+        combined=$(printf '%s\n' "${pinned:+$pinned}" "$list" | sed '/^$/d')
         selection=$(echo "$combined" | tofi -c ~/.config/tofi/configV)
         [ -z "$selection" ] && exit 0
 
