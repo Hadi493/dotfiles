@@ -5,23 +5,32 @@ mkdir -p "$PIN_DIR"
 
 case "${1:-clip}" in
     clip)
-        pinned=$(for f in "$PIN_DIR"/*; do
+        # pinned_map: N lines, each = hash
+        pinned_map=$(mktemp)
+        pinned_count=0
+        pinned_display=""
+        for f in "$PIN_DIR"/*; do
             [ -f "$f" ] || continue
             hash=$(basename "$f")
-            preview=$(head -c 80 "$f" | tr '\n' ' ')
-            printf "📌 %s | %s\n" "${preview:-(empty)}" "$hash"
-        done)
+            preview=$(head -c 80 "$f" | tr '\n' ' ' | sed 's/[[:cntrl:]]//g')
+            printf "%s\n" "$hash" >> "$pinned_map"
+            pinned_display="${pinned_display}📌 ${preview:-(empty)}"$'\n'
+            pinned_count=$((pinned_count + 1))
+        done
 
         list=$(cliphist list)
-        [ -z "$list" ] && [ -z "$pinned" ] && exit 0
+        [ "$pinned_count" -eq 0 ] && [ -z "$list" ] && rm -f "$pinned_map" && exit 0
 
-        combined=$(printf '%s\n' "${pinned:+$pinned}" "$list" | sed '/^$/d')
+        combined=$(printf '%s\n' "${pinned_display%$'\n'}" "$list" | sed '/^$/d')
         selection=$(echo "$combined" | tofi -c ~/.config/tofi/configV)
-        [ -z "$selection" ] && exit 0
+        [ -z "$selection" ] && rm -f "$pinned_map" && exit 0
 
         case "$selection" in
             📌*)
-                name=$(echo "$selection" | awk -F' \\| ' '{print $NF}')
+                lineno=$(echo "$combined" | grep -aFn -x "$selection" 2>/dev/null | head -1 | cut -d: -f1)
+                name=$(sed -n "${lineno}p" "$pinned_map" 2>/dev/null)
+                rm -f "$pinned_map"
+                [ -z "$name" ] && notify-send cliphist "error finding pinned entry" && exit 0
                 file="$PIN_DIR/$name"
                 action=$(printf " Copy\n🗑 Delete" | tofi \
                     --font="IosevkaTerm Nerd Font" --font-size=16 \
