@@ -2,7 +2,24 @@
 
 case "${1:-clip}" in
     clip)
-        cliphist list | tofi -c ~/.config/tofi/configV | cliphist decode | wl-copy
+        entry=$(cliphist list | tofi -c ~/.config/tofi/configV)
+        [ -z "$entry" ] && exit 0
+        id=$(echo "$entry" | awk '{print $1}')
+        action=$(printf " Copy\n🗑 Delete" | tofi \
+            --font="IosevkaTerm Nerd Font" --font-size=16 \
+            --prompt-text="action> " \
+            --text-color="#d4be98" \
+            --background-color="#181818d8" \
+            --selection-color="#7daea3" \
+            --selection-background="#282828" \
+            --width=25% --height=auto \
+            --padding-top=12 --padding-left=16 --padding-right=16 \
+            --result-spacing=10 --num-results=4 \
+            --border-width=2 --border-color="#323232")
+        case "$action" in
+            *Copy)   echo "$entry" | cliphist decode | wl-copy ;;
+            *Delete) cliphist delete "$id" && notify-send cliphist "deleted $id" ;;
+        esac
         ;;
     pass)
         if ! command -v pass &>/dev/null; then
