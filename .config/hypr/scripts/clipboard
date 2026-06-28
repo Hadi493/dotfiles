@@ -1,24 +1,70 @@
 #!/usr/bin/env bash
 
+PIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/cliphist-pinned"
+mkdir -p "$PIN_DIR"
+
 case "${1:-clip}" in
     clip)
-        entry=$(cliphist list | tofi -c ~/.config/tofi/configV)
-        [ -z "$entry" ] && exit 0
-        id=$(echo "$entry" | awk '{print $1}')
-        action=$(printf " Copy\n🗑 Delete" | tofi \
-            --font="IosevkaTerm Nerd Font" --font-size=16 \
-            --prompt-text="action> " \
-            --text-color="#d4be98" \
-            --background-color="#181818d8" \
-            --selection-color="#7daea3" \
-            --selection-background="#282828" \
-            --width=25% --height=auto \
-            --padding-top=12 --padding-left=16 --padding-right=16 \
-            --result-spacing=10 --num-results=4 \
-            --border-width=2 --border-color="#323232")
-        case "$action" in
-            *Copy)   echo "$entry" | cliphist decode | wl-copy ;;
-            *Delete) cliphist delete "$id" && notify-send cliphist "deleted $id" ;;
+        pinned=$(for f in "$PIN_DIR"/*; do
+            [ -f "$f" ] && printf "📌 %s\n" "$(basename "$f" | head -c 40)"
+        done)
+
+        list=$(cliphist list)
+        [ -z "$list" ] && [ -z "$pinned" ] && exit 0
+
+        combined=$(printf '%s\n' "${pinned:+$pinned}" "$list" | grep -v '^$')
+        selection=$(echo "$combined" | tofi -c ~/.config/tofi/configV)
+        [ -z "$selection" ] && exit 0
+
+        case "$selection" in
+            📌*)
+                name=$(echo "$selection" | sed 's/^📌 *//')
+                file="$PIN_DIR/$name"
+                action=$(printf " Copy\n🗑 Delete" | tofi \
+                    --font="IosevkaTerm Nerd Font" --font-size=16 \
+                    --prompt-text="action> " \
+                    --text-color="#d4be98" \
+                    --background-color="#181818d8" \
+                    --selection-color="#7daea3" \
+                    --selection-background="#282828" \
+                    --width=25% --height=auto \
+                    --padding-top=12 --padding-left=16 --padding-right=16 \
+                    --result-spacing=10 --num-results=4 \
+                    --border-width=2 --border-color="#323232")
+                case "$action" in
+                    *Copy)   printf '%s' "$(cat "$file")" | wl-copy ;;
+                    *Delete) rm -f "$file" && notify-send cliphist "pinned deleted" ;;
+                esac
+                ;;
+            *)
+                id=$(echo "$selection" | awk '{print $1}')
+                action=$(printf " Copy\n📌 Pin\n🗑 Delete" | tofi \
+                    --font="IosevkaTerm Nerd Font" --font-size=16 \
+                    --prompt-text="action> " \
+                    --text-color="#d4be98" \
+                    --background-color="#181818d8" \
+                    --selection-color="#7daea3" \
+                    --selection-background="#282828" \
+                    --width=25% --height=auto \
+                    --padding-top=12 --padding-left=16 --padding-right=16 \
+                    --result-spacing=10 --num-results=4 \
+                    --border-width=2 --border-color="#323232")
+                case "$action" in
+                    *Copy)
+                        echo "$selection" | cliphist decode | wl-copy
+                        ;;
+                    *Pin)
+                        content=$(echo "$selection" | cliphist decode)
+                        [ -z "$content" ] && exit 0
+                        name=$(printf '%s' "$content" | sha1sum | cut -c1-40)
+                        printf '%s' "$content" > "$PIN_DIR/$name"
+                        notify-send cliphist "pinned"
+                        ;;
+                    *Delete)
+                        cliphist delete "$id" && notify-send cliphist "deleted $id"
+                        ;;
+                esac
+                ;;
         esac
         ;;
     pass)
