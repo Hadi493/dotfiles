@@ -6,7 +6,10 @@ mkdir -p "$PIN_DIR"
 case "${1:-clip}" in
     clip)
         pinned=$(for f in "$PIN_DIR"/*; do
-            [ -f "$f" ] && printf "📌 %s\n" "$(basename "$f" | head -c 40)"
+            [ -f "$f" ] || continue
+            hash=$(basename "$f")
+            preview=$(head -c 80 "$f" | tr '\n' ' ')
+            printf "📌 %s %s\n" "$hash" "${preview:-(empty)}"
         done)
 
         list=$(cliphist list)
@@ -18,7 +21,7 @@ case "${1:-clip}" in
 
         case "$selection" in
             📌*)
-                name=$(echo "$selection" | sed 's/^📌 *//')
+                name=$(echo "$selection" | awk '{print $2}')
                 file="$PIN_DIR/$name"
                 action=$(printf " Copy\n🗑 Delete" | tofi \
                     --font="IosevkaTerm Nerd Font" --font-size=16 \
@@ -27,7 +30,7 @@ case "${1:-clip}" in
                     --background-color="#181818d8" \
                     --selection-color="#7daea3" \
                     --selection-background="#282828" \
-                    --width=25% --height=auto \
+                    --width=25% --height=15% \
                     --padding-top=12 --padding-left=16 --padding-right=16 \
                     --result-spacing=10 --num-results=4 \
                     --border-width=2 --border-color="#323232")
@@ -45,7 +48,7 @@ case "${1:-clip}" in
                     --background-color="#181818d8" \
                     --selection-color="#7daea3" \
                     --selection-background="#282828" \
-                    --width=25% --height=auto \
+                    --width=25% --height=15% \
                     --padding-top=12 --padding-left=16 --padding-right=16 \
                     --result-spacing=10 --num-results=4 \
                     --border-width=2 --border-color="#323232")
