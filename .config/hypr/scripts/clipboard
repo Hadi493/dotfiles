@@ -9,7 +9,7 @@ case "${1:-clip}" in
             [ -f "$f" ] || continue
             hash=$(basename "$f")
             preview=$(head -c 80 "$f" | tr '\n' ' ')
-            printf "📌 %s %s\n" "$hash" "${preview:-(empty)}"
+            printf "📌 %s | %s\n" "${preview:-(empty)}" "$hash"
         done)
 
         list=$(cliphist list)
@@ -21,7 +21,7 @@ case "${1:-clip}" in
 
         case "$selection" in
             📌*)
-                name=$(echo "$selection" | awk '{print $2}')
+                name=$(echo "$selection" | awk -F' \\| ' '{print $NF}')
                 file="$PIN_DIR/$name"
                 action=$(printf " Copy\n🗑 Delete" | tofi \
                     --font="IosevkaTerm Nerd Font" --font-size=16 \
