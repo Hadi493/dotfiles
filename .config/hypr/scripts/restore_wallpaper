@@ -10,7 +10,7 @@ pkill -x swaybg
 if [ -f "$LAST_WALLPAPER_CACHE" ]; then
     WALLPAPER_PATH=$(cat "$LAST_WALLPAPER_CACHE")
     if [ -n "$WALLPAPER_PATH" ]; then
-        swaybg -i "$WALLPAPER_PATH" -m fill &
+        ~/.config/hypr/scripts/set_wallpaper "$WALLPAPER_PATH"
         
         # Refresh notifications (colors are hand-coded)
         killall swaync

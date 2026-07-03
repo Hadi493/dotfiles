@@ -21,14 +21,16 @@
 LAYOUT=(
   "1|kitty|kitty|g"
   "1|emacs|emacs|"
-  "2|Discord|discord"
+  "2|Discord|discord|"
+  "3|Youtube|brave-origin --profile-directory=Default --app=https://youtube.com|"
+  "4|facebook|brave-origin --profile-directory=Default --app=https://facebook.com|"
 )
 
 # ============================================================
 # Don't edit below this line
 # ============================================================
 
-sleep 2
+sleep 3
 
 window_count_on_ws() {
   hyprctl clients | grep -c "workspace: $1 "
