@@ -19,13 +19,7 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
             filename=$(basename "$selected_wallpaper_path")
             foldername=$(basename "$(dirname "$selected_wallpaper_path")")
 
-            if [[ "$selected_wallpaper_path" == *.gif ]]; then
-                pkill -x mpvpaper
-                mpvpaper -o "no-audio --loop-file=inf" "*" "$selected_wallpaper_path" &
-            else
-                pkill -x swaybg
-                swaybg -i "$selected_wallpaper_path" -m fill &
-            fi
+            ~/.config/hypr/scripts/set_wallpaper "$selected_wallpaper_path"
 
             echo "$selected_wallpaper_path" > "$HOME/.cache/last_wallpaper.path"
 
