@@ -30,13 +30,13 @@
 
 ;; Please, install rainbow-mode.
 (let ((gruber-darker-ayu-fg         "#ffffff")
-      (gruber-darker-ayu-bg         "#191918")
+      (gruber-darker-ayu-bg         "#1F2430")
       (gruber-darker-ayu-bg-1       "#0d0d0d")
       (gruber-darker-ayu-bg+1       "#1c1c2a")
       (gruber-darker-ayu-bg+2       "#2a2a3e")
       (gruber-darker-ayu-bg+3       "#363652")
       (gruber-darker-ayu-gray       "#6B7B8E")
-      (gruber-darker-ayu-gold       "#E6B450")
+      (gruber-darker-ayu-gold       "#FFCC77")
       (gruber-darker-ayu-orange     "#FF9944")
       (gruber-darker-ayu-func       "#FFD064")
       (gruber-darker-ayu-green      "#C5E665")
