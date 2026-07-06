@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Get the default source
-source=$(pactl info | grep "Default Source" | awk '{print $3}')
+# Get the default sink
+sink=$(pactl info | grep "Default Sink" | awk '{print $3}')
 
 # Volume percentage
-volume=$(pactl get-source-volume "$source" | grep -oP '\d+%' | head -n1)
+volume=$(pactl get-sink-volume "$sink" | grep -oP '\d+%' | head -n1)
 
 # Mute status
-mute=$(pactl get-source-mute "$source" | awk '{print $2}')
+mute=$(pactl get-sink-mute "$sink" | awk '{print $2}')
 
 if [[ "$mute" == "yes" ]]; then
-    echo "🔇 muted"
+    echo "muted"
 else
-    echo "🎙️ $volume"
+    echo "$volume"
 fi

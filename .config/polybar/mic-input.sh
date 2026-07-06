@@ -10,7 +10,7 @@ volume=$(pactl get-source-volume "$source" | grep -oP '\d+%' | head -n1)
 mute=$(pactl get-source-mute "$source" | awk '{print $2}')
 
 if [[ "$mute" == "yes" ]]; then
-    echo "🔇 muted"
+    echo "muted"
 else
-    echo "🎙️ $volume"
+    echo "$volume"
 fi
