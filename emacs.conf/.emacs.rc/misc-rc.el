@@ -43,8 +43,6 @@
     (kill-new org-mode-file-link)
     (message org-mode-file-link)))
 
-;;; Taken from here:
-;;; http://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (defun rc/put-file-name-on-clipboard ()
   "Put the current file name on the clipboard"
   (interactive)
@@ -67,29 +65,21 @@
         (kill-buffer buffer)
         (message "Killed autoloads buffer %s" name)))))
 
-;;; Taken from here:
-;;; http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html
 (defun bf-pretty-print-xml-region (begin end)
-  "Pretty format XML markup in region. You need to have nxml-mode
-http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
-this.  The function inserts linebreaks to separate tags that have
-nothing but whitespace between them.  It then indents the markup
-by using nxml's indentation rules."
+  "Pretty format XML markup in region."
   (interactive "r")
   (save-excursion
     (nxml-mode)
     (goto-char begin)
-    (while (search-forward-regexp "\>[ \\t]*\<" nil t) 
+    (while (search-forward-regexp "\>[ \\t]*\<" nil t)
       (backward-char) (insert "\n"))
     (indent-region begin end))
   (message "Ah, much better!"))
 
-;;; Stolen from http://ergoemacs.org/emacs/emacs_unfill-paragraph.html
 (defun rc/unfill-paragraph ()
-  "Replace newline chars in current paragraph by single spaces.
-This command does the inverse of `fill-paragraph'."
+  "Replace newline chars in current paragraph by single spaces."
   (interactive)
-  (let ((fill-column 90002000)) ; 90002000 is just random. you can use `most-positive-fixnum'
+  (let ((fill-column 90002000))
     (fill-paragraph nil)))
 
 (global-set-key (kbd "C-c M-q") 'rc/unfill-paragraph)
@@ -138,7 +128,6 @@ This command does the inverse of `fill-paragraph'."
 
 (global-set-key (kbd "C-x p s") 'rc/rgrep-selected)
 
-;;; A little hack which fixes a problem with meta key in fluxbox under VNC.
 (setq x-alt-keysym 'meta)
 
 (setq confirm-kill-emacs 'y-or-n-p)

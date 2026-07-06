@@ -1,6 +1,3 @@
-;;; TODO(c3bdae31-4329-4217-98a0-743b9dcbb6d2): extract autocommit into a separate package
-;;; Once e266bfaa-2a01-4881-9e7f-ce2c592f7cdd is done, I think we can do that.
-
 (defvar rc/autocommit-local-locks
   (make-hash-table :test 'equal))
 
@@ -45,18 +42,6 @@
             (y-or-n-p question))
     (funcall action)))
 
-;;; TODO(4229cf9a-4768-4f5e-aca1-865256c64a23): rc/autocommit-init-dir should modify dir locals file on AST level
-;;;
-;;; Right know it just overrides .dir-locals file on text level. I
-;;; want it to
-;;; - read .dir-locals,
-;;; - parse the assoc list,
-;;; - check if there is already autocommit stuff
-;;; - add autocommit stuff to the assoc list if needed
-;;; - and write it back to the file
-;;;
-;;; That will enable us with modifying dir locals that contains custom
-;;; stuff unrelated to autocommit
 (defun rc/autocommit-init-dir (&optional dir)
   "Initialize autocommit folder."
   (interactive "DAutocommit directory: ")
@@ -77,15 +62,8 @@ of the autocommit folder as evaluated for any mode."
             'rc/autocommit-changes
             nil 'make-it-local))
 
-;;; TODO: rc/toggle-autocommit-offline doesn't work correctly
-;;;
-;;; It should toggle offline for all of the folders at once
 (defun rc/toggle-autocommit-offline ()
-  "Toggle between OFFLINE and ONLINE modes.
-
-Autocommit can be in two modes: OFFLINE and ONLINE. When ONLINE
-rc/autocommit-changes does `git commit && git push'. When OFFLINE
-rc/autocommit does only `git commit'."
+  "Toggle between OFFLINE and ONLINE modes."
   (interactive)
   (rc/autocommit--toggle-lock 'autocommit-offline)
   (if (rc/autocommit--get-lock 'autocommit-offline)
@@ -93,10 +71,7 @@ rc/autocommit does only `git commit'."
     (message "[ONLINE] Autocommit Mode")))
 
 (defun rc/autopull-changes ()
-  "Pull the recent changes.
-
-Should be invoked once before working with the content under
-autocommit. Usually put into the dir locals file."
+  "Pull the recent changes."
   (interactive)
   (when (not (rc/autocommit--get-lock 'autopull-lock))
     (rc/autocommit--set-lock 'autopull-lock t)
@@ -112,10 +87,7 @@ autocommit. Usually put into the dir locals file."
                            (rc/autocommit--id))))))))
 
 (defun rc/autocommit-changes ()
-  "Commit all of the changes under the autocommit folder.
-
-Should be invoked each time a change is made. Usually put into
-dir locals file."
+  "Commit all of the changes under the autocommit folder."
   (interactive)
   (if (rc/autocommit--get-lock 'autocommit-lock)
       (rc/autocommit--set-lock 'autocommit-changed t)

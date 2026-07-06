@@ -7,10 +7,8 @@
 
 (defun rc/org-increment-move-counter ()
   (interactive)
-
   (defun default (x d)
     (if x x d))
-
   (let* ((point (point))
          (move-counter-name "MOVE_COUNTER")
          (move-counter-value (-> (org-entry-get point move-counter-name)
@@ -36,13 +34,10 @@
       '(("u" "Unscheduled" tags "+personal-SCHEDULED={.+}-DEADLINE={.+}/!+TODO"
          ((org-agenda-sorting-strategy '(priority-down))))
         ("p" "Personal" ((agenda "" ((org-agenda-tag-filter-preset (list "+personal"))))))
-        ("w" "Work" ((agenda "" ((org-agenda-tag-filter-preset (list "+work"))))))
-        ))
+        ("w" "Work" ((agenda "" ((org-agenda-tag-filter-preset (list "+work"))))))))
 
 ;;; org-cliplink
-
 (rc/require 'org-cliplink)
-
 (global-set-key (kbd "C-x p i") 'org-cliplink)
 
 (defun rc/cliplink-task ()
@@ -54,11 +49,10 @@
                   (concat "* TODO " title
                           "\n  [[" url "][" title "]]")
                 (concat "* TODO " url
-                        "\n  [[" url "]]"))))))
+                        "\n  [[" url "][" url "]]"))))))
 (global-set-key (kbd "C-x p t") 'rc/cliplink-task)
 
 ;;; org-capture
-
 (setq org-capture-templates
       '(("p" "Capture task" entry (file "~/Documents/Agenda/Tasks.org")
          "* TODO %?\n  SCHEDULED: %t\n")
