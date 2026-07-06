@@ -13,10 +13,12 @@ fi
 
 CACHE="/tmp/wallpaper_$(basename "$WALLPAPER" | sed 's/\.[^.]*$//').png"
 if [ ! -f "$CACHE" ]; then
-    TMPBG=$(mktemp /tmp/wallpaper_bg_XXXXXX.png)
-    magick "$WALLPAPER" -resize "$RES!" -blur 0x20 "$TMPBG"
-    magick "$TMPBG" \( "$WALLPAPER" -resize "$RES" \) -gravity center -composite "$CACHE"
-    rm -f "$TMPBG"
+    magick "$WALLPAPER" \
+        \( -clone 0 -resize "$RES!" -blur 0x20 \) \
+        \( -clone 0 -resize "$RES" \) \
+        -delete 0 \
+        -gravity center \
+        -composite "$CACHE"
 fi
 
 pkill -x swaybg

@@ -69,7 +69,7 @@ link_fish() {
 
 link_nushell() {
     echo     "Linking Nushell configuration..."
-    link_one "$DOTFILES_DIR/.config/nushell" "$HOME/.config/nushell" 
+    link_one "$DOTFILES_DIR/.config/nushell" "$HOME/.config/nushell"
 }
 
 link_helix() {
@@ -221,9 +221,9 @@ Commands:
   swaync     Link SwayNC configuration
   tofi       Link Tofi configuration
   waybar     Link Waybar configuration
-  flameshot      Link Flameshot configuration
-  tmux           Link Tmux configuration
-  nob            Link Nob library
+  flameshot  Link Flameshot configuration
+  tmux       Link Tmux configuration
+  nob        Link Nob library
 
 EOF
 }
@@ -241,7 +241,7 @@ case "$cmd" in
     cava           ) link_cava      ;;
     mpv            ) link_mpv       ;;
     fish           ) link_fish      ;;
-    nushell        ) link_nushell   ;;    
+    nushell        ) link_nushell   ;;
     helix          ) link_helix     ;;
     hypr           ) link_hypr      ;;
     kitty          ) link_kitty     ;;

@@ -26,7 +26,7 @@
     (lambda ()
       (interactive)
       (let ((file (dired-get-filename nil t)))
-        (if (and file (string-match-p "\\.\\(mp3\\|mp4\\|webm\\|mkv\\|wav\\|flac\\|mov\\|avi\\)$" file))
+        (if (and file (string-match-p "\\.\\(mp3\\|mp4\\|webm\\|mkv\\|wav\\|flac\\|mov\\|avi\\|gif\\)$" file))
             (rc/open-with-mpv)
           (dired-find-file))))))
 
