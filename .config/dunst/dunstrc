@@ -51,19 +51,19 @@
     timeout = 10
 
 [urgency_low]
-    background = "#282A36DD"
-    foreground = "#8BE9FD"
+    background = "#181818DD"
+    foreground = "#6DCFFF"
     timeout = 5
 
 [urgency_normal]
-    background = "#282A36DD"
-    foreground = "#50FA7B"
+    background = "#181818DD"
+    foreground = "#C5E665"
     timeout = 10
 
 [urgency_critical]
-    background = "#282A36DD"
-    foreground = "#FF5555"
-    frame_color = "#FF5555"
+    background = "#181818DD"
+    foreground = "#FF7B85"
+    frame_color = "#FF7B85"
     timeout = 20
 
 [youtube_summary]

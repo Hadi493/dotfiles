@@ -2,6 +2,7 @@
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.local/")
+(add-to-list 'custom-theme-load-path "~/.emacs.rc/")
 
 (load "~/.emacs.rc/rc.el")
 
@@ -28,7 +29,7 @@
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
-(rc/require-theme 'gruber-darker)
+(load-theme 'gruber-darker-ayu t)
 ;; (rc/require 'doom-themes)
 ;; (load-theme 'doom-one t)
 ;; (rc/require-theme 'zenburn)
