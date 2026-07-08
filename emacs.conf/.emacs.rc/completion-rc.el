@@ -1,14 +1,12 @@
-;;; Completion configuration (Ido, Helm, Company, Smex)
+;;; Completion configuration (Vertico, Helm, Company)
 
-;;; Ido
-(rc/require 'smex 'ido-completing-read+)
-(require 'ido-completing-read+)
+;; Ido is disabled — vertico replaces it
+(ido-mode -1)
+(ido-everywhere -1)
+(when (fboundp 'ido-ubiquitous-mode)
+  (ido-ubiquitous-mode -1))
 
-(ido-mode 1)
-(ido-everywhere 1)
-(ido-ubiquitous-mode 1)
-
-(global-set-key (kbd "M-x")     'smex)
+(global-set-key (kbd "M-x") 'execute-extended-command)
 
 ;;; Helm
 (rc/require 'helm)
@@ -28,6 +26,21 @@
 
 ;; Add standard header paths for C/C++ completion
 (setq company-c-headers-path-system '("/usr/include" "/usr/local/include"))
+
+;; Marginalia — minibuffer annotations
+(rc/require 'marginalia)
+(when (require 'marginalia nil 'noerror)
+  (marginalia-mode 1))
+
+;; Consult — enhanced completion commands
+(rc/require 'consult)
+
+;; Orderless — flexible completion style
+(rc/require 'orderless)
+(when (require 'orderless nil 'noerror)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; Better backend grouping: grouped backends are tried until one returns results
 (setq company-backends '((company-capf company-c-headers company-files company-keywords)
