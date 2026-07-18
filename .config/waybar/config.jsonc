@@ -106,8 +106,8 @@
 
     "custom/uptime": {
         "format": "󰅐 {}",
-        "exec": "awk '{printf \"%dd\", int($1/86400)}' /proc/uptime",
-        "interval": 60,
+        "exec": "awk '{d=int($1/86400);h=int(($1%86400)/3600);m=int(($1%3600)/60);if(d>0)printf \"%dd %dh\",d,h;else if(h>0)printf \"%dh %dm\",h,m;else printf \"%dm\",m}' /proc/uptime",
+        "interval": 30,
         "tooltip": true
     },
 
