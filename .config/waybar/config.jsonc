@@ -2,8 +2,8 @@
     "layer": "top",
     "position": "top",
     "height": 0,
-    "spacing": 6,
-    "margin": "6 10 0 10",
+    "spacing": 0,
+    "margin": "5 10 0 10",
     "modules-left": [
         "custom/separator",
         "hyprland/workspaces",
@@ -20,6 +20,7 @@
         "cpu",
         "memory",
         "disk",
+        "custom/uptime",
         "custom/temperature",
         "custom/separator",
         "battery",
@@ -101,6 +102,13 @@
         "format": "󰋊 {percentage_used}%",
         "tooltip": true,
         "interval": 60
+    },
+
+    "custom/uptime": {
+        "format": "󰅐 {}",
+        "exec": "awk '{printf \"%dd\", int($1/86400)}' /proc/uptime",
+        "interval": 60,
+        "tooltip": true
     },
 
     "custom/temperature": {

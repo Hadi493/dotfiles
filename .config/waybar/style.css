@@ -133,6 +133,14 @@ window#waybar {
     border-radius: 6px;
 }
 
+#custom-uptime {
+    color: #4AC8E6;
+    padding: 0 10px;
+    margin: 0 2px;
+    background: transparent;
+    border-radius: 6px;
+}
+
 #custom-temperature {
     color: #FFA375;
     padding: 0 10px;
