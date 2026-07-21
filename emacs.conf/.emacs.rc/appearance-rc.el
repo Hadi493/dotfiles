@@ -21,6 +21,7 @@
              (file-name-as-directory
               (expand-file-name "~/.emacs.rc")))
 
+;; (rc/require-theme 'gruber-darker)
 (load-theme 'gruber-darker-ayu t)
 
 (use-package ligature
@@ -48,5 +49,17 @@
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
+
+(use-package vertico
+  :ensure t
+  :custom
+  (vertico-cycle t)
+  :init
+  (vertico-mode 1)
+  :config
+  (require 'vertico-directory)
+  (define-key vertico-map (kbd "RET") #'vertico-directory-enter)
+  (define-key vertico-map (kbd "DEL") #'vertico-directory-delete-char)
+  (define-key vertico-map (kbd "M-DEL") #'vertico-directory-delete-word))
 
 (provide 'appearance-rc)
