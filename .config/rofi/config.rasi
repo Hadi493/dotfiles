@@ -24,7 +24,6 @@ configuration {
     click-to-exit: true;
 }
 
-/* Gruber-Darker-Ayu Colors */
 * {
     base:      #181818;
     mantle:    #0d0d0d;
@@ -66,28 +65,27 @@ window {
     background-color: @base;
     border: 2px solid;
     border-color: @gold;
+    padding: 4px;
 }
 
 mainbox {
     enabled: true;
-    spacing: 10px;
+    spacing: 12px;
     margin: 0px;
-    padding: 15px;
+    padding: 20px;
     border: 0px solid;
-    border-radius: 0px 0px 0px 0px;
-    border-color: @surface1;
+    border-radius: 12px;
     background-color: transparent;
     children: [ "inputbar", "listview" ];
 }
 
 inputbar {
     enabled: true;
-    spacing: 10px;
+    spacing: 12px;
     margin: 0px;
-    padding: 12px;
+    padding: 14px 16px;
     border: 0px solid;
-    border-radius: 8px;
-    border-color: @surface1;
+    border-radius: 12px;
     background-color: @surface0;
     text-color: @text;
     children: [ "prompt", "entry" ];
@@ -96,18 +94,10 @@ inputbar {
 prompt {
     enabled: true;
     background-color: @gold;
-    text-color: @crust;
-    padding: 8px 12px;
-    border-radius: 6px;
+    text-color: @base;
+    padding: 8px 14px;
+    border-radius: 8px;
     font: "Iosevka Nerd Font Mono Bold 14";
-}
-
-textbox-prompt-colon {
-    enabled: true;
-    expand: false;
-    str: ":";
-    background-color: inherit;
-    text-color: inherit;
 }
 
 entry {
@@ -115,7 +105,7 @@ entry {
     background-color: transparent;
     text-color: @text;
     cursor: text;
-    placeholder: "Search applications...";
+    placeholder: "Search...";
     placeholder-color: @subtext0;
     padding: 8px 4px;
 }
@@ -131,13 +121,11 @@ listview {
     reverse: false;
     fixed-height: true;
     fixed-columns: true;
-    
-    spacing: 2px;
+    spacing: 4px;
     margin: 0px;
     padding: 0px;
     border: 0px solid;
     border-radius: 0px;
-    border-color: @surface1;
     background-color: transparent;
     text-color: @text;
     cursor: "default";
@@ -152,12 +140,11 @@ scrollbar {
 
 element {
     enabled: true;
-    spacing: 10px;
+    spacing: 12px;
     margin: 0px;
-    padding: 10px;
+    padding: 12px 14px;
     border: 0px solid;
-    border-radius: 8px;
-    border-color: @surface1;
+    border-radius: 10px;
     background-color: transparent;
     text-color: @text;
     cursor: pointer;
@@ -170,12 +157,12 @@ element normal.normal {
 
 element normal.urgent {
     background-color: @red;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element normal.active {
     background-color: @green;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element selected.normal {
@@ -185,27 +172,27 @@ element selected.normal {
 
 element selected.urgent {
     background-color: @red;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element selected.active {
     background-color: @green;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element alternate.normal {
-    background-color: transparent;
+    background-color: @surface0;
     text-color: @text;
 }
 
 element alternate.urgent {
     background-color: @red;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element alternate.active {
     background-color: @green;
-    text-color: @crust;
+    text-color: @base;
 }
 
 element-icon {
@@ -224,7 +211,6 @@ element-text {
     horizontal-align: 0.0;
 }
 
-/* Optional: Custom colors for different modes */
 mode-switcher{
     enabled: true;
     spacing: 10px;
@@ -232,16 +218,14 @@ mode-switcher{
     padding: 0px;
     border: 0px solid;
     border-radius: 0px;
-    border-color: @surface1;
     background-color: transparent;
     text-color: @text;
 }
 
 button {
-    padding: 8px;
+    padding: 8px 16px;
     border: 0px solid;
-    border-radius: 6px;
-    border-color: @surface1;
+    border-radius: 8px;
     background-color: @surface0;
     text-color: @text;
     cursor: pointer;
@@ -249,5 +233,5 @@ button {
 
 button selected {
     background-color: @gold;
-    text-color: @crust;
+    text-color: @base;
 }
