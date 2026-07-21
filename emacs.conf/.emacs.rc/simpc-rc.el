@@ -1,5 +1,6 @@
 ;;; simpc-mode configuration
 
+;; Requires external: 'astyle' for formatting
 (add-to-list 'load-path (expand-file-name "~/.emacs.rc/simpc/"))
 (require 'simpc-mode nil t)
 
@@ -22,6 +23,8 @@
 (add-hook 'simpc-mode-hook
           (lambda ()
             (interactive)
+            ;; Using astyle for fill-paragraph is aggressive, 
+            ;; but keeping it as per user's original config.
             (setq-local fill-paragraph-function 'astyle-buffer)))
 
 (provide 'simpc-rc)

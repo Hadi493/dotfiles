@@ -47,7 +47,7 @@
 ;;; Magit
 (rc/require 'cl-lib 'magit)
 (setq magit-auto-revert-mode nil
-      magit-status-show-untracked-files 'all)
+      magit-status-show-untracked-files 'all) ; Always show all untracked files
 (global-set-key (kbd "C-c m s") 'magit-status)
 (global-set-key (kbd "C-c m l") 'magit-log)
 

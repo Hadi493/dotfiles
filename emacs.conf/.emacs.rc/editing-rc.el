@@ -55,7 +55,7 @@
   "Replace newline chars in current paragraph by single spaces.
 This command does the inverse of `fill-paragraph'."
   (interactive)
-  (let ((fill-column 90002000))
+  (let ((fill-column 90002000)) ; 90002000 is just random
     (fill-paragraph nil)))
 
 (global-set-key (kbd "C-c M-q") 'rc/unfill-paragraph)
@@ -65,7 +65,8 @@ This command does the inverse of `fill-paragraph'."
 (if (fboundp 'auto-save-visited-mode)
     (auto-save-visited-mode 1)
   (setq auto-save-default t))
-
+;;
+;; Notification in the echo area
 (defun rc/show-save-status ()
   "Show a message only for auto-saves, not manual saves."
   (when (not (memq this-command '(save-buffer save-some-buffers)))
@@ -73,13 +74,16 @@ This command does the inverse of `fill-paragraph'."
 
 (add-hook 'after-save-hook 'rc/show-save-status)
 
+
 ;; Prose and Grammar
+;; Needs 'aspell' and 'LanguageTool' installed on the system
 (rc/require 'writegood-mode 'langtool)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'writegood-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'writegood-mode)
 
+;; Try to find LanguageTool jar automatically
 (let ((lt-path "/usr/share/languagetool/languagetool-commandline.jar"))
   (when (file-exists-p lt-path)
     (setq langtool-language-tool-jar lt-path)))
