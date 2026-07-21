@@ -17,11 +17,11 @@
         ido-completing-read+ jinja2-mode kotlin-mode langtool ligature
         lua-mode magit marginalia markdown-mode move-text
         multiple-cursors nginx-mode nim-mode nix-mode orderless
-        org-cliplink org-roam package-lint pdf-tools php-mode
-        powershell proof-general purescript-mode qml-mode racket-mode
-        rainbow-delimiters rfc-mode rust-mode scala-mode smex sml-mode
-        tide toml-mode tuareg typescript-mode uxntal-mode vertico
-        writegood-mode yaml-mode)))
+        org-cliplink org-present org-roam package-lint pdf-tools
+        php-mode powershell proof-general purescript-mode qml-mode
+        racket-mode rainbow-delimiters rfc-mode rust-mode scala-mode
+        smex sml-mode tide toml-mode tuareg typescript-mode
+        uxntal-mode vertico writegood-mode yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
