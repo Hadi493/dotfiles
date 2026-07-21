@@ -153,7 +153,7 @@ end
 
 # Theme Environment Variables
 set -x QT_QPA_PLATFORMTHEME qt5ct
-set -x QT_STYLE_OVERRIDE Adwaita-Dark
+set -x QT_STYLE_OVERRIDE Fusion
 set -x GTK_THEME Adwaita:dark
 
 # Add ~/.local/bin to PATH
