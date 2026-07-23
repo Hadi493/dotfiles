@@ -11,14 +11,10 @@ if [[ "$WALLPAPER" == *.gif ]]; then
     exit 0
 fi
 
-CACHE="/tmp/wallpaper_$(basename "$WALLPAPER" | sed 's/\.[^.]*$//').png"
+CACHE="/tmp/wallpaper_$(basename "$WALLPAPER" | sed 's/\.[^.]*$//').bmp"
 if [ ! -f "$CACHE" ]; then
-    magick "$WALLPAPER" \
-        \( -clone 0 -resize "$RES!" -blur 0x20 \) \
-        \( -clone 0 -resize "$RES" \) \
-        -delete 0 \
-        -gravity center \
-        -composite "$CACHE"
+    magick "$WALLPAPER" -resize "$RES!" -blur 0x10 BMP:- | \
+        magick - \( "$WALLPAPER" -resize "$RES" \) -gravity center -composite "$CACHE"
 fi
 
 pkill -x swaybg

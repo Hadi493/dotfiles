@@ -6,11 +6,11 @@ if pgrep -x waybar > /dev/null; then
     killall waybar
     hyprctl keyword general:gaps_in 0
     hyprctl keyword general:gaps_out 0
-    # notify-send -t 1500 "Waybar" "Killed — gaps restored"
+    notify-send -t 1000 "Waybar" "Killed — gaps restored"
 else
     waybar &
     sleep 0.2
     hyprctl keyword general:gaps_in "$GAPS_IN"
     hyprctl keyword general:gaps_out "$GAPS_OUT"
-    # notify-send -t 1500 "Waybar" "Started — gaps cleared"
+    notify-send -t 1000 "Waybar" "Started — gaps cleared"
 fi
