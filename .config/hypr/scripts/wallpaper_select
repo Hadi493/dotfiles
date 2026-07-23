@@ -26,6 +26,6 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
             killall -SIGUSR2 waybar
             swaync-client --reload 2>/dev/null || true
 
-            notify-send "Wallpaper changed" "[$foldername] $filename"
+            notify-send -t 1000 "Wallpaper changed" "[$foldername] $filename"
         fi
     done
