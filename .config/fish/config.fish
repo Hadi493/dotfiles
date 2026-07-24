@@ -34,7 +34,7 @@ set -g fish_autosuggestion_enabled 1
 set -Ux CHROME_EXECUTABLE /bin/chromium
 export CHROME_EXECUTABLE
 
-set -Ux ANDROID_HOME ~/Android/Sdk                                                                                        ⏱ {2.354}s 00:13:
+set -Ux ANDROID_HOME ~/Android/Sdk
 set -Ux ANDROID_SDK_ROOT ~/Android/Sdk
 set -Ux PATH $PATH $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
 set -Ux VIRTUAL_ENV_DISABLE_PROMPT 1
