@@ -1,6 +1,15 @@
 #!/bin/bash
 
+count=0
 while true; do
-    sleep 2760  # 45 minutes in seconds
-    notify-send "BREAK" "Time to refresh! Step away for 5 mins"
+    sleep 1200  # 20 minutes in seconds
+    count=$((count + 1))
+
+    if [ $((count % 3)) -eq 0 ]; then
+        # Every 3rd break (60 minutes total) - full movement break
+        notify-send "FULL BREAK" "Stand up, stretch, walk around for 5 minutes"
+    else
+        # Every 20 minutes - eye break
+        notify-send "EYE BREAK #$count" "Look 20+ feet away for 20 seconds"
+    fi
 done
