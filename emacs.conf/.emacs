@@ -32,7 +32,7 @@
 (global-set-key (kbd "C-c c")   'compile)
 (global-set-key (kbd "C-x c")   'compile)
 (global-set-key (kbd "C-x k")   'kill-compilation)
-(global-set-key (kbd "C-k")     'kill-buffer)
+(global-set-key (kbd "C-S-k")   'kill-buffer)
 (global-set-key (kbd "C-c C-w") 'count-words)
 
 (load-file custom-file)
