@@ -9,7 +9,7 @@ This repository contains my personal configuration files (dotfiles) optimized fo
 - **Notification Daemon:** [SwayNC](https://github.com/ErikReider/SwayNotificationCenter)
 - **Launchers:** [Rofi](https://github.com/davatorium/rofi) (Wayland) & [Tofi](https://github.com/philj56/tofi)
 - **Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/)
-- **Editors:** [Neovim](https://neovim.io/), [Helix](https://helix-editor.com/), [Emacs](https://www.gnu.org/software/emacs/)
+- **Editors:** [Neovim](https://neovim.io/), [Helix](https://helix-editor.com/), [Emacs](emacs.conf/README.md)
 - **Shells:** [Fish](https://fishshell.com/), [Nushell](https://www.nushell.sh/), Bash
 
 ## Usage:
