@@ -20,6 +20,9 @@
 (load "~/.emacs.rc/org-mode-rc.el")
 (load "~/.emacs.rc/autocommit-rc.el")
 
+;; Input methods (Banglish, Arabish)
+(load "~/.emacs.rc/input-methods-rc.el")
+
 ;;; Custom Hooks/Keys not in RC files yet
 (add-hook 'emacs-lisp-mode-hook
           '(lambda ()
