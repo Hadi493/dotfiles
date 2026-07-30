@@ -11,7 +11,7 @@
 (set-fontset-font t '(#xf0000 . #xfffff) "Symbols Nerd Font")
 
 ;; Bangla/Bengali font
-(set-fontset-font t 'bengali "Likhan")
+(set-fontset-font t 'bengali (font-spec :family "Likhan" :size 22))
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
