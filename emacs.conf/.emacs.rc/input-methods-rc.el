@@ -1,7 +1,10 @@
 ;;; Input Methods Configuration
-;; Multilingual input support with Bengali (Banglish/ITRANS) and Arabic
+;; Multilingual input support with Bengali (Banglish/ITRANS) and Arabic (Arabish)
 
 (require 'quail)
+
+;; Load custom Arabish (phonetic Arabic)
+(load "~/.emacs.rc/arabish.el")
 
 ;; Register Bengali input methods
 (register-input-method
@@ -25,6 +28,11 @@
  "ArAB" "Arabic keyboard"
  "quail/arabic")
 
+(register-input-method
+ "arabish" "Arabic" 'quail-use-package
+ "ArPH" "Arabic Phonetic (Arabish: ana -> أنا, kitab -> كتاب)"
+ "arabish")
+
 ;; Keybindings for input method switching
 (global-set-key (kbd "C-\\") 'toggle-input-method)
 (global-set-key (kbd "C-x \\") 'set-input-method)
@@ -36,6 +44,7 @@
 
 ;; Arabic keybindings
 (global-set-key (kbd "C-c a a") (lambda () (interactive) (set-input-method "arabic")))
+(global-set-key (kbd "C-c a p") (lambda () (interactive) (set-input-method "arabish")))
 
 ;; Toggle between last two input methods
 (global-set-key (kbd "C-c C-\\") 'toggle-input-method)
@@ -45,7 +54,8 @@
   "Show available input methods for major languages."
   (interactive)
   (let ((methods '("bengali-itrans" "bengali-probhat" "bengali-inscript"
-                   "arabic" "devanagari-itrans" "tamil-itrans" "gurmukhi-itrans"
+                   "arabic" "arabish"
+                   "devanagari-itrans" "tamil-itrans" "gurmukhi-itrans"
                    "japanese-hiragana" "japanese-katakana" "korean-hangul"
                    "chinese-py" "chinese-pinyin" "chinese-4corner")))
     (with-output-to-temp-buffer "*Input Methods*"
