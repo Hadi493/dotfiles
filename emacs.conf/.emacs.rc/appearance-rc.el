@@ -10,6 +10,9 @@
 (set-fontset-font t '(#xe000 . #xfaff) "Symbols Nerd Font")
 (set-fontset-font t '(#xf0000 . #xfffff) "Symbols Nerd Font")
 
+;; Bangla/Bengali font
+(set-fontset-font t 'bengali "Likhan")
+
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
