@@ -3,8 +3,9 @@
 
 (require 'quail)
 
-;; Load custom Arabish (phonetic Arabic)
+;; Load custom Arabish and Urdish (phonetic Arabic/Urdu)
 (load "~/.emacs.rc/arabish.el")
+(load "~/.emacs.rc/urdish.el")
 
 ;; Register Bengali input methods
 (register-input-method
@@ -33,6 +34,12 @@
  "ArPH" "Arabic Phonetic (Arabish: ana -> أنا, kitab -> كتاب)"
  "arabish")
 
+;; Register Urdu input methods
+(register-input-method
+ "urdish" "Urdu" 'quail-use-package
+ "UrPH" "Urdu Phonetic (Urdish: salam -> سلام, shukria -> شکریہ)"
+ "urdish")
+
 ;; Keybindings for input method switching
 (global-set-key (kbd "C-\\") 'toggle-input-method)
 (global-set-key (kbd "C-x \\") 'set-input-method)
@@ -46,6 +53,12 @@
 (global-set-key (kbd "C-c a a") (lambda () (interactive) (set-input-method "arabic")))
 (global-set-key (kbd "C-c a p") (lambda () (interactive) (set-input-method "arabish")))
 
+;; Urdu keybindings
+(global-set-key (kbd "C-c u u") (lambda () (interactive) (set-input-method "urdish")))
+(global-set-key (kbd "C-c u c") (lambda () (interactive) (set-input-method "urdu-custom")))
+(global-set-key (kbd "C-c u k") (lambda () (interactive) (set-input-method "urdu-keyboard")))
+(global-set-key (kbd "C-c u p") (lambda () (interactive) (set-input-method "urdu-phonetic-keyboard")))
+
 ;; Toggle between last two input methods
 (global-set-key (kbd "C-c C-\\") 'toggle-input-method)
 
@@ -55,6 +68,7 @@
   (interactive)
   (let ((methods '("bengali-itrans" "bengali-probhat" "bengali-inscript"
                    "arabic" "arabish"
+                   "urdish" "urdu-custom" "urdu-keyboard" "urdu-phonetic-keyboard"
                    "devanagari-itrans" "tamil-itrans" "gurmukhi-itrans"
                    "japanese-hiragana" "japanese-katakana" "korean-hangul"
                    "chinese-py" "chinese-pinyin" "chinese-4corner")))
