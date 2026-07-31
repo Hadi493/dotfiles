@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+pid_file=/tmp/hypr-hotcorner.pid
+
+if [[ -f "$pid_file" ]] && kill -0 "$(cat "$pid_file")" 2>/dev/null; then
+    exit 0
+fi
+echo $$ >"$pid_file"
+trap 'rm -f "$pid_file"' EXIT
+
+poll_interval=0.05
+corner_radius=30
+top_left_triggered=0
+
+while true; do
+    read -r mx my < <(hyprctl cursorpos | tr -d 'x,')
+
+    monitors="$(hyprctl monitors -j | jq -r '.[] | [.name, .x, .y, .width, .height, (.scale|floor)] | @tsv')"
+
+    while IFS=$'\t' read -r name x y w h scale; do
+        sx=$((x / scale))
+        sy=$((y / scale))
+        sw=$((w / scale))
+        sh=$((h / scale))
+
+        if (( mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh )); then
+            in_corner=0
+            if (( mx - sx <= corner_radius && my - sy <= corner_radius )); then
+                in_corner=1
+            fi
+
+            if (( in_corner == 1 && top_left_triggered == 0 )); then
+                top_left_triggered=1
+                hyprctl dispatch scrolloverview:overview toggle >/dev/null 2>&1
+            elif (( in_corner == 0 && top_left_triggered == 1 )); then
+                top_left_triggered=0
+            fi
+            break
+        fi
+    done <<<"$monitors"
+
+    sleep "$poll_interval"
+done
