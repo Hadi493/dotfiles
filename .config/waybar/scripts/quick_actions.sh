@@ -38,5 +38,5 @@ case "$selected" in
         ;;
     *"Lock Screen") hyprlock ;;
     *"Sleep") systemctl suspend && dunstify "System" "Going to sleep..." -i system-suspend ;;
-    *"Logout") hyprctl dispatch exit ;;
+    *"Logout") hyprctl dispatch 'hl.dsp.exit()' ;;
 esac

@@ -9,9 +9,9 @@ fi
 STATE=$(cat "$STATE_FILE")
 
 if [ "$STATE" = "1" ]; then
-    hyprctl dispatch setprop active opacity 0.88
+    hyprctl dispatch 'hl.dsp.window.set_prop({prop="opacity", value="0.88"})'
     echo "0" > "$STATE_FILE"
 else
-    hyprctl dispatch setprop active opacity 1.0
+    hyprctl dispatch 'hl.dsp.window.set_prop({prop="opacity", value="1.0"})'
     echo "1" > "$STATE_FILE"
 fi

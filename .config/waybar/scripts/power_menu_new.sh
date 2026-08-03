@@ -103,7 +103,7 @@ case "$selected" in
         if [ "$confirm" = "Yes" ]; then
             dunstify "System" "Logging out..." -i system-log-out
             if command -v hyprctl &> /dev/null; then
-                hyprctl dispatch exit
+                hyprctl dispatch 'hl.dsp.exit()'
             elif command -v pkill &> /dev/null; then
                 pkill -KILL -u $USER
             fi
