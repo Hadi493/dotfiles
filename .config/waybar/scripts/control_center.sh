@@ -42,7 +42,7 @@ case "$selected" in
         confirm=$(echo -e "Yes\nNo" | rofi -dmenu -p "Logout from Hyprland?")
         if [ "$confirm" = "Yes" ]; then
             dunstify "System" "Logging out..." -i system-log-out
-            hyprctl dispatch exit
+            hyprctl dispatch 'hl.dsp.exit()'
         fi
         ;;
     *"Reboot"*)

@@ -8,7 +8,7 @@ case "$chosen" in
     " Suspend") systemctl suspend ;;
     " Logout") 
         if command -v hyprctl &> /dev/null; then
-            hyprctl dispatch exit
+            hyprctl dispatch 'hl.dsp.exit()'
         elif command -v pkill &> /dev/null; then
             pkill -KILL -u $USER
         fi

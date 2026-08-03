@@ -2,6 +2,10 @@ clear
 # fastfetch
 # nitchrevived
 
+set -x GTK_IM_MODULE fcitx5
+set -x XMODIFIERS @im=fcitx5
+set -x QT_IM_MODULE fcitx5
+
 export HELIX_RUNTIME=$HOME/.config/helix/runtime
 # exports
 export QT_QPA_PLATFORMTHEME=qt5ct
@@ -426,3 +430,6 @@ end
 if not contains /usr/bin $PATH
     set -x PATH /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin $PATH
 end
+
+# kimi-code
+fish_add_path -g "/home/hadi/.kimi-code/bin"
