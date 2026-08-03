@@ -74,3 +74,11 @@ hl.window_rule({
     match = { title = "coomer" },
     float = true,
 })
+
+hl.window_rule({
+    name  = "url-launcher",
+    match = { title = "Brave URL Launcher" },
+    float = true,
+    center = true,
+    size  = { 560, 620 },
+})
