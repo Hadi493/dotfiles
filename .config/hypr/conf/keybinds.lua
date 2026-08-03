@@ -24,6 +24,7 @@ hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(P.yt))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(P.twitch))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("brave-origin"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(P.colorPicker .. " | wl-copy"))
+hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("~/.config/hypr/scripts/url_launcher_gui.py"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
