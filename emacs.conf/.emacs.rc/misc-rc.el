@@ -130,6 +130,13 @@ This command does the inverse of `fill-paragraph'."
 
 (global-set-key (kbd "C-x p d") 'rc/insert-timestamp)
 
+(defun rc/insert-date ()
+  "Insert the output of `date' at point (like C-u M-!)."
+  (interactive)
+  (shell-command "date" t))
+
+(global-set-key (kbd "C-c d") 'rc/insert-date)
+
 (defun rc/rgrep-selected (beg end)
   (interactive (if (use-region-p)
                    (list (region-beginning) (region-end))
