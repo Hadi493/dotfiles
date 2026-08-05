@@ -33,6 +33,7 @@
 (load "~/.emacs.shadow/shadow-rc.el" t)
 
 (global-set-key (kbd "C-c c")   'compile)
+(global-set-key (kbd "C-c r")   'recompile)
 (global-set-key (kbd "C-x c")   'compile)
 (global-set-key (kbd "C-x k")   'kill-compilation)
 (global-set-key (kbd "C-S-k")   'kill-buffer)

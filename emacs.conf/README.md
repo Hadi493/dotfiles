@@ -30,7 +30,7 @@ Modular Emacs config with multilingual input, custom theme, completion framework
 ## Quick Start
 
 ```bash
-# Symlink to ~/.emacs
+    # Symlink to ~/.emacs
 ln -sf ~/dotfiles/emacs.conf/.emacs ~/.emacs
 ln -sf ~/dotfiles/emacs.conf/.emacs.rc ~/.emacs.rc
 ln -sf ~/dotfiles/emacs.conf/.emacs.custom.el ~/.emacs.custom.el
