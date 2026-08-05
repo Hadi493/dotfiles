@@ -1,6 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=Hyprland
 sleep 1
 killall -e xdg-desktop-portal-hyprland
+killall xdg-desktop-portal-wlr 2>/dev/null
 killall xdg-desktop-portal
 /usr/lib/xdg-desktop-portal-hyprland &
 sleep 2
