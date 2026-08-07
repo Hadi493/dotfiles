@@ -127,6 +127,11 @@ link_flameshot() {
     link_one "$DOTFILES_DIR/.config/flameshot" "$HOME/.config/flameshot"
 }
 
+link_st() {
+    echo "Building suckless st (alpha patch, kitty/hypr theme)..."
+    bash "$DOTFILES_DIR/st/build.sh"
+}
+
 link_fonts() {
     echo "Linking fonts..."
     local font_dir="$HOME/.local/share/fonts"
@@ -166,6 +171,7 @@ link_config() {
     link_tofi
     link_waybar
     link_flameshot
+    link_st
     link_fonts
     link_nob
 }
@@ -222,6 +228,7 @@ Commands:
   tofi       Link Tofi configuration
   waybar     Link Waybar configuration
   flameshot  Link Flameshot configuration
+  st         Build suckless st terminal (kitty/hypr theme)
   tmux       Link Tmux configuration
   nob        Link Nob library
 
@@ -251,8 +258,9 @@ case "$cmd" in
     swaync         ) link_swaync    ;;
     tofi           ) link_tofi      ;;
     waybar         ) link_waybar    ;;
-    flameshot      ) link_flameshot ;;
-    tmux           ) link_tmux      ;;
+flameshot     ) link_flameshot ;;
+  st            ) link_st       ;;
+  tmux          ) link_tmux     ;;
     nob            ) link_nob       ;;
     -h|--help|help ) usage          ;;
     *              )
