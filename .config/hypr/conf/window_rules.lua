@@ -1,7 +1,8 @@
 hl.window_rule({
-    name  = "move-kitty",
-    match = { class = "kitty" },
+    name  = "st",
+    match = { class = "st-256color" },
     float = true,
+    center = true,
     size  = { 1300, 900 },
 })
 

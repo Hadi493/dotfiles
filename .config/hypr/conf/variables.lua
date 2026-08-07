@@ -1,6 +1,6 @@
 local P = {}
 
-P.terminal = "kitty"
+P.terminal = "st"
 P.audiosettings = "pavucontrol"
 P.codeditor = "emacs"
 P.fileManager = "nautilus"
