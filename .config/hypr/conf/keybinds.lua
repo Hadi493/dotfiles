@@ -100,7 +100,6 @@ hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "e-1" }))
 
 hl.bind("ALT + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun"))
 
--- scrolloverview
 hl.bind(mainMod .. " + S", hl.plugin.scrolloverview.overview("toggle"))
 hl.bind(mainMod .. " + i", hl.plugin.scrolloverview.navigate("up"))
 hl.bind(mainMod .. " + k", hl.plugin.scrolloverview.navigate("down"))
