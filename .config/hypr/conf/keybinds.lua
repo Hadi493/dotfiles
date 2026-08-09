@@ -139,6 +139,8 @@ hl.bind("F6", hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness up"))
 hl.bind("F9", hl.dsp.exec_cmd("swayosd-client --output-volume 2"))
 hl.bind("F8", hl.dsp.exec_cmd("swayosd-client --output-volume lower"))
 hl.bind("F10", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"))
+hl.bind("F7", hl.dsp.exec_cmd("swayosd-client --input-volume lower"))
+hl.bind("F12", hl.dsp.exec_cmd("swayosd-client --input-volume 2"))
 
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })

@@ -107,6 +107,11 @@ link_swaync() {
     link_one "$DOTFILES_DIR/.config/swaync" "$HOME/.config/swaync"
 }
 
+link_swayosd() {
+    echo     "Linking SwayOSD configuration..."
+    link_one "$DOTFILES_DIR/.config/swayosd" "$HOME/.config/swayosd"
+}
+
 link_tofi() {
     echo     "Linking Tofi configuration..."
     link_one "$DOTFILES_DIR/.config/tofi" "$HOME/.config/tofi"
@@ -167,6 +172,7 @@ link_config() {
     link_vim
     link_rofi
     link_swaync
+    link_swayosd
     link_tmux
     link_tofi
     link_waybar
@@ -225,6 +231,7 @@ Commands:
   vim        Link Vim configuration
   rofi       Link Rofi configuration
   swaync     Link SwayNC configuration
+  swayosd    Link SwayOSD configuration
   tofi       Link Tofi configuration
   waybar     Link Waybar configuration
   flameshot  Link Flameshot configuration
@@ -255,7 +262,8 @@ case "$cmd" in
     nvim           ) link_nvim      ;;
     vim            ) link_vim       ;;
     rofi           ) link_rofi      ;;
-    swaync         ) link_swaync    ;;
+  swaync     ) link_swaync     ;;
+  swayosd    ) link_swayosd    ;;
     tofi           ) link_tofi      ;;
     waybar         ) link_waybar    ;;
 flameshot     ) link_flameshot ;;
