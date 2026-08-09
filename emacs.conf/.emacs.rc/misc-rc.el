@@ -3,6 +3,12 @@
 (global-set-key (kbd "C-x C-g") 'find-file-at-point)
 (global-set-key (kbd "C-c i m") 'imenu)
 
+;; Switch windows with M-S-arrow
+(global-set-key (kbd "M-S-<up>")    'windmove-up)
+(global-set-key (kbd "M-S-<down>")  'windmove-down)
+(global-set-key (kbd "M-S-<left>")  'windmove-left)
+(global-set-key (kbd "M-S-<right>") 'windmove-right)
+
 (setq-default inhibit-splash-screen t
               make-backup-files nil
               tab-width 4
