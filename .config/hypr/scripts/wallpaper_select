@@ -25,7 +25,8 @@ list_wallpapers() {
 
 set_wallpaper() {
     local path="$1"
-    swaybg -i "$path" -m fit
+    pkill -x swaybg 2>/dev/null
+    swaybg -i "$path" -m fit >/dev/null 2>&1 &
     echo "$path" > "$HOME/.cache/last_wallpaper.path"
     killall -SIGUSR2 waybar 2>/dev/null
     swaync-client --reload 2>/dev/null || true
@@ -49,9 +50,9 @@ case "${ROFI_RETV:-}" in
     1)
         path="${ROFI_INFO:-}"
         if [ -n "$path" ] && [ -f "$path" ]; then
-            set_wallpaper "$path"
+            set_wallpaper "$path" >/dev/null 2>&1
         else
-            switch_branch "$1" || notify-send -t 2000 "No such branch" "$1"
+            switch_branch "$1" >/dev/null 2>&1 || notify-send -t 2000 "No such branch" "$1"
         fi
         ;;
     2)
@@ -60,10 +61,10 @@ case "${ROFI_RETV:-}" in
             /auto*)
                 interval="${input#/auto}"
                 interval="${interval# }"
-                "$AUTO" start "${interval:-5m}"
+                "$AUTO" start "${interval:-5m}" >/dev/null 2>&1 </dev/null
                 ;;
             /stop*)
-                "$AUTO" stop
+                "$AUTO" stop >/dev/null 2>&1
                 ;;
             /chbranch*)
                 echo -en "\x00prompt\x1fSwitch branch\n"
@@ -74,11 +75,11 @@ case "${ROFI_RETV:-}" in
                 ;;
             /*)
                 branch="${input#/}"
-                switch_branch "$branch" || notify-send -t 2000 "No such branch" "$branch"
+                switch_branch "$branch" >/dev/null 2>&1 || notify-send -t 2000 "No such branch" "$branch"
                 ;;
             *)
                 if [ -f "$WALLPAPER_DIR/$input" ]; then
-                    set_wallpaper "$WALLPAPER_DIR/$input"
+                    set_wallpaper "$WALLPAPER_DIR/$input" >/dev/null 2>&1
                 fi
                 ;;
         esac
