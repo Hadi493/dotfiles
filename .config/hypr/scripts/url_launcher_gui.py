@@ -315,6 +315,9 @@ class UrlBar(Gtk.Box):
         save_history(final)
         self.reload_list()
         self.entry.set_text("")
+        wn = self.get_root()
+        if hasattr(wn, "close"):
+            wn.close()
 
     def on_open(self, *_):
         self.open(self.entry.get_text())
