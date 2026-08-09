@@ -8,8 +8,9 @@ This repository contains my personal configuration files (dotfiles) optimized fo
 - **Scrolloverview Plugin:** [scrolloverview](https://github.com/hyprwm/hyprland-plugins) for the overview mode
 - **Status Bar:** [Waybar](https://github.com/Alexays/Waybar) (patched — see below)
 - **Notification Daemon:** [SwayNC](https://github.com/ErikReider/SwayNotificationCenter)
+- **On-Screen Display:** [SwayOSD](https://github.com/ErikReider/SwayOSD) (volume, mic, brightness OSD with `%` readout)
 - **Launchers:** [Rofi](https://github.com/davatorium/rofi) (Wayland) & [Tofi](https://github.com/philj56/tofi)
-- **Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/)
+- **Terminals:** [st](https://st.suckless.org/) (built from `st/` with the alpha patch, kitty/gruber-darker-ayu theme) & [Kitty](https://sw.kovidgoyal.net/kitty/)
 - **Editors:** [Neovim](https://neovim.io/), [Helix](https://helix-editor.com/), [Emacs](emacs.conf/README.md)
 - **Shells:** [Fish](https://fishshell.com/), [Nushell](https://www.nushell.sh/), Bash
 
@@ -54,7 +55,7 @@ Windows are arranged in an infinitely scrolling column using Hyprland's built-in
 | Switch workspace (touchpad) | 3-finger swipe left/right |
 | Overview toggle | `Super + S` |
 | Overview select | `Super + Return` |
-| Overview navigate | `Super + H` / `Super + J` / `Super + K` / `Super + L` |
+| Overview navigate | `Super + i` / `Super + k` / `Super + h` / `Super + l` |
 
 ## Usage:
 To deploy the configurations, use the provided `deploy` script:
@@ -67,4 +68,25 @@ To deploy the configurations, use the provided `deploy` script:
 
 # Link all configurations (default)
 ./deploy all
+
+# Auto-accept replacing existing files/dirs (no prompt)
+./deploy -y all
 ```
+
+If a destination already exists as a regular file or directory (not a symlink), `deploy`
+asks for permission before replacing it, backing up the original to `~/.deploy-backup/`.
+
+### Building st
+`st` is a suckless terminal and must be compiled (it has no runtime config file). The
+`st/` directory holds a `config.h` (Iosevka Term SS04, gruber-darker-ayu palette, 0.88
+background opacity) plus the alpha patch. `./deploy st` clones st 0.8.5, patches it, and
+installs to `~/.local/bin/st`:
+
+```bash
+./deploy st
+```
+
+### URL Launcher
+`Super + U` opens a GTK4 keyboard-first Brave URL launcher
+(`~/.config/hypr/scripts/url_launcher_gui.py`) that shows history, keeps a cache in
+`~/.cache/url_launcher`, and closes itself after opening a URL.
