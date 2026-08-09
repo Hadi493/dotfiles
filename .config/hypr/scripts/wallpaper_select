@@ -13,19 +13,32 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
     while IFS= read -r -d $'\0' wallpaper; do
         echo -e "$wallpaper\0icon\x1f$wallpaper"
     done | \
-    rofi -dmenu -p "Select Wallpaper" -theme "$ROFI_THEME" -show-icons -case-smart | \
-    while read -r selected_wallpaper_path; do
-        if [ -n "$selected_wallpaper_path" ]; then
-            filename=$(basename "$selected_wallpaper_path")
-            foldername=$(basename "$(dirname "$selected_wallpaper_path")")
+    rofi -dmenu -p "Select Wallpaper (/auto 5m · /stop)" -theme "$ROFI_THEME" -show-icons -case-smart | \
+    while read -r selection; do
+        [ -z "$selection" ] && continue
 
-            ~/.config/hypr/scripts/set_wallpaper "$selected_wallpaper_path"
+        case "$selection" in
+            /auto*)
+                interval="${selection#/auto}"
+                interval="${interval# }"
+                ~/.config/hypr/scripts/wallpaper_auto start "${interval:-5m}"
+                ;;
+            /stop*)
+                ~/.config/hypr/scripts/wallpaper_auto stop
+                ;;
+            *)
+                filename=$(basename "$selection")
+                foldername=$(basename "$(dirname "$selection")")
 
-            echo "$selected_wallpaper_path" > "$HOME/.cache/last_wallpaper.path"
+                # ~/.config/hypr/scripts/set_wallpaper "$selection"
+                swaybg -i "$selection" -m fit
 
-            killall -SIGUSR2 waybar
-            swaync-client --reload 2>/dev/null || true
+                echo "$selection" > "$HOME/.cache/last_wallpaper.path"
 
-            notify-send -t 1000 "Wallpaper changed" "[$foldername] $filename"
-        fi
+                killall -SIGUSR2 waybar
+                swaync-client --reload 2>/dev/null || true
+
+                notify-send -t 1000 "Wallpaper changed" "[$foldername] $filename"
+                ;;
+        esac
     done

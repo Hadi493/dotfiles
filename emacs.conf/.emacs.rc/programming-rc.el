@@ -10,6 +10,19 @@
                          (interactive)
                          (c-toggle-comment-style -1)))
 
+;;; LSP — real code intelligence via clangd (like nvim/zed)
+;;; eglot is built-in since Emacs 29; completion routes through company-capf.
+(require 'eglot)
+(defun rc/eglot-ensure ()
+  (eglot-ensure))
+(add-hook 'c-mode-hook   #'rc/eglot-ensure)
+(add-hook 'c++-mode-hook #'rc/eglot-ensure)
+(add-hook 'rust-mode-hook #'rc/eglot-ensure)
+
+(global-set-key (kbd "C-c l r") 'eglot-reconnect)
+(global-set-key (kbd "C-c l s") 'eglot-shutdown)
+(global-set-key (kbd "C-c l f") 'flymake-show-diagnostics-buffer)
+
 ;;; Haskell
 (rc/require 'haskell-mode)
 (setq haskell-process-type 'cabal-new-repl)

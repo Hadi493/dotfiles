@@ -1,0 +1,67 @@
+#!/bin/bash
+
+PIDFILE="$HOME/.cache/wallpaper_auto.pid"
+WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
+
+parse_interval() {
+    local val="$1"
+    local num="${val%[smh]}"
+    local unit="${val:${#num}}"
+    case "$unit" in
+        s) echo "$num" ;;
+        h) echo $((num * 3600)) ;;
+        m|"") echo $((num * 60)) ;;
+    esac
+}
+
+stop() {
+    if [ -f "$PIDFILE" ]; then
+        local pid
+        pid=$(cat "$PIDFILE")
+        pkill -P "$pid" 2>/dev/null
+        kill "$pid" 2>/dev/null
+        rm -f "$PIDFILE"
+        notify-send -t 1000 "Auto wallpaper rotation stopped"
+    fi
+}
+
+start() {
+    local interval_sec
+    interval_sec=$(parse_interval "$1")
+    [ "$interval_sec" -eq 0 ] 2>/dev/null && interval_sec=300
+
+    stop
+
+    mapfile -d '' wallpapers < <(
+        find "$WALLPAPER_DIR" -type f \
+            \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) \
+            -not -path "*/.git/*" -print0
+    )
+
+    if [ "${#wallpapers[@]}" -eq 0 ]; then
+        notify-send -t 2000 "Auto wallpaper" "No wallpapers found"
+        exit 1
+    fi
+
+    notify-send -t 2000 "Auto wallpaper rotation started" "every $1"
+
+    (
+        trap 'exit 0' TERM
+        while true; do
+            for wp in "${wallpapers[@]}"; do
+                ~/.config/hypr/scripts/set_wallpaper "$wp"
+                echo "$wp" > "$HOME/.cache/last_wallpaper.path"
+                killall -SIGUSR2 waybar 2>/dev/null
+                swaync-client --reload 2>/dev/null || true
+                sleep "$interval_sec"
+            done
+        done
+    ) &
+    echo $! > "$PIDFILE"
+}
+
+case "$1" in
+    start) start "$2" ;;
+    stop) stop ;;
+    *) echo "Usage: $0 start <interval (e.g. 5s/5m/5h)> | stop" ;;
+esac
