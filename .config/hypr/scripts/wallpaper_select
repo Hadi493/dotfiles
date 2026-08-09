@@ -2,68 +2,86 @@
 
 WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
 GIT_REPO="$WALLPAPER_DIR"
+ROFI_THEME="$HOME/.config/rofi/wallpaper.rasi"
+AUTO="$HOME/.config/hypr/scripts/wallpaper_auto"
 
 if [ ! -d "$WALLPAPER_DIR" ]; then
     rofi -e "Wallpaper directory not found: $WALLPAPER_DIR"
     exit 1
 fi
 
-ROFI_THEME="$HOME/.config/rofi/wallpaper.rasi"
-MAP_FILE=$(mktemp)
+# Launcher mode (run directly from Hyprland): start rofi script mode with $0
+if [ -z "${ROFI_RETV:-}" ]; then
+    exec rofi -show wpsel -modes "wpsel:$0" -theme "$ROFI_THEME"
+fi
 
-find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) -print0 | \
-    while IFS= read -r -d $'\0' wallpaper; do
-        printf '%s\t%s\n' "$wallpaper" "$(basename "$wallpaper")"
-    done > "$MAP_FILE"
+list_wallpapers() {
+    find "$WALLPAPER_DIR" -type f \
+        \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) \
+        -print0 | while IFS= read -r -d $'\0' w; do
+        printf '%s\x00icon\x1f%s\x1finfo\x1f%s\n' "$(basename "$w")" "$w" "$w"
+    done
+}
 
-selection=$( { \
-    printf '/auto 5m\n/auto 30s\n/stop\n/chbranch\n'; \
-    awk -F'\t' '{ printf "%s\0icon\x1f%s\n", $2, $1 }' "$MAP_FILE"; \
-} | rofi -dmenu -p "Select (/auto · /stop · /chbranch)" -theme "$ROFI_THEME" -show-icons -case-smart )
-
-[ -z "$selection" ] && rm -f "$MAP_FILE" && exit 0
+set_wallpaper() {
+    local path="$1"
+    swaybg -i "$path" -m fit
+    echo "$path" > "$HOME/.cache/last_wallpaper.path"
+    killall -SIGUSR2 waybar 2>/dev/null
+    swaync-client --reload 2>/dev/null || true
+    notify-send -t 1000 "Wallpaper changed" "$(basename "$path")"
+}
 
 switch_branch() {
     local branch="$1"
     if git -C "$GIT_REPO" rev-parse --verify "refs/heads/$branch" >/dev/null 2>&1; then
         git -C "$GIT_REPO" switch "$branch"
         notify-send -t 1000 "Branch switched" "$(basename "$GIT_REPO"): $branch"
-    else
-        notify-send -t 2000 "No such branch" "$branch"
+        return 0
     fi
+    return 1
 }
 
-case "$selection" in
-    /auto*)
-        interval="${selection#/auto}"
-        interval="${interval# }"
-        ~/.config/hypr/scripts/wallpaper_auto start "${interval:-5m}"
+case "${ROFI_RETV:-}" in
+    0)
+        list_wallpapers
         ;;
-    /stop*)
-        ~/.config/hypr/scripts/wallpaper_auto stop
+    1)
+        path="${ROFI_INFO:-}"
+        if [ -n "$path" ] && [ -f "$path" ]; then
+            set_wallpaper "$path"
+        else
+            switch_branch "$1" || notify-send -t 2000 "No such branch" "$1"
+        fi
         ;;
-    /chbranch*)
-        branch=$(git -C "$GIT_REPO" branch --format='%(refname:short)' | \
-            rofi -dmenu -p "Switch branch" -theme "$ROFI_THEME" -case-smart)
-        [ -n "$branch" ] && switch_branch "$branch"
-        ;;
-    /*)
-        switch_branch "${selection#/}"
-        ;;
-    *)
-        wallpaper_path=$(awk -F'\t' -v name="$selection" '$2 == name { print $1; exit }' "$MAP_FILE")
-        [ -z "$wallpaper_path" ] && rm -f "$MAP_FILE" && exit 0
-        filename=$(basename "$wallpaper_path")
-        foldername=$(basename "$(dirname "$wallpaper_path")")
-
-        swaybg -i "$wallpaper_path" -m fit
-        echo "$wallpaper_path" > "$HOME/.cache/last_wallpaper.path"
-
-        killall -SIGUSR2 waybar 2>/dev/null
-        swaync-client --reload 2>/dev/null || true
-
-        notify-send -t 1000 "Wallpaper changed" "[$foldername] $filename"
+    2)
+        input="$1"
+        case "$input" in
+            /auto*)
+                interval="${input#/auto}"
+                interval="${interval# }"
+                "$AUTO" start "${interval:-5m}"
+                ;;
+            /stop*)
+                "$AUTO" stop
+                ;;
+            /chbranch*)
+                echo -en "\x00prompt\x1fSwitch branch\n"
+                git -C "$GIT_REPO" branch --format='%(refname:short)'
+                ;;
+            /)
+                notify-send -t 2000 "Commands" "/auto <interval> · /stop · /chbranch · /<branch>"
+                ;;
+            /*)
+                branch="${input#/}"
+                switch_branch "$branch" || notify-send -t 2000 "No such branch" "$branch"
+                ;;
+            *)
+                if [ -f "$WALLPAPER_DIR/$input" ]; then
+                    set_wallpaper "$WALLPAPER_DIR/$input"
+                fi
+                ;;
+        esac
         ;;
 esac
-
-rm -f "$MAP_FILE"
+exit 0
