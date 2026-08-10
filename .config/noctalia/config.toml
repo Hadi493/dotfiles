@@ -1,0 +1,160 @@
+[theme]
+mode            = "dark"
+source          = "custom"
+custom_palette  = "GruberDarker"
+pure_black_dark = false
+
+[shell]
+font_family = "Iosevka Nerd Font"
+time_format = "{:%I:%M %p}"
+
+[bar]
+order = ["default"]
+
+[bar.default]
+position              = "top"
+thickness             = 34
+background_opacity    = 0.0
+border                = "outline"
+border_width          = 1
+radius                = 0
+radius_top_left       = 0
+radius_top_right      = 0
+radius_bottom_left    = 0
+radius_bottom_right   = 0
+concave_edge_corners  = false
+margin_ends           = 12
+margin_edge           = 6
+margin_opposite_edge  = 0
+padding               = 6
+widget_spacing        = 8
+font_weight           = 600
+scale                 = 1.0
+capsule_thickness     = 0.9
+reserve_space         = true
+layer                 = "top"
+auto_hide             = false
+smart_auto_hide       = false
+hover_highlight       = true
+
+start  = ["group:left"]
+center = ["group:center"]
+end    = ["group:right"]
+
+[[bar.default.capsule_group]]
+id       = "left"
+members  = ["launcher", "workspaces"]
+fill     = "surface"
+border   = "outline"
+opacity  = 0.9
+radius   = 0
+padding  = 6
+
+[[bar.default.capsule_group]]
+id       = "center"
+members  = ["clock"]
+fill     = "surface"
+border   = "outline"
+opacity  = 0.9
+radius   = 0
+padding  = 6
+
+[[bar.default.capsule_group]]
+id       = "right"
+members  = [
+    "media",
+    "tray",
+    "network",
+    "volume",
+    "mic",
+    "cpu",
+    "ram",
+    "disk",
+    "temp",
+    "notifications",
+    "control-center",
+    "session"
+]
+fill     = "surface"
+border   = "outline"
+opacity  = 0.9
+radius   = 0
+padding  = 6
+
+[widget.workspaces]
+style              = "regular"
+focused_color      = "primary"
+occupied_color     = "secondary"
+empty_color        = "surface_variant"
+urgent_color       = "error"
+change_color_on_hover = true
+
+[widget.clock]
+format             = "{:%-I:%M %p}"
+tooltip_format     = "{:%A, %B %d, %Y}"
+color              = "primary"
+font_weight        = 700
+
+[widget.network]
+show_label         = true
+color              = "#6DCFFF"
+
+[widget.volume]
+type               = "volume"
+device             = "output"
+show_label         = true
+color              = "#FFA375"
+mute_color         = "error"
+
+[widget.volume.actions]
+middle = "volume-mute"
+
+[widget.mic]
+type               = "volume"
+device             = "input"
+show_label         = true
+color              = "#E0B8FF"
+mute_color         = "error"
+
+[widget.mic.actions]
+middle = "mic-mute"
+
+[widget.cpu]
+type               = "sysmon"
+stat               = "cpu_usage"
+path               = ""
+color              = "#C5E665"
+
+[widget.ram]
+type               = "sysmon"
+stat               = "ram_used"
+path               = ""
+color              = "#E0B8FF"
+
+[widget.disk]
+type               = "sysmon"
+stat               = "disk_used_pct"
+path               = "/"
+color              = "#A8F0D8"
+
+[widget.temp]
+type               = "sysmon"
+stat               = "cpu_temp"
+path               = ""
+color              = "#FFA375"
+
+[widget.session]
+color              = "#FF7B85"
+
+[wallpaper]
+enabled   = true
+directory = "~/Pictures/wallpapers"
+fill_mode = "fit"
+
+[wallpaper.automation]
+enabled = false
+
+[notification]
+enable_daemon = true
+position      = "top_right"
+offset_y      = 8

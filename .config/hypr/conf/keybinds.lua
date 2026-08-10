@@ -2,7 +2,7 @@ local P = require("conf.variables")
 
 local mainMod = "SUPER"
 
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(P.terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -10,7 +10,7 @@ hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exit())
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(P.audiosettings))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(P.fileManager))
 hl.bind(mainMod .. " + Space", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(P.menu))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(P.discord))
 hl.bind("ALT + SHIFT + D", hl.dsp.exec_cmd(P.discord_web))
 hl.bind("ALT + T", hl.dsp.exec_cmd(P.telegram))
@@ -28,7 +28,7 @@ hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("~/.config/hypr/scripts/url_launcher_
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("~/.config/waybar/scripts/notification_center.sh"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
 
 hl.bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
@@ -51,7 +51,7 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 
 hl.bind("ALT + R", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ decoration = { rounding = 20 } })']]))
 
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("swayosd-client --output-volume mute-toggle"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
 
@@ -59,8 +59,8 @@ hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd([[hyprshot -m window -o ~/Picture
 hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd([[hyprshot -m region -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
 
-hl.bind("CTRL + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_waybar"))
-hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("wlogout"))
+hl.bind("CTRL + Escape", hl.dsp.exec_cmd("noctalia msg bar-toggle"))
+hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 
 -- Focus navigation (wraps first<->last in scrolling layout)
 hl.bind(mainMod .. " + left", hl.dsp.layout("focus l"))
@@ -136,16 +136,17 @@ hl.bind("F4", hl.dsp.exec_cmd(P.setup_workspace))
 hl.bind("F5", hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness down"))
 hl.bind("F6", hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness up"))
 
-hl.bind("F9", hl.dsp.exec_cmd("swayosd-client --output-volume 2"))
-hl.bind("F8", hl.dsp.exec_cmd("swayosd-client --output-volume lower"))
+hl.bind("F9", hl.dsp.exec_cmd("noctalia msg volume-up"))
+hl.bind("F8", hl.dsp.exec_cmd("noctalia msg volume-down"))
 hl.bind("F10", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"))
-hl.bind("F7", hl.dsp.exec_cmd("swayosd-client --input-volume lower"))
-hl.bind("F12", hl.dsp.exec_cmd("swayosd-client --input-volume 2"))
+hl.bind("F7", hl.dsp.exec_cmd("noctalia msg mic-volume-down"))
+hl.bind("F12", hl.dsp.exec_cmd("noctalia msg mic-volume-up"))
+hl.bind("F11", hl.dsp.exec_cmd("noctalia msg media toggle"))
 
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("noctalia msg media next"), { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("noctalia msg media previous"), { locked = true })
 
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("grim - | wayland-boomer"))
 
