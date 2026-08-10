@@ -7,24 +7,21 @@
     "modules-left": [
         "custom/separator",
         "hyprland/workspaces",
-        "custom/separator",
-        "hyprland/window"
+        "custom/separator"
     ],
     "modules-center": [
         "clock"
     ],
     "modules-right": [
-        "network",
-        "pulseaudio",
-        "pulseaudio#microphone",
-        "cpu",
-        "memory",
-        "disk",
+        "custom/separator",
+        "custom/network",
+        "custom/audio",
+        "custom/mic",
+        "custom/cpu",
+        "custom/memory",
+        "custom/disk",
         "custom/uptime",
         "custom/temperature",
-        "custom/separator",
-        "battery",
-        "backlight",
         "custom/separator",
         "tray",
         "custom/updates",
@@ -37,17 +34,6 @@
         "active-only": false,
         "on-click": "activate",
         "format": "{name}"
-    },
-
-    "hyprland/window": {
-        "format": "{}",
-        "separate-outputs": true,
-        "rewrite": {
-            "(.*) - Brave": " $1",
-            "(.*) - kitty": " $1",
-            "(.*) - Code": "󰨞 $1",
-            "(.*) - Nautilus": "󰉋 $1"
-        }
     },
 
     "clock": {
@@ -77,94 +63,64 @@
         }
     },
 
-    "network": {
-        "format-wifi": "󰖩 {signalStrength}%",
-        "format-ethernet": "󰈀",
-        "format-disconnected": "󰖪",
-        "tooltip-format": "{ifname} via {gwaddr}",
+    "custom/network": {
+        "exec": "~/.config/waybar/scripts/network.sh",
+        "return-type": "json",
         "interval": 10,
         "on-click": "kitty -e nmtui"
     },
 
-    "cpu": {
-        "format": "󰘚 {usage}%",
-        "interval": 3,
-        "tooltip": true
-    },
-
-    "memory": {
-        "format": "󰍛 {percentage}%",
-        "tooltip": true,
-        "interval": 10
-    },
-
-    "disk": {
-        "format": "󰋊 {percentage_used}%",
-        "tooltip": true,
-        "interval": 60
-    },
-
-    "custom/uptime": {
-        "format": "󰅐 {}",
-        "exec": "awk '{d=int($1/86400);h=int(($1%86400)/3600);m=int(($1%3600)/60);if(d>0)printf \"%dd %dh\",d,h;else if(h>0)printf \"%dh %dm\",h,m;else printf \"%dm\",m}' /proc/uptime",
-        "interval": 30,
-        "tooltip": true
-    },
-
-    "custom/temperature": {
-        "format": "󰔏 {}°C",
-        "exec": "/home/hadi/.config/waybar/scripts/temperature.sh",
-        "interval": 10,
-        "on-click": "kitty -e s-tui"
-    },
-
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰚥 {capacity}%",
-        "format-alt": "{icon} {time}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    },
-
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "󰂰 {volume}%",
-        "format-bluetooth-muted": "󰂲 {icon}",
-        "format-muted": "󰝟",
-        "format-icons": {
-            "headphone": "󰋋",
-            "hands-free": "󰥰",
-            "headset": "󰋎",
-            "phone": "󰏲",
-            "portable": "󰄝",
-            "car": "󰄋",
-            "default": ["󰕿", "󰖀", "󰕾"]
-        },
+    "custom/audio": {
+        "exec": "~/.config/waybar/scripts/audio.sh",
+        "return-type": "json",
+        "interval": 2,
         "on-click": "pavucontrol",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
         "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
     },
 
-    "pulseaudio#microphone": {
-        "format": "{format_source}",
-        "format-source": "󰍬 {volume}%",
-        "format-source-muted": "󰍭",
+    "custom/mic": {
+        "exec": "~/.config/waybar/scripts/mic.sh",
+        "return-type": "json",
+        "interval": 2,
         "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
         "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
         "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%"
     },
 
-    "backlight": {
-        "format": "{icon} {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"],
-        "on-scroll-up": "brightnessctl set +5%",
-        "on-scroll-down": "brightnessctl set 5%-"
+    "custom/cpu": {
+        "exec": "~/.config/waybar/scripts/cpu.sh",
+        "interval": 3,
+        "format": "󰘚 {}%",
+        "tooltip": true
+    },
+
+    "custom/memory": {
+        "exec": "~/.config/waybar/scripts/memory.sh",
+        "interval": 10,
+        "format": "󰍛 {}%",
+        "tooltip": true
+    },
+
+    "custom/disk": {
+        "exec": "~/.config/waybar/scripts/disk.sh",
+        "interval": 60,
+        "format": "󰋊 {}%",
+        "tooltip": true
+    },
+
+    "custom/uptime": {
+        "exec": "~/.config/waybar/scripts/uptime.sh",
+        "interval": 30,
+        "tooltip": true
+    },
+
+    "custom/temperature": {
+        "exec": "~/.config/waybar/scripts/temperature.sh",
+        "interval": 10,
+        "format": "󰔏 {}°C",
+        "on-click": "kitty -e s-tui"
     },
 
     "tray": {
@@ -173,12 +129,11 @@
     },
 
     "custom/updates": {
-        "format": "󰚰 {}",
-        "return-type": "json",
         "exec": "~/.config/waybar/scripts/updates.sh",
+        "return-type": "json",
         "interval": 3600,
-        "on-click": "kitty -e yay -Syu",
-        "signal": 8
+        "format": "󰚰 {}",
+        "on-click": "kitty -e yay -Syu"
     },
 
     "custom/power": {
