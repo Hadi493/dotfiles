@@ -6,7 +6,7 @@ P.codeditor = "emacs"
 P.fileManager = "nautilus"
 P.menu = "rofi -show drun -config ~/.config/rofi/drun.rasi"
 P.tmenu = "tofi-drun -c ~/.config/tofi/configA --drun-launch=true"
-P.wallpaper_selector = "~/.config/hypr/scripts/wallpaper_select"
+P.wallpaper_selector = "noctalia msg panel-toggle wallpaper"
 P.camera = "cheese"
 P.look_menu = "lookapp"
 P.discord_web = "brave-origin --profile-directory=Default --app=https://discord.com/channels/@me"
@@ -23,7 +23,7 @@ P.colorPicker = "hyprpicker"
 P.fsc = "nbfc set -s 100 || nbfc set -a"
 P.setup_workspace = "~/.config/hypr/scripts/workspace-setup"
 
-P.default_wall = "~/.config/hypr/scripts/set_wallpaper ~/Pictures/wall.jpg"
+P.default_wall = "noctalia msg wallpaper-set ~/Pictures/wall.jpg"
 
 P.web_game_ev = "brave-origin --profile-directory=Default --app=https://ev.io"
 

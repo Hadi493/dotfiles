@@ -83,3 +83,11 @@ hl.window_rule({
     center = true,
     size  = { 560, 620 },
 })
+
+hl.window_rule({
+    name  = "noctalia-settings",
+    match = { class = "dev.noctalia.Noctalia" },
+    float = true,
+    center = true,
+    size  = { 1080, 920 },
+})
