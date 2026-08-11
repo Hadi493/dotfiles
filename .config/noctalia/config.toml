@@ -15,8 +15,6 @@ order = ["default"]
 position              = "top"
 thickness             = 34
 background_opacity    = 0.0
-border                = "outline"
-border_width          = 1
 radius                = 0
 radius_top_left       = 0
 radius_top_right      = 0
@@ -45,8 +43,7 @@ end    = ["group:right"]
 id       = "left"
 members  = ["workspaces", "media"]
 fill     = "surface"
-border   = "outline"
-opacity  = 0.9
+opacity  = 0.0
 radius   = 0
 padding  = 6
 
@@ -54,8 +51,7 @@ padding  = 6
 id       = "center"
 members  = ["clock"]
 fill     = "surface"
-border   = "outline"
-opacity  = 0.9
+opacity  = 0.0
 radius   = 0
 padding  = 6
 
@@ -73,8 +69,7 @@ members  = [
     "session"
 ]
 fill     = "surface"
-border   = "outline"
-opacity  = 0.9
+opacity  = 0.0
 radius   = 0
 padding  = 6
 
