@@ -40,8 +40,7 @@ hl.bind("ALT + Tab", hl.dsp.group.prev())
 
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("coomer"))
 
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard clip"))
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard pass"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
 
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_recording"))
 hl.bind(mainMod .. " + t", hl.dsp.exec_cmd("cg-timer"))
