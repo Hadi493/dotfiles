@@ -8,6 +8,10 @@ pure_black_dark = false
 font_family = "Iosevka Nerd Font"
 time_format = "{:%I:%M %p}"
 
+[storage]
+key_source = "file"
+key_file = "~/.local/state/noctalia/storage.key"
+
 [bar]
 order = ["default"]
 
@@ -66,6 +70,7 @@ members  = [
     "disk",
     "temp",
     "tray",
+    "clipboard",
     "session"
 ]
 fill     = "surface"
@@ -147,6 +152,10 @@ color              = "#FFA375"
 
 [widget.session]
 color              = "#FF7B85"
+
+[widget.clipboard]
+glyph              = "clipboard"
+color              = "#A8F0D8"
 
 [wallpaper]
 enabled   = true
