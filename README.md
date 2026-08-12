@@ -6,9 +6,7 @@ This repository contains my personal configuration files (dotfiles) optimized fo
 ## Key Components:
 - **Window Manager:** [Hyprland](https://hyprland.org/) (≥ 0.56) with **Lua config** (`hyprland.lua`) and **scrolling layout** (niri-like)
 - **Scrolloverview Plugin:** [scrolloverview](https://github.com/hyprwm/hyprland-plugins) for the overview mode
-- **Status Bar:** [Waybar](https://github.com/Alexays/Waybar) (patched — see below)
-- **Notification Daemon:** [SwayNC](https://github.com/ErikReider/SwayNotificationCenter)
-- **On-Screen Display:** [SwayOSD](https://github.com/ErikReider/SwayOSD) (volume, mic, brightness OSD with `%` readout)
+- **Shell/Bar/Notifications/OSD/Clipboard:** [Noctalia](https://github.com/noctalia-dev/noctalia) (replaces Waybar, SwayNC and SwayOSD)
 - **Launchers:** [Rofi](https://github.com/davatorium/rofi) (Wayland) & [Tofi](https://github.com/philj56/tofi)
 - **Terminals:** [st](https://st.suckless.org/) (built from `st/` with the alpha patch, kitty/gruber-darker-ayu theme) & [Kitty](https://sw.kovidgoyal.net/kitty/)
 - **Editors:** [Neovim](https://neovim.io/), [Helix](https://helix-editor.com/), [Emacs](emacs.conf/README.md)
@@ -19,19 +17,20 @@ The Hyprland config is written in **Lua** (`~/.config/hypr/hyprland.lua` + modul
 which is the only supported config format since Hyprland 0.57 (0.56.1 warns on the legacy
 `.conf` format). The old `.conf` files are kept only as a reference and are **not loaded**.
 
-### Patched Waybar
-Waybar ≤ 0.15.0 hardcodes `hyprctl dispatch workspace <id>` for workspace clicks, which the
-Hyprland Lua config manager rejects. This repo relies on a patched Waybar
-(`~/.local/bin/waybar`) whose `hyprland/workspaces` module sends the Lua-valid form
-(`dispatch hl.dsp.focus({ workspace = "<id>" })`). Rebuild after any Waybar update:
+### Noctalia Shell
+Noctalia provides the top bar, notification/control-center, on-screen display (volume, mic,
+media, screen-time), launcher panel and clipboard history. Its config lives in
+`~/.config/noctalia/config.toml`; runtime/UI overrides are stored in
+`~/.local/state/noctalia/settings.toml`. Encrypted clipboard history is kept in
+`~/.local/state/noctalia/clipboard/` (master key in `~/.local/state/noctalia/storage.key`,
+configured via `[storage] key_source = "file"`). Key IPC bindings:
 
-```bash
-git clone --branch 0.15.0 --depth 1 https://github.com/Alexays/Waybar /tmp/waybar
-cd /tmp/waybar
-# apply the workspace-click patch (src/modules/hyprland/workspace.cpp)
-meson setup build -Dcava=disabled --prefix="$HOME/.local"
-ninja -C build install
-```
+- `Super + V` — toggle clipboard panel
+- `Super + D` — toggle launcher
+- `Super + N` — toggle control-center / notifications
+- `Super + Esc` — toggle session panel
+- `Ctrl + Esc` — toggle bar
+- Volume/mic/media/brightness keys routed through the Noctalia OSD
 
 ## Features:
 

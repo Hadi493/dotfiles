@@ -133,24 +133,14 @@ link_rofi() {
     link_one "$DOTFILES_DIR/.config/rofi" "$HOME/.config/rofi"
 }
 
-link_swaync() {
-    echo     "Linking SwayNC configuration..."
-    link_one "$DOTFILES_DIR/.config/swaync" "$HOME/.config/swaync"
-}
-
-link_swayosd() {
-    echo     "Linking SwayOSD configuration..."
-    link_one "$DOTFILES_DIR/.config/swayosd" "$HOME/.config/swayosd"
+link_noctalia() {
+    echo     "Linking Noctalia configuration..."
+    link_one "$DOTFILES_DIR/.config/noctalia" "$HOME/.config/noctalia"
 }
 
 link_tofi() {
     echo     "Linking Tofi configuration..."
     link_one "$DOTFILES_DIR/.config/tofi" "$HOME/.config/tofi"
-}
-
-link_waybar() {
-    echo     "Linking Waybar configuration..."
-    link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
 }
 
 link_tmux() {
@@ -202,11 +192,9 @@ link_config() {
     link_nvim
     link_vim
     link_rofi
-    link_swaync
-    link_swayosd
+    link_noctalia
     link_tmux
     link_tofi
-    link_waybar
     link_flameshot
     link_st
     link_fonts
@@ -264,10 +252,8 @@ Commands:
   nvim       Link Neovim configuration
   vim        Link Vim configuration
   rofi       Link Rofi configuration
-  swaync     Link SwayNC configuration
-  swayosd    Link SwayOSD configuration
+  noctalia   Link Noctalia configuration
   tofi       Link Tofi configuration
-  waybar     Link Waybar configuration
   flameshot  Link Flameshot configuration
   st         Build suckless st terminal (kitty/hypr theme)
   tmux       Link Tmux configuration
@@ -302,12 +288,10 @@ case "$cmd" in
     nvim           ) link_nvim      ;;
     vim            ) link_vim       ;;
     rofi           ) link_rofi      ;;
-  swaync     ) link_swaync     ;;
-  swayosd    ) link_swayosd    ;;
+    noctalia       ) link_noctalia  ;;
     tofi           ) link_tofi      ;;
-    waybar         ) link_waybar    ;;
-flameshot     ) link_flameshot ;;
-  st            ) link_st       ;;
+    flameshot      ) link_flameshot ;;
+    st             ) link_st        ;;
   tmux          ) link_tmux     ;;
     nob            ) link_nob       ;;
     -h|--help|help ) usage          ;;
