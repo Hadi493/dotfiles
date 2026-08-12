@@ -4,7 +4,8 @@ local mainMod = "SUPER"
 
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(P.terminal))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(P.herdr))
+hl.bind(mainMod .. "+ SHIFT + Return", hl.dsp.exec_cmd(P.terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exit())
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(P.audiosettings))
