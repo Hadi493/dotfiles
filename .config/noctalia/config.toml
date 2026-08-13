@@ -165,6 +165,12 @@ fill_mode = "fit"
 [wallpaper.automation]
 enabled = false
 
+[lockscreen]
+enabled         = true
+blur_intensity  = 0.5
+tint_intensity  = 0.3
+wallpaper       = "~/.config/hypr/images/hyprlock.jpg"
+
 [notification]
 enable_daemon = true
 position      = "top_right"

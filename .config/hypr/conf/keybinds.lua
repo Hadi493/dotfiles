@@ -28,7 +28,7 @@ hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(P.colorPicker .. " | wl-copy"))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("~/.config/hypr/scripts/url_launcher_gui.py"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("noctalia msg session lock"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
 
