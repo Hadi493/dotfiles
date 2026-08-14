@@ -153,6 +153,11 @@ link_flameshot() {
     link_one "$DOTFILES_DIR/.config/flameshot" "$HOME/.config/flameshot"
 }
 
+link_pipewire() {
+    echo     "Linking PipeWire echo-cancel configuration..."
+    link_one "$DOTFILES_DIR/.config/pipewire" "$HOME/.config/pipewire"
+}
+
 link_st() {
     echo "Building suckless st (alpha patch, kitty/hypr theme)..."
     bash "$DOTFILES_DIR/st/build.sh"
@@ -196,6 +201,7 @@ link_config() {
     link_tmux
     link_tofi
     link_flameshot
+    link_pipewire
     link_st
     link_fonts
     link_nob

@@ -1,0 +1,26 @@
+#!/bin/bash
+# Toggle a warm/night color temperature via wl-gammarelay-rs.
+# Persists state in /tmp so it survives across invocations.
+BUS=rs.wl-gammarelay
+IFACE=rs.wl.gammarelay
+DAY_TEMP=6500
+NIGHT_TEMP=4500
+
+if busctl --user get-property "$BUS" / "$IFACE" Temperature >/dev/null 2>&1; then
+  CURRENT=$(busctl --user get-property "$BUS" / "$IFACE" Temperature | awk '{print $2}')
+else
+  CURRENT=$DAY_TEMP
+fi
+
+if [ "$CURRENT" -gt "$NIGHT_TEMP" ]; then
+  NEW=$NIGHT_TEMP
+else
+  NEW=$DAY_TEMP
+fi
+
+busctl --user set-property "$BUS" / "$IFACE" Temperature q "$NEW" 2>/dev/null
+if [ "$NEW" = "$NIGHT_TEMP" ]; then
+  notify-send -t 1200 "Night mode" "Warm (${NIGHT_TEMP}K)"
+else
+  notify-send -t 1200 "Night mode" "Default (${DAY_TEMP}K)"
+fi
