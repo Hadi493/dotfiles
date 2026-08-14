@@ -1,0 +1,55 @@
+#!/bin/bash
+# Control external (HP) monitor via DDC/CI over the ddcutil-service D-Bus API.
+# Usage: monitor [brightness|contrast] [up|down]
+#        monitor input [next]
+#        monitor input set <input-value>
+
+DISPLAY_NUM=1
+DBUS_DEST=(--session --dest com.ddcutil.DdcutilService --object-path /com/ddcutil/DdcutilObject)
+
+MODEv="${1:-brightness}"
+DIR="${2:-up}"
+
+case "$MODEv" in
+  brightness) VCP=0x10 ;;
+  contrast)   VCP=0x12 ;;
+  input)      VCP=0x60 ;;
+esac
+
+STEP=5
+
+vcp_get() {
+  # echoes current value; args: vcp_hex
+  gdbus call "${DBUS_DEST[@]}" --method com.ddcutil.DdcutilInterface.GetVcp "$DISPLAY_NUM" '' "$1" 0 2>/dev/null \
+    | sed -E 's/^\(uint16 ([0-9]+).*/\1/'
+}
+
+vcp_set() {
+  gdbus call "${DBUS_DEST[@]}" --method com.ddcutil.DdcutilInterface.SetVcp "$DISPLAY_NUM" '' "$1" "$2" 0 2>/dev/null >/dev/null
+}
+
+cur=$(vcp_get "$VCP")
+[ -z "$cur" ] && cur=50
+
+case "$DIR" in
+  up)
+    new=$((cur + STEP)); [ "$new" -gt 100 ] && new=100 ;;
+  down)
+    new=$((cur - STEP)); [ "$new" -lt 0 ] && new=0 ;;
+  set)
+    new="${3:-$cur}" ;;
+  next)
+    new=$([ "$cur" = 15 ] && echo 17 || echo 15) ;;
+  *)
+    new="$cur" ;;
+esac
+
+vcp_set "$VCP" "$new"
+
+if [ "$MODEv" = "input" ]; then
+  [ "$new" = 15 ] && label="DP" || label="HDMI"
+  noctalia msg brightness-osd 0 2>/dev/null || true
+  notify-send -t 800 "Monitor input" "${label:-changed}"
+else
+  noctalia msg brightness-osd "$new" 2>/dev/null || true
+fi
