@@ -234,6 +234,16 @@ class UrlBar(Gtk.Box):
         prof_box.append(self.profile_dd)
         ddrow.append(prof_box)
 
+        brow_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
+        bl = Gtk.Label(label="ENGINE")
+        bl.add_css_class("dd-l")
+        bl.set_halign(Gtk.Align.START)
+        brow_box.append(bl)
+        self.browser_dd = Gtk.DropDown.new_from_strings(["Brave", "Tor"])
+        self.browser_dd.add_css_class("dd")
+        brow_box.append(self.browser_dd)
+        ddrow.append(brow_box)
+
         self.append(ddrow)
 
         # ---------------- address bar ----------------
@@ -294,6 +304,10 @@ class UrlBar(Gtk.Box):
         self.entry.grab_focus()
 
     # -------- helpers --------
+    def current_browser(self):
+        p = self.browser_dd.get_selected()
+        return "Brave" if p < 0 else self.browser_dd.get_model().get_string(p)
+
     def current_profile(self):
         p = self.profile_dd.get_selected()
         return "Default" if p < 0 else self.profile_dd.get_model().get_string(p)
@@ -307,11 +321,21 @@ class UrlBar(Gtk.Box):
         if not url:
             return
         final = add_scheme(url, self.current_protocol())
-        subprocess.Popen(
-            ["brave-origin", "--profile-directory=" + self.current_profile(), "--app=" + final],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
+        if self.current_browser() == "Tor":
+            subprocess.Popen(
+                ["brave-origin",
+                 "--profile-directory=" + self.current_profile(),
+                 "--proxy-server=socks5://127.0.0.1:9050",
+                 "--app=" + final],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+        else:
+            subprocess.Popen(
+                ["brave-origin", "--profile-directory=" + self.current_profile(), "--app=" + final],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
         save_history(final)
         self.reload_list()
         self.entry.set_text("")
