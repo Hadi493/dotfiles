@@ -37,7 +37,7 @@ hl.bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
 hl.bind(mainMod .. "+ G", hl.dsp.group.toggle())
 hl.bind("CTRL + left", hl.dsp.group.prev())
 hl.bind("CTRL + right", hl.dsp.group.next())
-hl.bind("CTRL + Tab", hl.dsp.group.prev())
+hl.bind("ALT + Tab", hl.dsp.group.prev())
 
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("coomer"))
 
