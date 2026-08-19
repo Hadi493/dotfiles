@@ -30,6 +30,7 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("noctalia msg session lock"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications"))
+hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center media"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
 
 hl.bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
