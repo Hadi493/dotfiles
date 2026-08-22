@@ -62,6 +62,7 @@ hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd([[hyprshot -m region -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
 
 hl.bind("CTRL + Escape", hl.dsp.exec_cmd("noctalia msg bar-toggle"))
+hl.bind("CTRL + SHIFT + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_noctalia"))
 hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 
 -- Focus navigation (wraps first<->last in scrolling layout)
@@ -124,8 +125,8 @@ hl.bind(mainMod .. " + SHIFT + mouse_up", hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. " + CTRL + mouse_down", hl.dsp.layout("colresize +conf"))
 hl.bind(mainMod .. " + CTRL + mouse_up", hl.dsp.layout("colresize -conf"))
 
-hl.bind("ALT + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind("ALT + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind("ALT + SHIFT + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind("ALT + SHIFT + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 hl.bind("F1", hl.dsp.exec_cmd(P.default_wall))
 hl.bind("F3", hl.dsp.exec_cmd("brightnessctl set 100%+"))
