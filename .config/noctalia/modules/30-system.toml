@@ -1,0 +1,19 @@
+# 30-system.toml — MDS Wallpaper, lockscreen, notifications
+[wallpaper]
+enabled   = true
+directory = "~/Pictures/wallpapers"
+fill_mode = "fit"
+
+[wallpaper.automation]
+enabled = false
+
+[lockscreen]
+enabled        = true
+blur_intensity = 0.35
+tint_intensity = 0.25
+wallpaper      = "~/.config/hypr/images/hyprlock.jpg"
+
+[notification]
+enable_daemon = true
+position      = "top_right"
+offset_y      = 8

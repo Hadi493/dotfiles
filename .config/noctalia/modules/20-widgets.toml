@@ -1,0 +1,86 @@
+# 20-widgets.toml — MDS Widget definitions
+# Edit one widget without touching bar/theme.
+[widget.media]
+album_art_only     = false
+hide_when_no_media = true
+artist_first       = true
+hide_artist        = false
+art_size           = 20
+min_length         = 100
+max_length         = 240
+title_scroll       = "on_hover"
+
+[widget.workspaces]
+style                  = "regular"
+focused_color          = "primary"
+occupied_color         = "secondary"
+empty_color            = "surface_variant"
+urgent_color           = "error"
+change_color_on_hover  = true
+
+# Clock — seconds enabled. Change format to hide seconds: "{:%-I:%M %p}"
+[widget.clock]
+format         = "{:%-I:%M:%S %p}"
+# Shows full date + seconds on hover
+tooltip_format = "{:%A, %B %d, %Y — %H:%M:%S}"
+color          = "primary"
+font_weight    = 700
+
+[widget.network]
+show_label = true
+color      = "#6DCFFF"
+
+[widget.volume]
+type       = "volume"
+device     = "output"
+show_label = true
+color      = "#FFA375"
+mute_color = "error"
+
+[widget.volume.actions]
+middle = "volume-mute"
+
+[widget.mic]
+type       = "volume"
+device     = "input"
+show_label = true
+color      = "#E0B8FF"
+mute_color = "error"
+
+[widget.mic.actions]
+middle = "mic-mute"
+
+[widget.cpu]
+type  = "sysmon"
+stat  = "cpu_usage"
+path  = ""
+color = "#C5E665"
+
+[widget.ram]
+type  = "sysmon"
+stat  = "ram_used"
+path  = ""
+color = "#E0B8FF"
+
+[widget.disk]
+type  = "sysmon"
+stat  = "disk_used_pct"
+path  = "/"
+color = "#A8F0D8"
+
+[widget.temp]
+type  = "sysmon"
+stat  = "cpu_temp"
+path  = ""
+color = "#FFA375"
+
+[widget.session]
+color = "#FF7B85"
+
+[widget.clipboard]
+glyph = "clipboard"
+color = "#A8F0D8"
+
+# Ambient background sounds — macOS style (plugin: hadi/ambient)
+[widget.ambient]
+type  = "hadi/ambient:ambient"

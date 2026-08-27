@@ -1,0 +1,19 @@
+{
+  "settings.default_sound.label": "Default sound",
+  "settings.default_sound.description": "Sound played when you toggle on.",
+  "settings.default_sound.options.rain": "Rain — rainy",
+  "settings.default_sound.options.ocean": "Cloudy Ocean — soft waves",
+  "settings.volume.label": "Volume",
+  "settings.volume.description": "Master volume 0.0–1.0 (stereo clean loops).",
+  "settings.auto_play.label": "Auto-play on login",
+  "settings.auto_play.description": "Resume last sound when Noctalia starts.",
+  "settings.allow_multiple.label": "Allow mixing",
+  "settings.allow_multiple.description": "Mix Rain + Cloudy Ocean together. Off = single.",
+  "panel.title": "Background Sounds",
+  "panel.subtitle": "Rain & Cloudy Ocean — minimal",
+  "panel.section.macos": "Selection",
+  "panel.volume": "Volume",
+  "panel.hint": "Tap row to play • Scroll bar widget = volume • Middle-click = panel",
+  "widget.tooltip.playing": "Playing • click cycle, scroll volume",
+  "widget.tooltip.stopped": "Off • click play"
+}

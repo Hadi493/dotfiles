@@ -1,0 +1,34 @@
+# 00-theme.toml — MDS Theme & Shell
+# Edit palette here; change `custom_palette` to swap instantly.
+[theme]
+mode            = "dark"
+source          = "custom"
+custom_palette  = "GruberDarker"
+pure_black_dark = false
+
+[shell]
+font_family     = "Iosevka Nerd Font"
+# Seconds enabled — uses %S. Change to {:%I:%M %p} to hide seconds.
+time_format     = "{:%I:%M:%S %p}"
+# Flat design — no round corners
+corner_radius_scale = 0.0
+popup_borders   = false
+card_borders    = false
+button_borders  = false
+input_borders   = false
+
+[shell.animation]
+speed = 1.3
+
+[shell.shadow]
+alpha = 0.0
+
+[shell.panel]
+transparency_mode = "solid"
+
+[shell.screen_corners]
+size = 0
+
+[storage]
+key_source = "file"
+key_file   = "~/.local/state/noctalia/storage.key"

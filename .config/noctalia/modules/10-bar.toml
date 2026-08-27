@@ -1,0 +1,71 @@
+# 10-bar.toml — MDS Bar layout + design upgrade
+[bar]
+order = ["default"]
+
+[bar.default]
+position              = "top"
+thickness             = 36
+# Subtle translucency instead of 0.0 — lets wallpaper show but keeps readability
+background_opacity    = 0.92
+radius                = 0
+radius_top_left       = 0
+radius_top_right      = 0
+radius_bottom_left    = 0
+radius_bottom_right   = 0
+concave_edge_corners  = false
+margin_ends           = 10
+margin_edge           = 6
+margin_opposite_edge  = 2
+padding               = 6
+widget_spacing        = 8
+font_weight           = 600
+scale                 = 1.0
+capsule_thickness     = 0.9
+reserve_space         = true
+layer                 = "top"
+auto_hide             = false
+smart_auto_hide       = false
+hover_highlight       = true
+
+start  = ["group:left"]
+center = ["group:center"]
+end    = ["group:right"]
+
+# Left capsule — workspaces + media, flat (no round)
+[[bar.default.capsule_group]]
+id       = "left"
+members  = ["workspaces", "media"]
+fill     = "surface"
+opacity  = 0.90
+radius   = 0
+padding  = 8
+
+# Center capsule — clock (with seconds), flat
+[[bar.default.capsule_group]]
+id       = "center"
+members  = ["clock"]
+fill     = "surface"
+opacity  = 0.94
+radius   = 0
+padding  = 10
+
+# Right capsule — system controls (ambient = background sounds), flat
+[[bar.default.capsule_group]]
+id       = "right"
+members  = [
+    "ambient",
+    "network",
+    "volume",
+    "mic",
+    "cpu",
+    "ram",
+    "disk",
+    "temp",
+    "tray",
+    "clipboard",
+    "session"
+]
+fill     = "surface"
+opacity  = 0.90
+radius   = 0
+padding  = 8

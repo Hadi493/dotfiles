@@ -1,0 +1,69 @@
+id         = "hadi/ambient"
+name       = "Ambient Sounds"
+version    = "1.3.0"
+plugin_api = 23
+author     = "hadi"
+description = "Minimal Background Sounds — Rain & Cloudy Ocean only (clean stereo loops)."
+icon       = "wave-sine"
+tags       = ["audio", "ambient", "background"]
+
+[[service]]
+id    = "service"
+entry = "service.luau"
+
+[[widget]]
+id    = "ambient"
+entry = "widget.luau"
+  [widget.actions]
+  right = "none"
+  middle = "none"
+
+[[shortcut]]
+id    = "ambient-tile"
+entry = "shortcut.luau"
+
+[[panel]]
+id    = "ambient-panel"
+entry = "panel.luau"
+width = 380
+height = 420
+placement = "floating"
+position = "center"
+open_near_click = false
+dismiss_on_outside_click = true
+
+[[setting]]
+key = "default_sound"
+type = "select"
+label_key = "settings.default_sound.label"
+description_key = "settings.default_sound.description"
+default = "rain"
+  [[setting.options]]
+  value = "rain"
+  label_key = "settings.default_sound.options.rain"
+  [[setting.options]]
+  value = "ocean"
+  label_key = "settings.default_sound.options.ocean"
+
+[[setting]]
+key = "volume"
+type = "double"
+label_key = "settings.volume.label"
+description_key = "settings.volume.description"
+default = 0.32
+min = 0.0
+max = 1.0
+
+[[setting]]
+key = "auto_play"
+type = "bool"
+label_key = "settings.auto_play.label"
+description_key = "settings.auto_play.description"
+default = false
+
+[[setting]]
+key = "allow_multiple"
+type = "bool"
+label_key = "settings.allow_multiple.label"
+description_key = "settings.allow_multiple.description"
+default = false
