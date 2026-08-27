@@ -1,0 +1,84 @@
+id         = "hadi/nowplay"
+name       = "Now Play"
+version    = "1.0.0"
+plugin_api = 23
+author     = "hadi"
+description = "Now Play + Wallpaper — pick a folder, browse & play audio/video in bg with flexible controls and optional wallpaper follow."
+icon       = "music"
+tags       = ["audio", "video", "player", "wallpaper", "now-playing"]
+
+[[service]]
+id    = "service"
+entry = "service.luau"
+
+[[widget]]
+id    = "nowplay"
+entry = "widget.luau"
+  [widget.actions]
+  right = "none"
+  middle = "none"
+
+[[shortcut]]
+id    = "nowplay-tile"
+entry = "shortcut.luau"
+
+[[panel]]
+id    = "nowplay-panel"
+entry = "panel.luau"
+width = 520
+height = 640
+placement = "floating"
+position = "center"
+open_near_click = false
+dismiss_on_outside_click = true
+
+[[setting]]
+key = "media_folder"
+type = "folder"
+label_key = "settings.media_folder.label"
+description_key = "settings.media_folder.description"
+default = "~/Videos"
+
+[[setting]]
+key = "volume"
+type = "double"
+label_key = "settings.volume.label"
+description_key = "settings.volume.description"
+default = 0.45
+min = 0.0
+max = 1.0
+
+[[setting]]
+key = "shuffle"
+type = "bool"
+label_key = "settings.shuffle.label"
+description_key = "settings.shuffle.description"
+default = false
+
+[[setting]]
+key = "repeat"
+type = "bool"
+label_key = "settings.repeat.label"
+description_key = "settings.repeat.description"
+default = false
+
+[[setting]]
+key = "wallpaper_follow"
+type = "bool"
+label_key = "settings.wallpaper_follow.label"
+description_key = "settings.wallpaper_follow.description"
+default = false
+
+[[setting]]
+key = "auto_play"
+type = "bool"
+label_key = "settings.auto_play.label"
+description_key = "settings.auto_play.description"
+default = false
+
+[[setting]]
+key = "show_notifications"
+type = "bool"
+label_key = "settings.show_notifications.label"
+description_key = "settings.show_notifications.description"
+default = true

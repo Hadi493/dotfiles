@@ -84,3 +84,7 @@ color = "#A8F0D8"
 # Ambient background sounds — macOS style (plugin: hadi/ambient)
 [widget.ambient]
 type  = "hadi/ambient:ambient"
+
+# Now Play — folder music/video bg player + wallpaper follow (plugin: hadi/nowplay)
+[widget.nowplay]
+type  = "hadi/nowplay:nowplay"
