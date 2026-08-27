@@ -31,10 +31,10 @@ start  = ["group:left"]
 center = ["group:center"]
 end    = ["group:right"]
 
-# Left capsule — workspaces + media, flat (no round)
+# Left capsule — workspaces + media + nowplay, flat (no round)
 [[bar.default.capsule_group]]
 id       = "left"
-members  = ["workspaces", "media"]
+members  = ["workspaces", "media", "nowplay"]
 fill     = "surface"
 opacity  = 0.90
 radius   = 0
