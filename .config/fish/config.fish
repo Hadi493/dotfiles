@@ -34,7 +34,6 @@ set -g fish_complete_case_insensitive 1
 # Enable autosuggestions from history
 set -g fish_autosuggestion_enabled 1
 
-
 set -Ux CHROME_EXECUTABLE /bin/chromium
 export CHROME_EXECUTABLE
 
@@ -169,6 +168,9 @@ alias sfc="source ~/.config/fish/config.fish"
 # Tor status
 alias tor-status="systemctl status tor"
 
+# Whatisit model
+alias wit="whatisit"
+
 # Basic file operations
 alias l="eza --long --header --git --icons --group-directories-first"
 alias ls="ls -a"
@@ -196,7 +198,6 @@ alias whconf="nv ~/.config/hypr/scripts/wallpaper_changer.sh"
 alias cdwm="nv ~/cg-dwm/config.h"
 alias mdwm="cd ~/cg-dwm; sudo make clean install; cd -"
 
-
 alias jrnl="nv ~/jrnls/jrnl.daily.md"
 alias bjrnl="nv ~/jrnls/bjrnl.md"
 alias ht="nv ~/jrnls/ht.daily.md"
@@ -215,11 +216,6 @@ alias nv="nvim"
 alias hx="helix"
 alias v="vim"
 alias emnw="emacs -nw"
-
-# poetry
-alias pv="v ~/Documents/poetry/poetry.md"
-alias pnv="nv ~/Documents/poetry/poetry.md"
-alias ph="hx ~/Documents/poetry/poetry.md"
 
 # Git aliases
 alias g="git"
@@ -261,7 +257,6 @@ alias chgrp="chgrp --preserve-root"
 
 # set wallpaper
 alias set-wallpaper="feh --bg-fill"
-
 
 alias sys-upgrade='sudo timeshift --create --comments "Before Upgrade" --tags D && sudo pacman -Syu'
 
@@ -346,7 +341,6 @@ function fish_prompt
     set_color E6B450
     echo -n "\$ "
 end
-
 
 # function fish_prompt
 #     set -l last_status $status

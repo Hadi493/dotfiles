@@ -1,16 +1,12 @@
 #!/bin/bash
-GAPS_IN=5
-GAPS_OUT=10
-STATE="/tmp/noctalia_bar_hidden"
+STATE="/tmp/noctalia_bar_float"
+
+noctalia msg bar-reserve-toggle
 
 if [ -f "$STATE" ]; then
-    noctalia msg bar-show
     rm -f "$STATE"
-    hyprctl eval "hl.config({ general = { gaps_in = $GAPS_IN, gaps_out = $GAPS_OUT } })"
-    notify-send -t 1000 "Noctalia" "Bar shown — gaps $GAPS_IN/$GAPS_OUT"
+    notify-send -t 1000 "Noctalia" "Bar docked"
 else
-    noctalia msg bar-hide
     touch "$STATE"
-    hyprctl eval "hl.config({ general = { gaps_in = 0, gaps_out = 0 } })"
-    notify-send -t 1000 "Noctalia" "Bar hidden — gaps 0"
+    notify-send -t 1000 "Noctalia" "Bar floating"
 fi

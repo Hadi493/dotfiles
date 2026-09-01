@@ -1,7 +1,7 @@
 local P = {}
 
 P.terminal = "st"
-P.herdr = "st herdr"
+P.herdr = "kitty herdr"
 P.audiosettings = "pavucontrol"
 P.codeditor = "emacs"
 P.fileManager = "nautilus"
