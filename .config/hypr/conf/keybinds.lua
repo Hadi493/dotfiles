@@ -62,7 +62,7 @@ hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd([[hyprshot -m region -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
 
 hl.bind("CTRL + Escape", hl.dsp.exec_cmd("noctalia msg bar-toggle"))
-hl.bind("CTRL + SHIFT + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_noctalia"))
+hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_gaps"))
 hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 
 -- Focus navigation (wraps first<->last in scrolling layout)

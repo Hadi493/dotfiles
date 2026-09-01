@@ -1,0 +1,10 @@
+#!/bin/bash
+GAPS_NOW=$(/usr/bin/hyprctl -j getoption general:gaps_in | grep -oP '(?<="css": ")\d+')
+
+if [ "$GAPS_NOW" = "0" ]; then
+    /usr/bin/hyprctl eval 'hl.config({ general = { gaps_in = 5, gaps_out = 10 } })'
+    notify-send -t 1000 "Gaps" "5 / 10"
+else
+    /usr/bin/hyprctl eval 'hl.config({ general = { gaps_in = 0, gaps_out = 0 } })'
+    notify-send -t 1000 "Gaps" "0"
+fi

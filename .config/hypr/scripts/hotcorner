@@ -9,13 +9,13 @@ echo $$ >"$pid_file"
 trap 'rm -f "$pid_file"' EXIT
 
 poll_interval=0.05
-corner_radius=30
+corner_radius=1
 top_left_triggered=0
 
 while true; do
-    read -r mx my < <(hyprctl cursorpos | tr -d 'x,')
+    read -r mx my < <(/usr/bin/hyprctl cursorpos | tr -d 'x,')
 
-    monitors="$(hyprctl monitors -j | jq -r '.[] | [.name, .x, .y, .width, .height, (.scale|floor)] | @tsv')"
+    monitors="$(/usr/bin/hyprctl monitors -j | jq -r '.[] | [.name, .x, .y, .width, .height, (.scale|floor)] | @tsv')"
 
     while IFS=$'\t' read -r name x y w h scale; do
         sx=$((x / scale))
@@ -31,7 +31,7 @@ while true; do
 
             if (( in_corner == 1 && top_left_triggered == 0 )); then
                 top_left_triggered=1
-                hyprctl eval 'hl.dispatch(hl.plugin.scrolloverview.overview("toggle"))' >/dev/null 2>&1
+                /usr/bin/hyprctl eval 'hl.dispatch(hl.plugin.scrolloverview.overview("toggle"))' >/dev/null 2>&1
             elif (( in_corner == 0 && top_left_triggered == 1 )); then
                 top_left_triggered=0
             fi
