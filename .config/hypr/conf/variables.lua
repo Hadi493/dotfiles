@@ -1,5 +1,6 @@
 local P = {}
 
+P.quran = "~/opt/r-quran/R-Quran-x86_64.AppImage"
 P.terminal = "st"
 P.herdr = "kitty herdr"
 P.audiosettings = "pavucontrol"

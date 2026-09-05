@@ -4,6 +4,7 @@ local mainMod = "SUPER"
 
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
+hl.bind("ALT + Q", hl.dsp.exec_cmd(P.quran))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(P.herdr))
 hl.bind(mainMod .. "+ SHIFT + Return", hl.dsp.exec_cmd(P.terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -166,3 +167,10 @@ hl.bind(mainMod .. " + bracketleft", hl.dsp.exec_cmd([[hyprctl dispatch 'hl.dsp.
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/toggle_opacity"))
 
 hl.bind("ALT + E", hl.dsp.exec_cmd(P.web_game_ev))
+
+-- Rotate active monitor - closest to "rotate active window" (rotates whole monitor)
+-- SUPER+ALT+R = cycle 0° -> 90° -> 180° -> 270° -> 0° live (CTRL+ALT+R kept as alt to avoid Noctalia conflict)
+hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/rotate-active-monitor next"), { description = "Rotate monitor 90°" })
+hl.bind("SUPER + ALT + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/rotate-active-monitor reset"), { description = "Reset monitor rotation" })
+hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/rotate-active-monitor next"), { description = "Rotate monitor 90° (alt)" })
+hl.bind("CTRL + ALT + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/rotate-active-monitor reset"), { description = "Reset monitor rotation (alt)" })
