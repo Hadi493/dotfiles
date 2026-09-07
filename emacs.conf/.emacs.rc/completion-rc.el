@@ -1,4 +1,4 @@
-;;; Completion configuration (Vertico, Helm, Company)
+;;; completion-rc.el --- Completion configuration (Vertico, Helm, Company) -*- lexical-binding: t; -*-
 
 ;; Ido is disabled — vertico replaces it
 (ido-mode -1)

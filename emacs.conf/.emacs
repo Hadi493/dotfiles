@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (setq custom-file "~/.emacs.custom.el")
 (package-initialize)
 
@@ -25,9 +26,9 @@
 
 ;;; Custom Hooks/Keys not in RC files yet
 (add-hook 'emacs-lisp-mode-hook
-          '(lambda ()
+          (lambda ()
              (local-set-key (kbd "C-c C-j")
-                            (quote eval-print-last-sexp))))
+                            #'eval-print-last-sexp)))
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 
 (load "~/.emacs.shadow/shadow-rc.el" t)

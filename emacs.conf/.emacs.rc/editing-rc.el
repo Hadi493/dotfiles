@@ -1,4 +1,4 @@
-;;; General editing improvements
+;;; editing-rc.el --- General editing improvements -*- lexical-binding: t; -*-
 
 ;;; Multiple cursors
 (rc/require 'multiple-cursors)

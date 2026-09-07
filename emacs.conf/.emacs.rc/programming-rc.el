@@ -1,4 +1,4 @@
-;;; Programming language configurations (except simpc-mode)
+;;; programming-rc.el --- Programming language configurations (except simpc-mode) -*- lexical-binding: t; -*-
 
 ;;; C-mode
 (setq-default c-basic-offset 4

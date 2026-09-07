@@ -1,4 +1,4 @@
-;;; simpc-mode configuration
+;;; simpc-rc.el --- simpc-mode configuration -*- lexical-binding: t; -*-
 
 ;; Requires external: 'astyle' for formatting
 (add-to-list 'load-path (expand-file-name "~/.emacs.rc/simpc/"))
@@ -6,7 +6,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
-(defun astyle-buffer (&optional justify)
+(defun astyle-buffer (&optional _justify)
   "Format the current buffer using astyle."
   (interactive)
   (if (executable-find "astyle")

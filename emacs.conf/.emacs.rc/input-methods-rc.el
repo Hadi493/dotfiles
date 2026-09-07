@@ -1,4 +1,4 @@
-;;; Input Methods Configuration
+;;; input-methods-rc.el --- Input Methods Configuration -*- lexical-binding: t; -*-
 ;; Multilingual input support with Bengali (Banglish/ITRANS) and Arabic (Arabish)
 
 (require 'quail)

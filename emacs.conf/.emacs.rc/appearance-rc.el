@@ -1,4 +1,4 @@
-;;; Appearance configuration
+;;; appearance-rc.el --- Appearance configuration -*- lexical-binding: t; -*-
 
 (defun rc/get-default-font ()
   (cond
