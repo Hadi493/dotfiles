@@ -1,3 +1,4 @@
+;;; org-mode-rc.el --- Org mode configuration -*- lexical-binding: t; -*-
 (global-set-key (kbd "C-x a") 'org-agenda)
 (global-set-key (kbd "C-c C-x j") #'org-clock-jump-to-current-clock)
 
@@ -48,8 +49,8 @@
 (defun rc/cliplink-task ()
   (interactive)
   (org-cliplink-retrieve-title
-   (substring-no-properties (current-kill 0))
-   '(lambda (url title)
+    (substring-no-properties (current-kill 0))
+    (lambda (url title)
       (insert (if title
                   (concat "* TODO " title
                           "\n  [[" url "][" title "]]")

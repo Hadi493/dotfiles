@@ -1,3 +1,4 @@
+;;; misc-rc.el --- Misc utilities -*- lexical-binding: t; -*-
 (require 'ansi-color)
 
 (global-set-key (kbd "C-x C-g") 'find-file-at-point)

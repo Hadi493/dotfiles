@@ -1,4 +1,4 @@
-;;; gruber-darker-ayu-theme.el --- Gruber Darker + Ayu Dark color theme for Emacs.
+;;; gruber-darker-ayu-theme.el --- Gruber Darker + Ayu Dark color theme for Emacs. -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026 Hadi Alam
 

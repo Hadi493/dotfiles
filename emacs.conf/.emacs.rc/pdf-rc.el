@@ -1,4 +1,4 @@
-;;; PDF support using pdf-tools
+;;; pdf-rc.el --- PDF support using pdf-tools -*- lexical-binding: t; -*-
 ;;; Note: Requires system dependencies like libpoppler-glib, libpng, etc.
 
 (rc/require 'pdf-tools)

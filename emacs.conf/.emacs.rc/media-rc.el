@@ -1,4 +1,4 @@
-;;; Video and Media support (requires 'mpv' on the system)
+;;; media-rc.el --- Video and Media support (requires 'mpv' on the system) -*- lexical-binding: t; -*-
 
 (rc/require 'empv)
 
