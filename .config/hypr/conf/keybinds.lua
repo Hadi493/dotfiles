@@ -168,6 +168,9 @@ hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/toggle_op
 
 hl.bind("ALT + E", hl.dsp.exec_cmd(P.web_game_ev))
 
+-- E-ink paper mode toggle
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("~/.config/hypr/scripts/eink-toggle"))
+
 -- Rotate active monitor - closest to "rotate active window" (rotates whole monitor)
 -- SUPER+ALT+R = cycle 0° -> 90° -> 180° -> 270° -> 0° live (CTRL+ALT+R kept as alt to avoid Noctalia conflict)
 hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/rotate-active-monitor next"), { description = "Rotate monitor 90°" })
