@@ -1,0 +1,67 @@
+#!/bin/bash
+# E-INK mode toggle for Hyprland - SOFT paper feel (easy on eyes)
+# Toggles: grayscale paper shader + warm 4500K + dimmed + no animations + full opacity
+# Usage: eink-toggle [on|off|toggle|strong] (default toggle)
+#   strong = high-contrast version (eink.frag), default = soft (eink-soft.frag)
+
+SOFT_SHADER="$HOME/.config/hypr/shaders/eink-soft.frag"
+STRONG_SHADER="$HOME/.config/hypr/shaders/eink.frag"
+BUS="rs.wl-gammarelay"
+IFACE="rs.wl.gammarelay"
+EINK_TEMP=4500
+DAY_TEMP=6500
+EINK_BRIGHTNESS=0.88
+DAY_BRIGHTNESS=1.0
+EINK_GAMMA=1.0
+DAY_GAMMA=1.0
+
+get_outputs() {
+  busctl --user tree "$BUS" --list 2>/dev/null | grep '/outputs/'
+}
+
+set_warm() {
+  local temp=$1 bright=$2 gamma=$3
+  for out in $(get_outputs); do
+    busctl --user set-property "$BUS" "$out" "$IFACE" Temperature q "$temp" 2>&1
+    busctl --user set-property "$BUS" "$out" "$IFACE" Brightness d "$bright" 2>&1
+    busctl --user set-property "$BUS" "$out" "$IFACE" Gamma d "$gamma" 2>&1
+  done
+}
+
+current_shader() {
+  hyprctl getoption decoration:screen_shader 2>&1 | grep -E '^str:' | cut -d' ' -f2-
+}
+
+enable_eink() {
+  local shader="${1:-$SOFT_SHADER}"
+  [ -f "$shader" ] || shader="$SOFT_SHADER"
+  local out
+  out=$(hyprctl eval "hl.config({ decoration = { screen_shader = \"$shader\" } })" 2>&1)
+  echo "$out"
+  hyprctl eval 'hl.config({ animations = { enabled = false } })' 2>&1
+  hyprctl eval 'hl.config({ decoration = { active_opacity = 1.0, inactive_opacity = 1.0 } })' 2>&1
+  set_warm "$EINK_TEMP" "$EINK_BRIGHTNESS" "$EINK_GAMMA"
+  notify-send -t 1500 "E-ink mode" "ON soft — paper (4500K, dimmed)"
+}
+
+disable_eink() {
+  hyprctl eval 'hl.config({ decoration = { screen_shader = "" } })' 2>&1
+  hyprctl eval 'hl.config({ animations = { enabled = true } })' 2>&1
+  hyprctl eval 'hl.config({ decoration = { active_opacity = 1.0, inactive_opacity = 0.79 } })' 2>&1
+  set_warm "$DAY_TEMP" "$DAY_BRIGHTNESS" "$DAY_GAMMA"
+  notify-send -t 1500 "E-ink mode" "OFF — full color"
+}
+
+case "$1" in
+  on) enable_eink "$SOFT_SHADER" ;;
+  strong) enable_eink "$STRONG_SHADER" ;;
+  off) disable_eink ;;
+  *)
+    SHADER_NOW=$(current_shader)
+    if [ -z "$SHADER_NOW" ] || [ "$SHADER_NOW" = "[[EMPTY]]" ]; then
+      enable_eink "$SOFT_SHADER"
+    else
+      disable_eink
+    fi
+    ;;
+esac
