@@ -31,6 +31,7 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("noctalia msg session lock"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications"))
+hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
 hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center media"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
 
@@ -55,6 +56,7 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper_select"))
 
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd([[hyprshot -m window -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
 hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))

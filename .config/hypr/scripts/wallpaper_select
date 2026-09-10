@@ -25,8 +25,7 @@ list_wallpapers() {
 
 set_wallpaper() {
     local path="$1"
-    pkill -x swaybg 2>/dev/null
-    swaybg -i "$path" -m fit >/dev/null 2>&1 &
+    "$HOME/.config/hypr/scripts/set_wallpaper" "$path" >/dev/null 2>&1
     echo "$path" > "$HOME/.cache/last_wallpaper.path"
     killall -SIGUSR2 waybar 2>/dev/null
     swaync-client --reload 2>/dev/null || true

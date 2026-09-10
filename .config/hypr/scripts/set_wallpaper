@@ -6,6 +6,7 @@ WALLPAPER="$1"
 RES=$(hyprctl -j monitors 2>/dev/null | jq -r 'if length > 0 then "\(.[0].width)x\(.[0].height)" else "1920x1080" end')
 
 if [[ "$WALLPAPER" == *.gif ]]; then
+    pkill -x swaybg
     pkill -x mpvpaper
     mpvpaper -o "no-audio --loop-file=inf" "*" "$WALLPAPER" &
     exit 0
@@ -18,4 +19,5 @@ if [ ! -f "$CACHE" ]; then
 fi
 
 pkill -x swaybg
+pkill -x mpvpaper
 swaybg -i "$CACHE" -m fill &
