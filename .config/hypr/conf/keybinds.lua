@@ -52,8 +52,6 @@ hl.bind(mainMod .. " + t", hl.dsp.exec_cmd("cg-timer"))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd([[hyprctl reload ; ~/.config/hypr/scripts/hotcorner &]]))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 
-hl.bind("ALT + R", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ decoration = { rounding = 20 } })']]))
-
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
@@ -69,9 +67,6 @@ hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 -- Focus navigation (wraps first<->last in scrolling layout)
 hl.bind(mainMod .. " + left", hl.dsp.layout("focus l"))
 hl.bind(mainMod .. " + right", hl.dsp.layout("focus r"))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
-
 hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
 hl.bind(mainMod .. " + SHIFT + up", hl.dsp.layout("focus u"))
@@ -100,16 +95,9 @@ end
 
 hl.bind(mainMod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
-hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("noctalia msg window-switcher toggle"))
 
 hl.bind("ALT + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun"))
-
-hl.bind(mainMod .. " + S", hl.plugin.scrolloverview.overview("toggle"))
-hl.bind(mainMod .. " + i", hl.plugin.scrolloverview.navigate("up"))
-hl.bind(mainMod .. " + k", hl.plugin.scrolloverview.navigate("down"))
-hl.bind(mainMod .. " + h", hl.plugin.scrolloverview.navigate("left"))
-hl.bind(mainMod .. " + l", hl.plugin.scrolloverview.navigate("right"))
-hl.bind(mainMod .. " + Return", hl.plugin.scrolloverview.overview("select"))
 
 -- Touchpad swipe gestures for workspace switching (niri-like)
 hl.gesture({

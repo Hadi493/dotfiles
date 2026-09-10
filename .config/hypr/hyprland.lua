@@ -12,8 +12,7 @@ hl.monitor({
 -----------------
 ---- PLUGINS ----
 -----------------
-
-hl.plugin.load("/var/cache/hyprpm/hadi/hyprland-scroll-overview/scrolloverview.so")
+-- (none: scrolloverview/hyprexpo unusable on Hyprland 0.56.2, see git history)
 
 --------------------------
 ---- SOURCE SECTIONS ----

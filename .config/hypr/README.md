@@ -10,7 +10,7 @@ This configuration depends on a variety of packages to be fully functional. Here
 
 #### Core Compositor & Utilities
 - **`hyprland`** (≥ 0.56.1): The Wayland compositor itself.
-- **`hyprland-plugins`**: Provides the `scrolloverview` plugin (Lua-loaded in `hyprland.lua`) used for the overview.
+- **Noctalia window switcher** (`SUPER+Tab` / top-left hotcorner): overview grid of all open windows. (scrolloverview/hyprexpo plugins currently unusable on Hyprland 0.56.2 — recipes kept in git history.)
 - **`hypridle`**: The idle management daemon for Hyprland.
 - **`hyprlock`**: The screen locker for Hyprland.
 - **`hyprpicker`**: A color picker utility.
