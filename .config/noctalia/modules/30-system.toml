@@ -1,6 +1,6 @@
 # 30-system.toml — MDS Wallpaper, lockscreen, notifications
 [wallpaper]
-enabled   = true
+enabled   = false # script-owned (set_wallpaper+swaybg/mpvpaper); layer off to avoid double-paint
 directory = "~/Pictures/wallpapers"
 fill_mode = "fit"
 
