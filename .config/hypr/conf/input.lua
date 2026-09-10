@@ -15,28 +15,6 @@ hl.config({
     },
 })
 
-hl.config({
-    plugin = {
-        scrolloverview = {
-            gesture_distance = 300,
-            scale = 0.5,
-            workspace_gap = 10,
-            layout = "vertical",
-            wallpaper = 0,
-            blur = false,
-
-            input = {
-                scroll_event_delay = 200,
-                touchpad_scroll_factor = 1,
-            },
-
-            shadow = {
-                enabled = false,
-            },
-        },
-    },
-})
-
 hl.device({
     name        = "epic-mouse-v1",
     sensitivity = 1.0,
