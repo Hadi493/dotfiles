@@ -1,9 +1,9 @@
 id         = "hadi/ambient"
 name       = "Ambient Sounds"
-version    = "1.3.0"
+version    = "1.4.0"
 plugin_api = 23
 author     = "hadi"
-description = "Minimal Background Sounds — Rain & Cloudy Ocean only (clean stereo loops)."
+description = "Background rain loops — Rain, Gentle Rain, Calming Rain."
 icon       = "wave-sine"
 tags       = ["audio", "ambient", "background"]
 
@@ -26,7 +26,7 @@ entry = "shortcut.luau"
 id    = "ambient-panel"
 entry = "panel.luau"
 width = 380
-height = 420
+height = 520
 placement = "floating"
 position = "center"
 open_near_click = false
@@ -42,8 +42,11 @@ default = "rain"
   value = "rain"
   label_key = "settings.default_sound.options.rain"
   [[setting.options]]
-  value = "ocean"
-  label_key = "settings.default_sound.options.ocean"
+  value = "gentle-rain"
+  label_key = "settings.default_sound.options.gentle-rain"
+  [[setting.options]]
+  value = "calming-rain"
+  label_key = "settings.default_sound.options.calming-rain"
 
 [[setting]]
 key = "volume"
