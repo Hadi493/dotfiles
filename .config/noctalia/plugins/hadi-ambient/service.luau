@@ -1,22 +1,39 @@
--- service.luau — Minimal: Rain & Cloudy Ocean only
-local SOUNDS = { "rain", "ocean" }
+-- service.luau — Background sound loops
+local SOUNDS = { "rain", "gentle-rain", "calming-rain" }
+local FILES = {
+  rain = "rain.ogg",
+  ["gentle-rain"] = "gentle-rain.mp3",
+  ["calming-rain"] = "calming-rain.mp3",
+}
 local DATA_FILE = "ambient.json"
 
 local function pluginDir() return noctalia.pluginDir() or "." end
 local function dataDir() local d = noctalia.pluginDataDir(); if d then return d end return pluginDir() end
 local function dataPath() return dataDir() .. "/" .. DATA_FILE end
 
+local function known(name)
+  if not name then return false end
+  for _, s in ipairs(SOUNDS) do if s == name then return true end end
+  return false
+end
+
+local function cycleNext(cur)
+  for i, s in ipairs(SOUNDS) do
+    if s == cur then return SOUNDS[(i % #SOUNDS) + 1] end
+  end
+  return SOUNDS[1]
+end
+
 local function loadState()
   local raw = noctalia.readFile(dataPath())
   if raw then
     local ok, tbl = pcall(noctalia.json.decode, raw)
     if ok and type(tbl)=="table" then
-      -- migrate old sound names to remaining two
-      if tbl.sound and tbl.sound ~= "rain" and tbl.sound ~= "ocean" then tbl.sound = "rain" end
+      if not known(tbl.sound) then tbl.sound = noctalia.getConfig("default_sound") or "rain" end
       if tbl.mixes then
         local nm={}
-        for _,v in ipairs(tbl.mixes) do if v=="rain" or v=="ocean" then table.insert(nm, v) end end
-        tbl.mixes = #nm>0 and nm or {"rain"}
+        for _,v in ipairs(tbl.mixes) do if known(v) then table.insert(nm, v) end end
+        tbl.mixes = #nm>0 and nm or { tbl.sound }
       end
       return tbl
     end
@@ -39,7 +56,11 @@ noctalia.state.set("ambient:volume", state.volume)
 noctalia.state.set("ambient:mixes", state.mixes)
 noctalia.state.set("ambient:sounds", SOUNDS)
 
-local function soundPath(name) return pluginDir() .. "/sounds/" .. name .. ".ogg" end
+local function soundPath(name)
+  local file = FILES[name]
+  if not file then return nil end
+  return pluginDir() .. "/sounds/" .. file
+end
 
 local function killAll()
   noctalia.runAsync("pkill -f 'mpv.*--title=ambient-' 2>/dev/null; true")
@@ -47,8 +68,8 @@ end
 
 local function playOne(name, vol)
   local path = soundPath(name)
-  if not noctalia.fileExists(path) then
-    noctalia.notifyError("Background Sounds", "Missing: " .. name .. ".ogg")
+  if not path or not noctalia.fileExists(path) then
+    noctalia.notifyError("Background Sounds", "Missing: " .. (FILES[name] or (name .. ".ogg")))
     return
   end
   local v = math.floor(math.clamp(vol or state.volume, 0, 1) * 100 + 0.5)
@@ -78,15 +99,15 @@ end
 function onIpc(event, payload)
   if event == "toggle" then
     state.active = not state.active
-    if state.active and payload and payload ~= "" then
-      for _, s in ipairs(SOUNDS) do if s==payload then state.sound=payload end end
+    if state.active and payload and payload ~= "" and known(payload) then
+      state.sound = payload
     end
     saveState(state)
     syncPlayback()
     noctalia.notify("Background Sounds", state.active and ("▶ " .. state.sound) or "⏸ Stopped")
   elseif event == "play" then
-    state.sound = payload ~= "" and payload or state.sound
-    if state.sound ~= "rain" and state.sound ~= "ocean" then state.sound="rain" end
+    if payload ~= "" and known(payload) then state.sound = payload end
+    if not known(state.sound) then state.sound = "rain" end
     state.active = true
     if noctalia.getConfig("allow_multiple") then
       state.mixes = state.mixes or {}
@@ -99,7 +120,7 @@ function onIpc(event, payload)
     saveState(state)
     syncPlayback()
   elseif event == "set-sound" then
-    for _, s in ipairs(SOUNDS) do if s==payload then state.sound=payload end end
+    if known(payload) then state.sound = payload end
     state.mixes = { state.sound }
     saveState(state)
     if state.active then syncPlayback() end
@@ -124,7 +145,7 @@ function onIpc(event, payload)
       if state.active then syncPlayback() end
     end
   elseif event == "cycle" then
-    state.sound = state.sound=="rain" and "ocean" or "rain"
+    state.sound = cycleNext(state.sound)
     state.active = true
     state.mixes = { state.sound }
     saveState(state)
@@ -140,7 +161,7 @@ function onConfigChanged()
     if state.active then syncPlayback() end
   end
   local ds = noctalia.getConfig("default_sound")
-  if ds and not state.active and (ds=="rain" or ds=="ocean") then
+  if ds and not state.active and known(ds) then
     state.sound = ds
     saveState(state)
   end

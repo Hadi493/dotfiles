@@ -1,5 +1,9 @@
--- widget.luau — Rain & Cloudy Ocean minimal
-local GLYPHS = { ["rain"]="cloud-rain", ["ocean"]="cloud" }
+-- widget.luau — Ambient rain loops
+local GLYPHS = {
+  ["rain"] = "cloud-rain",
+  ["gentle-rain"] = "cloud",
+  ["calming-rain"] = "droplet",
+}
 local active=false
 local sound="rain"
 local volume=0.32
