@@ -1,11 +1,12 @@
 id         = "hadi/ambient"
 name       = "Ambient Sounds"
-version    = "1.4.0"
+version    = "2.0.0"
 plugin_api = 23
 author     = "hadi"
-description = "Background rain loops — Rain, Gentle Rain, Calming Rain."
+description = "Dynamic background sound loops — bundled rain loops plus your own audio files or URLs."
 icon       = "wave-sine"
 tags       = ["audio", "ambient", "background"]
+dependencies = ["mpv"]
 
 [[service]]
 id    = "service"
@@ -15,7 +16,6 @@ entry = "service.luau"
 id    = "ambient"
 entry = "widget.luau"
   [widget.actions]
-  right = "none"
   middle = "none"
 
 [[shortcut]]
@@ -25,8 +25,8 @@ entry = "shortcut.luau"
 [[panel]]
 id    = "ambient-panel"
 entry = "panel.luau"
-width = 380
-height = 520
+width = 400
+height = 620
 placement = "floating"
 position = "center"
 open_near_click = false
@@ -34,19 +34,10 @@ dismiss_on_outside_click = true
 
 [[setting]]
 key = "default_sound"
-type = "select"
+type = "string"
 label_key = "settings.default_sound.label"
 description_key = "settings.default_sound.description"
 default = "rain"
-  [[setting.options]]
-  value = "rain"
-  label_key = "settings.default_sound.options.rain"
-  [[setting.options]]
-  value = "gentle-rain"
-  label_key = "settings.default_sound.options.gentle-rain"
-  [[setting.options]]
-  value = "calming-rain"
-  label_key = "settings.default_sound.options.calming-rain"
 
 [[setting]]
 key = "volume"
