@@ -23,16 +23,19 @@ palettes/GruberDarker.json
 
 Validate: `noctalia config validate` ; export: `noctalia config export > merged.toml`
 
-## Ambient Sounds (macOS-like)
-Plugin `hadi/ambient` (local, `~/.local/share/noctalia/plugins/hadi-ambient`)
-- Sounds: rain, ocean, stream, forest, fireplace, white-noise, balanced-noise (60s loop ogg in `sounds/`)
-- Bar widget `ambient`: click=cycle, right-click=toggle, scroll=volume, middle=open panel
-- Panel `hadi/ambient:ambient-panel`: `noctalia msg panel-toggle hadi/ambient:ambient-panel`
-- Shortcut tile: add in Noctalia Settings → Control Center → Shortcuts
-- IPC: `noctalia msg plugin hadi/ambient:service all <play|toggle|stop|cycle|volume> [value]`
-  e.g. `noctalia msg plugin hadi/ambient:service all play rain`
-- Settings: gear on `hadi/ambient` in Settings → Plugins → default_sound, volume, allow_multiple, auto_play
+## Ambient Sounds (dynamic)
+Plugin `hadi/ambient` v2.0.0 (local, `~/.config/noctalia/plugins/hadi-ambient`)
+- Catalog is dynamic: every `*.ogg/.oga/.mp3/.wav/.flac/.opus/.m4a` in `sounds/` (bundled, committed) plus custom sounds in plugin data `custom/` (survives updates).
+- Bundled: rain, gentle-rain, calming-rain (mpv `--loop`).
+- Bar widget `ambient`: click=cycle, right-click=toggle, scroll=volume, middle=open panel. Note `plugin.toml [widget.actions]` keeps only `middle = "none"` so right/middle reach the script.
+- Panel `hadi/ambient:ambient-panel`: tap row = play, trash = delete file, input = add local path or URL, Folders = open both dirs, Rescan = re-scan.
+- Shortcut tile: add in Noctalia Settings → Control Center → Shortcuts.
+- IPC: `noctalia msg plugin hadi/ambient:service all <play|toggle|stop|cycle|volume|set-sound|stop-one|list|rescan|add|remove|open-folder> [value]`
+  e.g. `noctalia msg plugin hadi/ambient:service all add ~/Music/ocean.mp3`
+  e.g. `noctalia msg plugin hadi/ambient:service all remove ocean`
+- Settings: gear on `hadi/ambient` in Settings → Plugins → default_sound (free string), volume, allow_multiple, auto_play.
+- Shared scan/label/glyph logic: `plugins/hadi-ambient/lib/sounds.luau` (required by all entries, needs plugin_api ≥ 22).
 
-Deps: `mpv` (installed). Audio via PipeWire.
+Deps: `mpv` (installed, declared in manifest). Audio via PipeWire.
 
 Backups in `backups/` (auto on MDS init).
