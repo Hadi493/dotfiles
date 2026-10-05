@@ -1,23 +1,121 @@
 #!/bin/bash
-WALLPAPER="$1"
-[ -z "$WALLPAPER" ] && { echo "Usage: $0 <image>"; exit 1; }
+# Set the wallpaper: animated files via mpvpaper, static via swaybg.
+#
+# Usage: set_wallpaper [--mode fill|fit|stretch|center|tile] [--blur|--no-blur]
+#                      [--fill|--fit] <image>
+#   --fill  = zoom-crop to cover the screen, no blurred backdrop (default)
+#   --fit   = whole image over a blurred, zoomed backdrop
+set -u
+
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/wallpaper.sh"
+
+usage() {
+    echo "Usage: $0 [--mode fill|fit|stretch|center|tile] [--blur|--no-blur] [--fill|--fit] <image>"
+    exit "${1:-1}"
+}
+
+# Flags override the saved state; the result is saved for restore/auto/rofi.
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -m|--mode)
+            [ $# -lt 2 ] && usage 1
+            WP_MODE="$2"; shift 2 ;;
+        --mode=*)
+            WP_MODE="${1#--mode=}"; shift ;;
+        --blur)
+            WP_BLUR="1"; shift ;;
+        --no-blur)
+            WP_BLUR="0"; shift ;;
+        --fill)
+            WP_MODE="fill"; WP_BLUR="0"; shift ;;
+        --fit)
+            WP_MODE="fit"; WP_BLUR="1"; shift ;;
+        -h|--help)
+            usage 0 ;;
+        --)
+            shift; break ;;
+        -*)
+            echo "Unknown option: $1" >&2; usage 1 ;;
+        *)
+            break ;;
+    esac
+done
+
+WALLPAPER="${1:-}"
+[ -z "$WALLPAPER" ] && usage 1
 [ ! -f "$WALLPAPER" ] && { echo "File not found: $WALLPAPER"; exit 1; }
+
+wp_save_state
 
 RES=$(hyprctl -j monitors 2>/dev/null | jq -r 'if length > 0 then "\(.[0].width)x\(.[0].height)" else "1920x1080" end')
 
-if [[ "$WALLPAPER" == *.gif ]]; then
+if wp_is_animated "$WALLPAPER"; then
     pkill -x swaybg
     pkill -x mpvpaper
-    mpvpaper -o "no-audio --loop-file=inf" "*" "$WALLPAPER" &
+    local_opts="no-audio --loop-file=inf"
+    [ "$WP_MODE" = "fill" ] && local_opts="$local_opts --panscan=1.0"
+    mpvpaper -o "$local_opts" "*" "$WALLPAPER" >/dev/null 2>&1 < /dev/null &
+    disown
+    wp_persist "$WALLPAPER"
     exit 0
 fi
 
-CACHE="/tmp/wallpaper_$(basename "$WALLPAPER" | sed 's/\.[^.]*$//').bmp"
-if [ ! -f "$CACHE" ]; then
-    magick "$WALLPAPER" -resize "$RES!" -blur 0x10 BMP:- | \
-        magick - \( "$WALLPAPER" -resize "$RES" \) -gravity center -composite "$CACHE"
+# The blurred backdrop only makes sense when the fitted image leaves empty
+# space (fit/center); fill/stretch already cover the screen on their own.
+USE_BLUR=0
+if [ "$WP_BLUR" = "1" ]; then
+    case "$WP_MODE" in
+        fit|center) USE_BLUR=1 ;;
+    esac
 fi
+
+mkdir -p "$WP_CACHE_DIR"
+# Cache key binds to full path + resolution + mode + blur + file
+# size/mtime, so renames, edits, and monitor changes invalidate instead of
+# reusing stale art.
+META=$(stat -c '%s-%Y' "$WALLPAPER" 2>/dev/null || echo "0-0")
+KEY=$(printf '%s|%s|%s|%s|%s' "$WALLPAPER" "$RES" "$META" "$WP_MODE" "$USE_BLUR" | sha256sum | cut -d' ' -f1 | cut -c1-16)
+CACHE="$WP_CACHE_DIR/${KEY}.jpg"
+if [ ! -s "$CACHE" ]; then
+    TMP="$CACHE.tmp.$$"
+    ok=0
+    if [ "$USE_BLUR" = "1" ]; then
+        # Composite the fitted image over a blurred, zoomed backdrop.
+        magick "$WALLPAPER" -resize "$RES!" -blur 0x10 JPG:- | \
+            magick - \( "$WALLPAPER" -resize "$RES" \) -gravity center -composite -quality 90 "$TMP" || ok=1
+    else
+        # Plain image only: crop-zoom (fill), stretch, or fit at WP_MODE.
+        case "$WP_MODE" in
+            fill)    resize=(-resize "$RES^" -gravity center -extent "$RES") ;;
+            stretch) resize=(-resize "$RES!") ;;
+            *)       resize=(-resize "$RES") ;;
+        esac
+        magick "$WALLPAPER" "${resize[@]}" -quality 90 "$TMP" || ok=1
+    fi
+    if [ "$ok" -ne 0 ]; then
+        rm -f "$TMP"
+        echo "Failed to generate cache for: $WALLPAPER" >&2
+        exit 1
+    fi
+    [ -s "$TMP" ] || { rm -f "$TMP"; echo "Failed to generate cache for: $WALLPAPER" >&2; exit 1; }
+    mv -f "$TMP" "$CACHE"
+fi
+
+# The cached file is already screen-sized for blur/fill/stretch, so paint it
+# as-is; otherwise let swaybg place the fitted image per WP_MODE.
+PAINT_MODE="fill"
+case "$USE_BLUR" in
+    1) PAINT_MODE="fill" ;;
+    0)
+        case "$WP_MODE" in
+            fill|stretch) PAINT_MODE="fill" ;;
+            *) PAINT_MODE="$WP_MODE" ;;
+        esac
+        ;;
+esac
 
 pkill -x swaybg
 pkill -x mpvpaper
-swaybg -i "$CACHE" -m fill &
+swaybg -i "$CACHE" -m "$PAINT_MODE" >/dev/null 2>&1 < /dev/null &
+disown
+wp_persist "$WALLPAPER"

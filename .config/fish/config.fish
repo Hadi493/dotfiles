@@ -194,7 +194,7 @@ alias playurl="~/.config/waybar/scripts/play-song.sh"
 alias fconf="nv ~/.config/fish/config.fish"
 alias niri-config="nv ~/.config/niri/config.kdl"
 alias hyprconf="nv ~/.config/hypr/hyprland.conf"
-alias whconf="nv ~/.config/hypr/scripts/wallpaper_changer.sh"
+alias whconf="nv ~/.config/hypr/scripts/lib/wallpaper.sh"
 alias cdwm="nv ~/cg-dwm/config.h"
 alias mdwm="cd ~/cg-dwm; sudo make clean install; cd -"
 

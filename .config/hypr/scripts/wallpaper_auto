@@ -1,69 +1,44 @@
 #!/bin/bash
+# Rotate wallpapers on an interval; daemonizes via a PID file.
 
-PIDFILE="$HOME/.cache/wallpaper_auto.pid"
-WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
-
-parse_interval() {
-    local val="$1"
-    local num="${val%[smh]}"
-    local unit="${val:${#num}}"
-    case "$unit" in
-        s) echo "$num" ;;
-        h) echo $((num * 3600)) ;;
-        m|"") echo $((num * 60)) ;;
-    esac
-}
-
-stop() {
-    if [ -f "$PIDFILE" ]; then
-        local pid
-        pid=$(cat "$PIDFILE")
-        pkill -P "$pid" 2>/dev/null
-        kill "$pid" 2>/dev/null
-        rm -f "$PIDFILE"
-        notify-send -t 1000 "Auto wallpaper rotation stopped"
-    fi
-}
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/wallpaper.sh"
 
 start() {
     local interval_sec
-    interval_sec=$(parse_interval "$1")
-    [ "$interval_sec" -eq 0 ] 2>/dev/null && interval_sec=300
+    interval_sec=$(wp_parse_interval "${1:-}")
+    if ! [[ "$interval_sec" =~ ^[0-9]+$ ]] || [ "$interval_sec" -le 0 ]; then
+        interval_sec=300
+    fi
 
-    stop
+    wp_auto_stop >/dev/null 2>&1 || true
 
-    mapfile -d '' wallpapers < <(
-        find "$WALLPAPER_DIR" -type f \
-            \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) \
-            -not -path "*/.git/*" -print0
-    )
+    mapfile -d '' wallpapers < <(wp_list)
 
     if [ "${#wallpapers[@]}" -eq 0 ]; then
         notify-send -t 2000 "Auto wallpaper" "No wallpapers found"
         exit 1
     fi
 
-    notify-send -t 2000 "Auto wallpaper rotation started" "every $1"
+    notify-send -t 2000 "Auto wallpaper rotation started" "every ${1:-5m}"
 
     (
         trap 'exit 0' TERM
         while true; do
             for wp in "${wallpapers[@]}"; do
-                pkill -x swaybg 2>/dev/null
-                swaybg -i "$wp" -m fit >/dev/null 2>&1 &
-                disown
-                echo "$wp" > "$HOME/.cache/last_wallpaper.path"
+                if "$WP_SET_SCRIPT" "$wp" >/dev/null 2>&1; then
+                    wp_persist "$wp"
+                fi
                 killall -SIGUSR2 waybar 2>/dev/null
-                swaync-client --reload 2>/dev/null || true
                 sleep "$interval_sec"
             done
         done
-    ) &
-    echo $! > "$PIDFILE"
+    ) >/dev/null 2>&1 < /dev/null &
+    disown
+    echo $! > "$WP_PIDFILE"
 }
 
-case "$1" in
-    start) start "$2" ;;
-    stop) stop ;;
+case "${1:-}" in
+    start) start "${2:-5m}" ;;
+    stop)  wp_auto_stop ;;
     *) echo "Usage: $0 start <interval (e.g. 5s/5m/5h)> | stop" ;;
 esac

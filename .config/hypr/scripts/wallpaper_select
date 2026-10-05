@@ -1,35 +1,24 @@
 #!/bin/bash
+# Rofi script-mode wallpaper/branch picker.
 
-WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
-GIT_REPO="$WALLPAPER_DIR"
-ROFI_THEME="$HOME/.config/rofi/wallpaper.rasi"
-AUTO="$HOME/.config/hypr/scripts/wallpaper_auto"
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/wallpaper.sh"
 
-if [ ! -d "$WALLPAPER_DIR" ]; then
-    rofi -e "Wallpaper directory not found: $WALLPAPER_DIR"
+GIT_REPO="$WP_DIR"
+
+if [ ! -d "$WP_DIR" ]; then
+    rofi -e "Wallpaper directory not found: $WP_DIR"
     exit 1
 fi
 
 # Launcher mode (run directly from Hyprland): start rofi script mode with $0
 if [ -z "${ROFI_RETV:-}" ]; then
-    exec rofi -show wpsel -modes "wpsel:$0" -theme "$ROFI_THEME"
+    exec rofi -show wpsel -modes "wpsel:$0" -theme "$WP_ROFI_THEME"
 fi
 
 list_wallpapers() {
-    find "$WALLPAPER_DIR" -type f \
-        \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) \
-        -print0 | while IFS= read -r -d $'\0' w; do
+    wp_list | while IFS= read -r -d $'\0' w; do
         printf '%s\x00icon\x1f%s\x1finfo\x1f%s\n' "$(basename "$w")" "$w" "$w"
     done
-}
-
-set_wallpaper() {
-    local path="$1"
-    "$HOME/.config/hypr/scripts/set_wallpaper" "$path" >/dev/null 2>&1
-    echo "$path" > "$HOME/.cache/last_wallpaper.path"
-    killall -SIGUSR2 waybar 2>/dev/null
-    swaync-client --reload 2>/dev/null || true
-    notify-send -t 1000 "Wallpaper changed" "$(basename "$path")"
 }
 
 switch_branch() {
@@ -49,7 +38,7 @@ case "${ROFI_RETV:-}" in
     1)
         path="${ROFI_INFO:-}"
         if [ -n "$path" ] && [ -f "$path" ]; then
-            set_wallpaper "$path" >/dev/null 2>&1
+            wp_apply "$path"
         else
             switch_branch "$1" >/dev/null 2>&1 || notify-send -t 2000 "No such branch" "$1"
         fi
@@ -60,25 +49,41 @@ case "${ROFI_RETV:-}" in
             /auto*)
                 interval="${input#/auto}"
                 interval="${interval# }"
-                "$AUTO" start "${interval:-5m}" >/dev/null 2>&1 </dev/null
+                "$WP_AUTO_SCRIPT" start "${interval:-5m}" >/dev/null 2>&1 </dev/null
                 ;;
             /stop*)
-                "$AUTO" stop >/dev/null 2>&1
+                "$WP_AUTO_SCRIPT" stop >/dev/null 2>&1
+                ;;
+            /fill*)
+                wp_use_fill
+                wp_reapply
+                ;;
+            /fit*)
+                wp_use_fit
+                wp_reapply
+                ;;
+            /noblur*|/no-blur*)
+                WP_BLUR="0"; wp_save_state
+                wp_reapply
+                ;;
+            /blur*)
+                WP_BLUR="1"; wp_save_state
+                wp_reapply
                 ;;
             /chbranch*)
                 echo -en "\x00prompt\x1fSwitch branch\n"
                 git -C "$GIT_REPO" branch --format='%(refname:short)'
                 ;;
             /)
-                notify-send -t 2000 "Commands" "/auto <interval> · /stop · /chbranch · /<branch>"
+                notify-send -t 2000 "Commands" "/fill · /fit · /blur · /noblur · /auto <interval> · /stop · /chbranch · /<branch>"
                 ;;
             /*)
                 branch="${input#/}"
                 switch_branch "$branch" >/dev/null 2>&1 || notify-send -t 2000 "No such branch" "$branch"
                 ;;
             *)
-                if [ -f "$WALLPAPER_DIR/$input" ]; then
-                    set_wallpaper "$WALLPAPER_DIR/$input" >/dev/null 2>&1
+                if [ -f "$WP_DIR/$input" ]; then
+                    wp_apply "$WP_DIR/$input"
                 fi
                 ;;
         esac

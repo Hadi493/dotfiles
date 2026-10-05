@@ -1,18 +1,12 @@
 #!/bin/bash
+# Re-apply the wallpaper saved from the last successful set.
+# (Don't kill the running painter until we know we have something to show.)
 
-# CACHE FILE
-LAST_WALLPAPER_CACHE="$HOME/.cache/last_wallpaper.path"
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/wallpaper.sh"
 
-# Kill any existing swaybg instances
-pkill -x swaybg
-
-# Restore last wallpaper if cache file exists
-if [ -f "$LAST_WALLPAPER_CACHE" ]; then
-    WALLPAPER_PATH=$(cat "$LAST_WALLPAPER_CACHE")
-    if [ -n "$WALLPAPER_PATH" ]; then
-        ~/.config/hypr/scripts/set_wallpaper "$WALLPAPER_PATH"
-        
-        swaync-client --reload 2>/dev/null || true
+if [ -f "$WP_CACHE_FILE" ]; then
+    WALLPAPER_PATH=$(tr -d '\r\n' < "$WP_CACHE_FILE")
+    if [ -n "$WALLPAPER_PATH" ] && [ -f "$WALLPAPER_PATH" ]; then
+        "$WP_SET_SCRIPT" "$WALLPAPER_PATH"
     fi
 fi
-
