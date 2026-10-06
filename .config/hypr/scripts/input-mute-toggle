@@ -1,3 +1,26 @@
 #!/bin/bash
+# F10 — toggle USB mic mute. Auto-detects the USB source, falls back to
+# the current default source if no USB mic is plugged in.
+# Feedback: low beep = muted, high beep = live (plus Noctalia mic OSD).
 
-noctalia msg mic-mute
+USB=$(pactl list short sources | awk '{print $2}' | grep -i -m1 'usb')
+if [ -n "$USB" ]; then
+    MIC="$USB"
+    # Keep the USB mic as the default so apps (Discord, etc.) follow it.
+    pactl set-default-source "$USB" 2>/dev/null
+else
+    MIC=$(pactl get-default-source 2>/dev/null)
+fi
+[ -z "$MIC" ] && exit 1
+
+SND="$HOME/.config/hypr"
+if pactl get-source-mute "$MIC" 2>/dev/null | grep -q "yes"; then
+    M=0; BEEP="sounds-unmute.wav"
+else
+    M=1; BEEP="sounds-mute.wav"
+fi
+
+pactl set-source-mute "$MIC" "$M" 2>/dev/null
+
+noctalia msg mic-volume-osd 2>/dev/null
+pw-cat -p "$SND/$BEEP" 2>/dev/null &

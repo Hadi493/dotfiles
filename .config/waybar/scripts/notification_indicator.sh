@@ -1,18 +1,14 @@
 #!/bin/bash
 
 # Notification indicator script for waybar
-# Shows different icon based on notification status
+# Shows different icon based on notification status (Noctalia only)
 
-if command -v swaync-client &> /dev/null; then
-    # Use swaync if available
-    swaync-client -swb
-elif command -v dunstctl &> /dev/null; then
-    # Use dunst if available
-    count=$(dunstctl count displayed 2>/dev/null || echo "0")
-    if [ "$count" -gt 0 ]; then
-        echo '{"text":"󰅸","tooltip":"'$count' notifications","class":"notification"}'
+if command -v noctalia &> /dev/null; then
+    # Use Noctalia DND state
+    if [ "$(noctalia msg notification-dnd-status 2>/dev/null)" = "on" ]; then
+        echo '{"text":"󰂛","tooltip":"Do Not Disturb enabled","class":"notification"}'
     else
-        echo '{"text":"󰂜","tooltip":"No notifications","class":"empty"}'
+        echo '{"text":"󰂜","tooltip":"Noctalia notifications","class":"empty"}'
     fi
 else
     # Fallback

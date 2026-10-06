@@ -7,6 +7,14 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name  = "move-alsamixer",
+    match = { title = "alsamixer" },
+    float = true,
+    center = true,
+    size  = { 900, 600 },
+})
+
+hl.window_rule({
     name  = "move-peaclock",
     match = { class = "peaclock" },
     move  = { 100, 100 },

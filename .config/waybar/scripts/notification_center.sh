@@ -49,10 +49,8 @@ element-icon {
 }
 "
 
-if command -v swaync-client &> /dev/null; then
-    swaync-client -t -sw
-elif command -v dunstctl &> /dev/null; then
-    dunstctl history-pop
+if command -v noctalia &> /dev/null; then
+    noctalia msg panel-toggle control-center notifications
 else
     journalctl --user -n 10 --no-pager | rofi -dmenu -p "System Messages" -theme-str "$ROFI_THEME"
 fi

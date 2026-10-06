@@ -10,6 +10,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    -- Notifications are Noctalia-only. swaync stays installed (nwg-shell depends
+    -- on it) but must never run: unit is masked, and leftovers are killed here
+    -- so Noctalia wins org.freedesktop.Notifications.
+    hl.exec_cmd("pkill -x swaync || true")
     hl.exec_cmd("noctalia")
     hl.exec_cmd("~/.config/hypr/scripts/restore_wallpaper")
     hl.exec_cmd("walker --gapplication-service")
@@ -21,4 +25,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("~/.config/hypr/scripts/break")
     hl.exec_cmd("wl-gammarelay-rs run")
     hl.exec_cmd("~/.config/hypr/scripts/hotcorner")
+    hl.exec_cmd("easyeffects --gapplication-service")
+    hl.exec_cmd("~/.config/hypr/scripts/unmute_mic.sh")
 end)

@@ -1,8 +1,13 @@
 local P = require("conf.variables")
 
-local mainMod = "SUPER"
+-- Audio — Noctalia owns speaker volume OSD. F10 / XF86AudioMicMute toggle
+-- the USB mic via input-mute-toggle.
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"), { locked = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"), { locked = true })
 
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"))
+local mainMod = "SUPER"
 
 hl.bind("ALT + Q", hl.dsp.exec_cmd(P.quran))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(P.herdr))
@@ -10,11 +15,13 @@ hl.bind(mainMod .. "+ SHIFT + Return", hl.dsp.exec_cmd(P.terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exit())
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(P.audiosettings))
+hl.bind("ALT + A", hl.dsp.exec_cmd("kitty --title alsamixer alsamixer")) -- hardware mic/volume levels
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(P.fileManager))
 hl.bind(mainMod .. " + Space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(P.discord))
 hl.bind("ALT + SHIFT + D", hl.dsp.exec_cmd(P.discord_web))
+hl.bind("CTRL + SHIFT + D", hl.dsp.exec_cmd(P.discord_web2))
 hl.bind("ALT + T", hl.dsp.exec_cmd(P.telegram))
 hl.bind("ALT + R", hl.dsp.exec_cmd(P.reddit))
 hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd(P.tmenu))
@@ -40,7 +47,7 @@ hl.bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
 hl.bind(mainMod .. "+ G", hl.dsp.group.toggle())
 hl.bind(mainMod .. " + SHIFT + H", hl.dsp.group.prev())
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.group.next())
-hl.bind("ALT + Tab", hl.dsp.group.prev())
+hl.bind("ALT + Tab", hl.dsp.exec_cmd("noctalia msg window-switcher")) -- app/window switcher
 
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("coomer"))
 
@@ -56,7 +63,6 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
-hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper_select"))
 
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd([[hyprshot -m window -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
 hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
@@ -97,7 +103,8 @@ end
 
 hl.bind(mainMod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
-hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("noctalia msg window-switcher toggle"))
+hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("noctalia msg window-switcher"))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun")) -- session app
 
 hl.bind("ALT + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun"))
 
@@ -139,12 +146,10 @@ hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("~/.config/hypr/scripts/night
 hl.bind("F2", hl.dsp.exec_cmd("~/.config/hypr/scripts/color_temp warmer"))
 hl.bind(mainMod .. " + F2", hl.dsp.exec_cmd("~/.config/hypr/scripts/color_temp cooler"))
 
-hl.bind("F9", hl.dsp.exec_cmd("noctalia msg volume-up"))
-hl.bind("F8", hl.dsp.exec_cmd("noctalia msg volume-down"))
-hl.bind("F10", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"))
-hl.bind("F7", hl.dsp.exec_cmd("noctalia msg mic-volume-down"))
-hl.bind("F12", hl.dsp.exec_cmd("noctalia msg mic-volume-up"))
-hl.bind("F11", hl.dsp.exec_cmd("noctalia msg media toggle"))
+hl.bind("F9", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
+hl.bind("F8", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
+hl.bind("F10", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"), { locked = true })
+hl.bind("F11", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
 
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("noctalia msg media next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })

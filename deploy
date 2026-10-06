@@ -154,7 +154,7 @@ link_flameshot() {
 }
 
 link_pipewire() {
-    echo     "Linking PipeWire echo-cancel configuration..."
+    echo     "Linking PipeWire configuration..."
     link_one "$DOTFILES_DIR/.config/pipewire" "$HOME/.config/pipewire"
 }
 
@@ -183,6 +183,17 @@ link_nob() {
     link_one "$DOTFILES_DIR/include" "/usr/include/nob.h"
 }
 
+disable_swaync() {
+    # Notifications are Noctalia-only. swaync stays installed (required by
+    # nwg-shell) but must never run: mask the user unit so neither systemd
+    # nor D-Bus activation (org.freedesktop.Notifications) can start it,
+    # then stop/kill anything currently alive.
+    echo "Disabling swaync (Noctalia owns notifications)..."
+    systemctl --user stop swaync.service 2>/dev/null || true
+    systemctl --user mask swaync.service 2>/dev/null || true
+    pkill -x swaync 2>/dev/null || true
+}
+
 link_config() {
     link_dunst
     link_bash
@@ -205,6 +216,7 @@ link_config() {
     link_st
     link_fonts
     link_nob
+    disable_swaync
 }
 
 
@@ -264,6 +276,7 @@ Commands:
   st         Build suckless st terminal (kitty/hypr theme)
   tmux       Link Tmux configuration
   nob        Link Nob library
+  noswaync   Mask swaync so Noctalia owns notifications
 
 EOF
 }
@@ -300,6 +313,7 @@ case "$cmd" in
     st             ) link_st        ;;
   tmux          ) link_tmux     ;;
     nob            ) link_nob       ;;
+    noswaync       ) disable_swaync ;;
     -h|--help|help ) usage          ;;
     *              )
         usage

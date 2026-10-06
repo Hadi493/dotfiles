@@ -4,7 +4,7 @@ OUTDIR="$HOME/Videos/screen-record"
 MONITOR=$(hyprctl -j activeworkspace 2>/dev/null | jq -r '.monitor // "HDMI-A-2"')
 NULL_SINK="recording_mix"
 SYS_AUDIO="$(pactl get-default-sink).monitor"
-MIC_SOURCE="alsa_input.pci-0000_00_1f.3.analog-stereo"
+MIC_SOURCE="$(pactl get-default-source)"
 
 mkdir -p "$OUTDIR"
 
