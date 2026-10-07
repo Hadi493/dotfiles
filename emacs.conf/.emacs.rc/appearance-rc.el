@@ -10,8 +10,11 @@
 (set-fontset-font t '(#xe000 . #xfaff) "Symbols Nerd Font")
 (set-fontset-font t '(#xf0000 . #xfffff) "Symbols Nerd Font")
 
-;; Bangla/Bengali font
-(set-fontset-font t 'bengali (font-spec :family "Likhan" :size 40))
+;; Bangla/Bengali + Arabic/Urdu fonts with system fallbacks
+(set-fontset-font t 'bengali (font-spec :family "Likhan"))
+(set-fontset-font t 'bengali (font-spec :family "Noto Sans Bengali") nil 'append)
+(set-fontset-font t 'arabic (font-spec :family "Noto Sans Arabic") nil 'append)
+(set-fontset-font t 'arabic (font-spec :family "Noto Naskh Arabic") nil 'append)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
