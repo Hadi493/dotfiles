@@ -145,12 +145,38 @@ link_tofi() {
 
 link_tmux() {
     echo     "Linking Tmux configuration..."
-    link_one "$DOTFILES_DIR/.config/tmux" "$HOME/.config/tmux"
+    mkdir -p "$HOME/.config/tmux"
+    link_one "$DOTFILES_DIR/.config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
 }
 
 link_flameshot() {
     echo     "Linking Flameshot configuration..."
     link_one "$DOTFILES_DIR/.config/flameshot" "$HOME/.config/flameshot"
+}
+
+link_wlogout() {
+    echo     "Linking wlogout configuration..."
+    link_one "$DOTFILES_DIR/.config/wlogout" "$HOME/.config/wlogout"
+}
+
+link_gitconfig() {
+    echo     "Linking gitconfig..."
+    link_one "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+}
+
+link_alacritty() {
+    echo     "Linking Alacritty configuration..."
+    link_one "$DOTFILES_DIR/.config/alacritty" "$HOME/.config/alacritty"
+}
+
+link_btop() {
+    echo     "Linking btop configuration..."
+    link_one "$DOTFILES_DIR/.config/btop" "$HOME/.config/btop"
+}
+
+link_envd() {
+    echo     "Linking environment.d..."
+    link_one "$DOTFILES_DIR/.config/environment.d" "$HOME/.config/environment.d"
 }
 
 link_pipewire() {
@@ -212,6 +238,11 @@ link_config() {
     link_tmux
     link_tofi
     link_flameshot
+    link_wlogout
+    link_gitconfig
+    link_alacritty
+    link_btop
+    link_envd
     link_pipewire
     link_st
     link_fonts
@@ -226,6 +257,7 @@ link_bin() {
     local files=(
         "wayland-boomer"
         "cg-timer"
+        "cgm"
         "paru"
         "toofan"
         "wal"
@@ -273,6 +305,12 @@ Commands:
   noctalia   Link Noctalia configuration
   tofi       Link Tofi configuration
   flameshot  Link Flameshot configuration
+  pipewire   Link PipeWire configuration
+  wlogout    Link wlogout configuration (layout + style)
+  gitconfig  Link gitconfig (cleaned single-identity + LFS filter)
+  alacritty  Link Alacritty configuration
+  btop       Link btop configuration
+  envd       Link environment.d (Hyprland session env)
   st         Build suckless st terminal (kitty/hypr theme)
   tmux       Link Tmux configuration
   nob        Link Nob library
@@ -310,8 +348,14 @@ case "$cmd" in
     noctalia       ) link_noctalia  ;;
     tofi           ) link_tofi      ;;
     flameshot      ) link_flameshot ;;
+    pipewire       ) link_pipewire  ;;
+    wlogout        ) link_wlogout   ;;
+    gitconfig      ) link_gitconfig ;;
+    alacritty      ) link_alacritty ;;
+    btop           ) link_btop      ;;
+    envd           ) link_envd      ;;
     st             ) link_st        ;;
-  tmux          ) link_tmux     ;;
+    tmux           ) link_tmux      ;;
     nob            ) link_nob       ;;
     noswaync       ) disable_swaync ;;
     -h|--help|help ) usage          ;;

@@ -1,1 +1,15 @@
 .config/nushell/history.txt
+# runtime-generated, machine-specific, cache
+.config/noctalia/backups/
+.config/nvim/lua/config/saved_theme
+.config/nvim/.git/
+.cache/
+hypr/.cache/
+.cache/url_launcher/
+.config/hypr/monitors.conf
+# large vendored / installable via pacman (keep on disk, not in git)
+fonts/
+.config/helix/runtime/
+*.bak
+*.backup
+*~

@@ -6,7 +6,9 @@ set -x GTK_IM_MODULE fcitx5
 set -x XMODIFIERS @im=fcitx5
 set -x QT_IM_MODULE fcitx5
 
-export HELIX_RUNTIME=$HOME/.config/helix/runtime
+# HELIX_RUNTIME: unset = use system /usr/lib/helix/runtime.
+# Only uncomment if testing a vendored runtime in ~/.config/helix/runtime.
+# export HELIX_RUNTIME=$HOME/.config/helix/runtime
 # exports
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_STYLE_OVERRIDE=kvantum

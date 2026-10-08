@@ -1,0 +1,16 @@
+[user]
+	email = hadialam493@gmail.com
+	name = Hadi493
+[sendemail]
+	smtpserver = smtp.gmail.com
+	smtpserverport = 587
+	smtpencryption = tls
+	smtpuser = hadialam493@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+# Second identity (uncomment per-machine):
+# [user]
+# 	email = hadialam852@gmail.com
