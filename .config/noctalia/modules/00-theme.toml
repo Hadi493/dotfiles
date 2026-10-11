@@ -10,6 +10,11 @@ pure_black_dark = false
 font_family     = "Iosevka Nerd Font"
 # Seconds enabled — uses %S. Change to {:%I:%M %p} to hide seconds.
 time_format     = "{:%I:%M:%S %p}"
+# Clipboard history: max allowed (10-10000). Pinned entries are exempt.
+# NOTE: Noctalia only stores text/plain + png/jpeg/jxl, max 4MiB text /
+# 32MiB image per entry, 256MiB total (hardcoded upstream, not configurable).
+# File copies (text/uri-list), webp/gif/svg, password-manager hints are skipped.
+clipboard_history_max_entries = 10000
 # Flat design — no round corners
 corner_radius_scale = 0.0
 popup_borders   = false

@@ -429,3 +429,5 @@ end
 
 # kimi-code
 fish_add_path -g "/home/hadi/.kimi-code/bin"
+
+set -gx PATH "/home/hadi/.pixi/bin" $PATH
