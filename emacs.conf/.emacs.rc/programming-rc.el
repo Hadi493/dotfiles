@@ -19,6 +19,19 @@
 (add-hook 'c++-mode-hook #'rc/eglot-ensure)
 (add-hook 'rust-mode-hook #'rc/eglot-ensure)
 
+;;; Harper — private grammar checking via harper-ls (needs `harper-ls` on PATH)
+;;; https://writewithharper.com/docs/integrations/emacs
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(text-mode . ("harper-ls" "--stdio")))
+  (add-to-list 'eglot-server-programs '(markdown-mode . ("harper-ls" "--stdio"))))
+;; Guard with a PATH check so a missing harper-ls never errors in
+;; every plain-text buffer.
+(defun rc/harper-eglot-ensure ()
+  (when (executable-find "harper-ls")
+    (eglot-ensure)))
+(add-hook 'text-mode-hook      #'rc/harper-eglot-ensure)
+(add-hook 'markdown-mode-hook  #'rc/harper-eglot-ensure)
+
 (global-set-key (kbd "C-c l r") 'eglot-reconnect)
 (global-set-key (kbd "C-c l s") 'eglot-shutdown)
 (global-set-key (kbd "C-c l f") 'flymake-show-diagnostics-buffer)
