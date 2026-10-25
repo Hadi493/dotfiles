@@ -11,9 +11,9 @@
  '(package-selected-packages
    '(ag ancient-one-dark-theme avk-emacs-themes avy ayu-theme
         base16-theme cape clojure-mode cmake-mode company-c-headers
-        consult corfu d-mode dash-functional dockerfile-mode
-        doom-modeline dracula-theme elpy empv git-gutter glsl-mode
-        go-mode graphviz-dot-mode gruber-darker-ayu-theme
+        consult corfu d-mode dart-mode dash-functional dockerfile-mode
+        doom-modeline dracula-theme elpy empv flutter git-gutter
+        glsl-mode go-mode graphviz-dot-mode gruber-darker-ayu-theme
         gruber-darker-theme haskell-mode helm hl-todo
         ido-completing-read+ jinja2-mode kotlin-mode langtool ligature
         lua-mode magit marginalia markdown-mode move-text

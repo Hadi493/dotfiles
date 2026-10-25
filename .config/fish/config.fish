@@ -44,6 +44,11 @@ set -Ux ANDROID_SDK_ROOT ~/Android/Sdk
 set -Ux PATH $PATH $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
 set -Ux VIRTUAL_ENV_DISABLE_PROMPT 1
 
+# Flutter SDK (manually installed; `dart` here is the one bundled with Flutter)
+fish_add_path ~/development/flutter/bin
+# Android emulator binary, so `emulator -avd <name>` works from the shell
+fish_add_path $ANDROID_HOME/emulator
+
 set -Ux EDITOR vim
 
 # ===============================================
