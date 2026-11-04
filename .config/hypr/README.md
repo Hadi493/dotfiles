@@ -56,7 +56,9 @@ This configuration depends on a variety of packages to be fully functional. Here
 - **`dbus`**: For inter-process communication.
 - **`quickshell`** (Shima `shell`): the live bar and the only OSD for volume,
   brightness, mic and media. The old `swayosd` / Noctalia OSDs are not used.
-- **`fcitx5`**: Input method framework (configured via `QT_IM_MODULE`/`XMODIFIERS`).
+- **`fcitx5`** (optional): input method. Fish exports the correct `fcitx` modules
+  (`GTK_IM_MODULE`/`QT_IM_MODULE`/`XMODIFIERS`) only when the binary is installed;
+  it is absent on this machine, so those vars stay unset.
 
 #### Bars, Launchers & Notifications
 - **`waybar`** (**patched**, see below): A highly customizable Wayland status bar.
