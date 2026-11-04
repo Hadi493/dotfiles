@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Top-left hot corner: opens Ryoku's workspace overview, the shell's own
+# window switcher.
 
 pid_file=/tmp/hypr-hotcorner.pid
 
@@ -31,7 +33,7 @@ while true; do
 
             if (( in_corner == 1 && top_left_triggered == 0 )); then
                 top_left_triggered=1
-                noctalia msg window-switcher >/dev/null 2>&1
+                qs -c shell ipc call globalActions run toggle-overview >/dev/null 2>&1
             elif (( in_corner == 0 && top_left_triggered == 1 )); then
                 top_left_triggered=0
             fi
