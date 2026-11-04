@@ -38,6 +38,9 @@ The live bindings use Ryoku's tools instead of standalone equivalents:
 | `Super+P` / `Super+Shift+C` | `ryoku-cmd-color-picker` |
 | `F3` | `qs -c shell ipc call brightness set 100` |
 | `Super+Shift+A` | `ryoku:launcher` (replaces `tofi-drun`) |
+| `Alt+Tab` / `Alt+Shift+Tab` | `ryoku:switcher` / `ryoku:switcher-prev` (window switcher, see below) |
+| `Super+Tab` / `Super+Shift+Tab` | `ryoku:overview` / `ryoku:overview-prev` (workspace expo; steps while open) |
+| `Super+Alt+Tab` | `ryoku:overview` (workspace expo) |
 
 `flameshot` and `hyprshot` are no longer used. Ryoku Shot handles region/window
 snapping, annotation, beautify, OCR and recording in one UI.
@@ -46,6 +49,43 @@ If a volume or mic change paints **two** OSDs, the shared `ryoku-osd` window is
 painting next to Iris's own island. `styleOwnsFeedback` in
 `~/.config/quickshell/shell/services/Config.qml` must keep its `iris` branch
 (that file is Ryoku-owned and outside this repo).
+
+### Alt+Tab window switcher
+
+`Alt+Tab` cycles the most-recently-used windows (`Alt+Shift+Tab` walks the same
+snapshot backwards); `Super+Tab` (and `Super+Alt+Tab`) opens the workspace expo
+instead. Once the expo is up, `Super+Tab` / `Super+Shift+Tab` step its selection
+rather than toggling it shut: the compositor bind consumes the Tab press, so the
+shell routes the step to the open surface through
+`ShellState.overviewStepRequested`.
+
+Iris/Shima ships no window switcher of its own, so the surface lives in Ryoku's
+shell at `~/.config/quickshell/shell/modules/switcher/` (Ryoku-owned, outside
+this repo):
+
+- `Singletons/Switcher.qml` snapshots the window list in MRU order on the first
+  press and steps the selection on each further press.
+- `WindowSwitcher.qml` is a passive overlay (no keyboard focus) that names the
+  window just focused and fades out 1.5 s after the last press.
+- `shell.qml` registers the `switcher` / `switcher-prev` global shortcuts and
+  maps them to `Switcher.cycle(±1)`; the Hyprland binds call
+  `hl.dsp.global("ryoku:switcher")` and `hl.dsp.global("ryoku:switcher-prev")`.
+
+Hyprland's `global` dispatcher only reports a press, never the modifier coming
+up, so the switcher commits on **every** press rather than on Alt release. Do
+not give the overlay exclusive keyboard focus to catch the release: releasing
+that grab refocuses the window that was active before the switcher opened and
+would undo the switch.
+
+Two more Ryoku-owned QML patches make the keybinds behave (both documented here
+because an update can overwrite them):
+
+- `~/.config/quickshell/inir/services/CompositorService.qml` — `toggleOverview()`
+  must fall back to `ryoku-shell overview` when `Wm.caps.nativeOverview` is
+  false, which is every Hyprland session. Without the fallback the Hub's
+  "Toggle Overview" row and the hot-corner script are silent no-ops.
+- `~/.config/quickshell/shell/services/Config.qml` — the `iris` branch of
+  `styleOwnsFeedback` described above.
 
 This is a modularized Hyprland configuration written in **Lua** (`hyprland.lua` + `conf/*.lua`).
 
@@ -57,7 +97,9 @@ This configuration depends on a variety of packages to be fully functional. Here
 
 #### Core Compositor & Utilities
 - **`hyprland`** (≥ 0.56.1): The Wayland compositor itself.
-- **Ryoku workspace overview** (`SUPER+Tab` / `ALT+Tab` / top-left hotcorner): grid of all open windows and workspaces. (scrolloverview/hyprexpo plugins currently unusable on Hyprland 0.56.2 — recipes kept in git history.)
+- **Ryoku window switcher** (`ALT+Tab`): MRU strip of the open windows. Backed by
+  Ryoku's shell; see "Alt+Tab window switcher" above.
+- **Ryoku workspace overview** (`SUPER+Tab` / `SUPER+ALT+Tab`): grid of all open windows and workspaces. (scrolloverview/hyprexpo plugins currently unusable on Hyprland 0.56.2 — recipes kept in git history.)
 - **`hypridle`**: The idle management daemon for Hyprland.
 - **`hyprlock`**: The screen locker for Hyprland.
 - **`ryoku-cmd-ryoshot`** (Ryoku Shot): screenshots and annotation; replaces

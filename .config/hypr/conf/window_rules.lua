@@ -93,8 +93,8 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name  = "noctalia-settings",
-    match = { class = "dev.noctalia.Noctalia" },
+    name  = "float-ryoku-settings",
+    match = { title = "^(Ryoku Settings)$" },
     float = true,
     center = true,
     size  = { 1080, 920 },

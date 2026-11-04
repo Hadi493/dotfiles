@@ -5,7 +5,7 @@ This repository contains my personal configuration files (dotfiles) optimized fo
 
 ## Key Components:
 - **Window Manager:** [Hyprland](https://hyprland.org/) (≥ 0.57) with **Ryoku's Lua config** (`~/.config/hypr/modules/*.lua`) and **scrolling layout** (niri-like)
-- **Scrolloverview Plugin:** [scrolloverview](https://github.com/hyprwm/hyprland-plugins) for the overview mode
+- **Overview & switcher:** Ryoku's own surfaces — `Super+Tab` workspace expo (`ryoku:overview`) and `Alt+Tab` MRU window switcher (`ryoku:switcher`). The old scrolloverview plugin is not loaded.
 - **Shell/Bar/Notifications/OSD/Clipboard:** **Shima** (Ryoku's Quickshell `shell`) — the only OSD for volume, mic, media and brightness
 - **Launchers:** [Rofi](https://github.com/davatorium/rofi) (Wayland) & [Tofi](https://github.com/philj56/tofi)
 - **Terminals:** [st](https://st.suckless.org/) (built from `st/` with the alpha patch, kitty/gruber-darker-ayu theme) & [Kitty](https://sw.kovidgoyal.net/kitty/)
@@ -27,8 +27,13 @@ must not run alongside it. Key bindings:
 
 - `Super + V` — clipboard (`ryoku:clipboard`)
 - `Super + D` — launcher (`ryoku:launcher`)
+- `Alt + Tab` / `Alt + Shift + Tab` — window switcher, most recently used first
+  (`ryoku:switcher` forward, `ryoku:switcher-prev` back)
+- `Super + Tab` / `Super + Alt + Tab` — workspace overview (`ryoku:overview`). While
+  it is open, `Super + Tab` steps the selection instead of closing it, and
+  `Super + Shift + Tab` (`ryoku:overview-prev`) steps it back; `Esc` dismisses.
 - `Super + N` / `Super + Esc` — quick settings
-- `Ctrl + Esc` — toggle bar (`ryoku-bar-toggle`)
+- `Ctrl + Esc` — toggle bar (`ryoku:barToggle`)
 - Volume/mic/media keys — `qs -c shell ipc call audio ...`, `input-mute-toggle`, `mpris ...` + `osd media ...`
 - Brightness (`F5`/`F6`, `XF86MonBrightness*`) — `qs -c shell ipc call brightness increment|decrement`
 

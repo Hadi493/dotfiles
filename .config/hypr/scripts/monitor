@@ -46,10 +46,20 @@ esac
 
 vcp_set "$VCP" "$new"
 
-if [ "$MODEv" = "input" ]; then
-  [ "$new" = 15 ] && label="DP" || label="HDMI"
-  noctalia msg brightness-osd 0 2>/dev/null || true
-  notify-send -t 800 "Monitor input" "${label:-changed}"
-else
-  noctalia msg brightness-osd "$new" 2>/dev/null || true
-fi
+case "$MODEv" in
+  input)
+    [ "$new" = 15 ] && label="DP" || label="HDMI"
+    notify-send -t 800 "Monitor input" "${label:-changed}"
+    ;;
+  contrast)
+    # Ryoku/Shima has no contrast OSD; the brightness pill would show an
+    # unchanged brightness, so report the contrast value itself.
+    notify-send -t 800 -i display-brightness "Monitor contrast" "${new}%"
+    ;;
+  brightness)
+    # Re-read the DDC level through Ryoku/Shima's Brightness service; its
+    # brightnessChanged signal is what updates the OSD percentage.
+    qs -c shell ipc call brightness refresh 2>/dev/null \
+      || qs -c shell ipc call osd brightness 2>/dev/null || true
+    ;;
+esac

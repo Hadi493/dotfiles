@@ -10,11 +10,13 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    -- Notifications are Noctalia-only. swaync stays installed (nwg-shell depends
-    -- on it) but must never run: unit is masked, and leftovers are killed here
-    -- so Noctalia wins org.freedesktop.Notifications.
+    -- Notifications are owned by the Ryoku shell. swaync stays installed
+    -- (nwg-shell depends on it) but must never run: unit is masked, and leftovers
+    -- are killed here so the Ryoku shell wins org.freedesktop.Notifications.
+    -- `ryoku-host session start` brings up the session's services, including the
+    -- shell daemon and its surfaces.
     hl.exec_cmd("pkill -x swaync || true")
-    hl.exec_cmd("noctalia")
+    hl.exec_cmd("ryoku-host session start")
     hl.exec_cmd("~/.config/hypr/scripts/restore_wallpaper")
     hl.exec_cmd("walker --gapplication-service")
     hl.exec_cmd("elephant")

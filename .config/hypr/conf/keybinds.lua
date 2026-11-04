@@ -18,7 +18,7 @@ hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(P.audiosettings))
 hl.bind("ALT + A", hl.dsp.exec_cmd("kitty --title alsamixer alsamixer")) -- hardware mic/volume levels
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(P.fileManager))
 hl.bind(mainMod .. " + Space", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
+hl.bind(mainMod .. " + D", hl.dsp.global("ryoku:launcher"))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(P.discord))
 hl.bind("ALT + SHIFT + D", hl.dsp.exec_cmd(P.discord_web))
 hl.bind("CTRL + SHIFT + D", hl.dsp.exec_cmd(P.discord_web2))
@@ -36,22 +36,23 @@ hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("ryoku-cmd-color-picker"))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("~/.config/hypr/scripts/url_launcher_gui.py"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("noctalia msg session lock"))
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications"))
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
-hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center media"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("ryoku-shell lock"))
+hl.bind(mainMod .. " + N", hl.dsp.global("ryoku:quicksettings"))
+hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("~/.config/hypr/scripts/ryoku-dnd-toggle"))
+hl.bind(mainMod .. " + J", hl.dsp.global("ryoku:quicksettings"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
 
 hl.bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
 
 hl.bind(mainMod .. "+ G", hl.dsp.group.toggle())
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.group.prev())
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.group.next())
-hl.bind("ALT + Tab", hl.dsp.exec_cmd("noctalia msg window-switcher")) -- app/window switcher
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.group.prev())
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.group.next())
+hl.bind("ALT + Tab", hl.dsp.global("ryoku:switcher")) -- window switcher (MRU)
+hl.bind("ALT + SHIFT + Tab", hl.dsp.global("ryoku:switcher-prev")) -- window switcher (MRU, backwards)
 
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("coomer"))
 
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
+hl.bind(mainMod .. " + V", hl.dsp.global("ryoku:clipboard"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard pass"))
 
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_recording"))
@@ -68,9 +69,9 @@ hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("ryoku-cmd-ryoshot"))
 hl.bind("PRINT", hl.dsp.exec_cmd("ryoku-cmd-ryoshot"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("env RYOSHOT_MODE=monitor ryoku-cmd-ryoshot"))
 
-hl.bind("CTRL + Escape", hl.dsp.exec_cmd("noctalia msg bar-toggle"))
+hl.bind("CTRL + Escape", hl.dsp.global("ryoku:barToggle"))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_gaps"))
-hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
+hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("qs -c shell ipc call globalActions run open-session"))
 
 -- Focus navigation (wraps first<->last in scrolling layout)
 hl.bind(mainMod .. " + left", hl.dsp.layout("focus l"))
@@ -103,7 +104,8 @@ end
 
 hl.bind(mainMod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
-hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("noctalia msg window-switcher"))
+hl.bind(mainMod .. " + Tab", hl.dsp.global("ryoku:overview")) -- workspace overview (expo); steps while open
+hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.global("ryoku:overview-prev")) -- step the overview selection backwards
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun")) -- session app
 
 hl.bind("ALT + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun"))
