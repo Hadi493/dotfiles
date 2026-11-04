@@ -32,7 +32,7 @@ hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(P.whatsapp))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(P.yt))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(P.twitch))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("brave-origin"))
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(P.colorPicker .. " | wl-copy"))
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("ryoku-cmd-color-picker"))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("~/.config/hypr/scripts/url_launcher_gui.py"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
@@ -64,9 +64,9 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("qs -c shell ipc call audio mute"), {
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
 
-hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd([[hyprshot -m window -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
-hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd([[hyprshot -m region -o ~/Pictures/screenshots -f $(date +%Y-%m-%d_%H-%M-%S).png]]))
+hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("ryoku-cmd-ryoshot"))
+hl.bind("PRINT", hl.dsp.exec_cmd("ryoku-cmd-ryoshot"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("env RYOSHOT_MODE=monitor ryoku-cmd-ryoshot"))
 
 hl.bind("CTRL + Escape", hl.dsp.exec_cmd("noctalia msg bar-toggle"))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_gaps"))
@@ -127,7 +127,7 @@ hl.bind("ALT + SHIFT + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind("ALT + SHIFT + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 hl.bind("F1", hl.dsp.exec_cmd(P.default_wall))
-hl.bind("F3", hl.dsp.exec_cmd("brightnessctl set 100%+"))
+hl.bind("F3", hl.dsp.exec_cmd("qs -c shell ipc call brightness set 100"))
 
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })

@@ -33,7 +33,10 @@ must not run alongside it. Key bindings:
 - Brightness (`F5`/`F6`, `XF86MonBrightness*`) — `qs -c shell ipc call brightness increment|decrement`
 
 `qs -c shell ipc call osd volume` only redraws the OSD; it does not change the sink.
-See `.config/hypr/README.md` for the full key map and the duplicate-OSD note.
+Ryoku Shot (`ryoku-cmd-ryoshot`) handles screenshots: `Print` selects a region,
+`Shift+Print` captures the whole monitor, and `Super+Shift+S` opens annotate/beautify.
+Color picking uses `ryoku-cmd-color-picker`. See `.config/hypr/README.md` for the
+full key map and the duplicate-OSD note.
 
 ## Features:
 

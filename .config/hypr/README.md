@@ -27,6 +27,21 @@ feedback. Bind the IPC call that performs the action, not the display-only OSD:
 `qs -c shell ipc call osd volume` only redraws the OSD; it never changes the
 PipeWire sink, so it must not be bound to the volume keys.
 
+### Ryoku-native tools
+
+The live bindings use Ryoku's tools instead of standalone equivalents:
+
+| Key | Tool |
+| --- | --- |
+| `Print` / `Super+Print` / `Super+Shift+S` | `ryoku-cmd-ryoshot` (region; annotate, beautify, OCR/search/record) |
+| `Shift+Print` | `env RYOSHOT_MODE=monitor ryoku-cmd-ryoshot` (whole monitor) |
+| `Super+P` / `Super+Shift+C` | `ryoku-cmd-color-picker` |
+| `F3` | `qs -c shell ipc call brightness set 100` |
+| `Super+Shift+A` | `ryoku:launcher` (replaces `tofi-drun`) |
+
+`flameshot` and `hyprshot` are no longer used. Ryoku Shot handles region/window
+snapping, annotation, beautify, OCR and recording in one UI.
+
 If a volume or mic change paints **two** OSDs, the shared `ryoku-osd` window is
 painting next to Iris's own island. `styleOwnsFeedback` in
 `~/.config/quickshell/shell/services/Config.qml` must keep its `iris` branch
@@ -45,9 +60,13 @@ This configuration depends on a variety of packages to be fully functional. Here
 - **Noctalia window switcher** (`SUPER+Tab` / top-left hotcorner): overview grid of all open windows. (scrolloverview/hyprexpo plugins currently unusable on Hyprland 0.56.2 — recipes kept in git history.)
 - **`hypridle`**: The idle management daemon for Hyprland.
 - **`hyprlock`**: The screen locker for Hyprland.
-- **`hyprpicker`**: A color picker utility.
-- **`hyprshot`**: A screenshot tool for Hyprland.
-- **`grim`**: Used by the "zoom into clipboard" bind.
+- **`ryoku-cmd-ryoshot`** (Ryoku Shot): screenshots and annotation; replaces
+  `flameshot` / `hyprshot`. `Print` selects a region, `Shift+Print` captures a
+  monitor, `Super+Shift+S` opens the annotate/beautify UI.
+- **`hyprpicker`**: Color picker backend; the bind uses Ryoku's
+  `ryoku-cmd-color-picker` wrapper (notifies and keeps the clipboard selection).
+- **`grim`**: Low-level capture used by Ryoku Shot/OCR and the "zoom into
+  clipboard" bind (`ryoku-cmd-grim`).
 
 #### System & Session Management
 - **`xdg-desktop-portal-hyprland`**: Backend for xdg-desktop-portal, necessary for screen sharing and other integrations.
