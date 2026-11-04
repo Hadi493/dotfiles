@@ -4,33 +4,36 @@
 This repository contains my personal configuration files (dotfiles) optimized for **Hyprland** on Linux.
 
 ## Key Components:
-- **Window Manager:** [Hyprland](https://hyprland.org/) (≥ 0.56) with **Lua config** (`hyprland.lua`) and **scrolling layout** (niri-like)
+- **Window Manager:** [Hyprland](https://hyprland.org/) (≥ 0.57) with **Ryoku's Lua config** (`~/.config/hypr/modules/*.lua`) and **scrolling layout** (niri-like)
 - **Scrolloverview Plugin:** [scrolloverview](https://github.com/hyprwm/hyprland-plugins) for the overview mode
-- **Shell/Bar/Notifications/OSD/Clipboard:** [Noctalia](https://github.com/noctalia-dev/noctalia) (replaces Waybar, SwayNC and SwayOSD)
+- **Shell/Bar/Notifications/OSD/Clipboard:** **Shima** (Ryoku's Quickshell `shell`) — the only OSD for volume, mic, media and brightness
 - **Launchers:** [Rofi](https://github.com/davatorium/rofi) (Wayland) & [Tofi](https://github.com/philj56/tofi)
 - **Terminals:** [st](https://st.suckless.org/) (built from `st/` with the alpha patch, kitty/gruber-darker-ayu theme) & [Kitty](https://sw.kovidgoyal.net/kitty/)
 - **Editors:** [Neovim](https://neovim.io/), [Helix](https://helix-editor.com/), [Emacs](emacs.conf/README.md)
 - **Shells:** [Fish](https://fishshell.com/), [Nushell](https://www.nushell.sh/), Bash
 
 ## Configuration
-The Hyprland config is written in **Lua** (`~/.config/hypr/hyprland.lua` + modular `conf/*.lua` files),
-which is the only supported config format since Hyprland 0.57 (0.56.1 warns on the legacy
-`.conf` format). The old `.conf` files are kept only as a reference and are **not loaded**.
+The live Hyprland config is managed by **Ryoku**: `~/.config/hypr/modules/*.lua`, with
+personal overrides in `~/.config/ryoku/user_edits/hypr/modules/*.lua`. Hyprland 0.57
+dropped the legacy `.conf` format, so Lua is the only loaded config.
 
-### Noctalia Shell
-Noctalia provides the top bar, notification/control-center, on-screen display (volume, mic,
-media, screen-time), launcher panel and clipboard history. Its config lives in
-`~/.config/noctalia/config.toml`; runtime/UI overrides are stored in
-`~/.local/state/noctalia/settings.toml`. Encrypted clipboard history is kept in
-`~/.local/state/noctalia/clipboard/` (master key in `~/.local/state/noctalia/storage.key`,
-configured via `[storage] key_source = "file"`). Key IPC bindings:
+The older Lua tree in this repo (`.config/hypr/hyprland.lua` + `conf/*.lua`) is kept for
+reference only and is not deployed: `./deploy` deliberately skips `~/.config/hypr`.
 
-- `Super + V` — toggle clipboard panel
-- `Super + D` — toggle launcher
-- `Super + N` — toggle control-center / notifications
-- `Super + Esc` — toggle session panel
-- `Ctrl + Esc` — toggle bar
-- Volume/mic/media/brightness keys routed through the Noctalia OSD
+### Shima Shell
+Shima (the Quickshell `shell` instance, `qs -c shell`) provides the bar, notifications,
+OSD, launcher and clipboard. It is the only OSD renderer; SwayOSD or Noctalia's OSD
+must not run alongside it. Key bindings:
+
+- `Super + V` — clipboard (`ryoku:clipboard`)
+- `Super + D` — launcher (`ryoku:launcher`)
+- `Super + N` / `Super + Esc` — quick settings
+- `Ctrl + Esc` — toggle bar (`ryoku-bar-toggle`)
+- Volume/mic/media keys — `qs -c shell ipc call audio ...`, `input-mute-toggle`, `mpris ...` + `osd media ...`
+- Brightness (`F5`/`F6`, `XF86MonBrightness*`) — `qs -c shell ipc call brightness increment|decrement`
+
+`qs -c shell ipc call osd volume` only redraws the OSD; it does not change the sink.
+See `.config/hypr/README.md` for the full key map and the duplicate-OSD note.
 
 ## Features:
 
