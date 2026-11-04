@@ -1,3 +1,6 @@
 [general]
+# Ryoku/matugen renders the palette next to this file; without the import
+# Alacritty started with its stock colours and the theme never applied.
 import = [
+  "colors.toml",
 ]

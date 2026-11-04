@@ -1,5 +1,37 @@
 # Hadi Alam's Personal hyprland config
 
+> **Archived (Nov 2026):** Ryoku now owns `~/.config/hypr`. The keybindings from
+> this tree were ported to Ryoku's overlay at
+> `~/.config/ryoku/user_edits/hypr/modules/binds.lua`, and the supporting
+> scripts/shaders were copied into `~/.config/hypr/`. `~/dotfiles/deploy` no
+> longer links this directory; it is kept for reference only.
+
+## Live config: Ryoku + Shima
+
+The live compositor config is Ryoku's `~/.config/hypr/modules/binds.lua`
+(personal changes in `~/.config/ryoku/user_edits/hypr/modules/binds.lua`).
+`hyprland.lua` and `conf/*.lua` here are not loaded any more; the `.conf`
+keybinds are kept in sync as reference only, since Hyprland 0.57 dropped the
+legacy format.
+
+**Shima** (the Quickshell `shell` instance) owns the bar, the OSD and media
+feedback. Bind the IPC call that performs the action, not the display-only OSD:
+
+| Action | Command |
+| --- | --- |
+| Volume up / down / mute (`XF86Audio*`, `F8`/`F9`, `SUPER+M`) | `qs -c shell ipc call audio volumeUp` / `volumeDown` / `mute` |
+| Mic mute (`F10`, `XF86AudioMicMute`) | `~/.config/hypr/scripts/input-mute-toggle` (calls `osd mic`) |
+| Media (`F11`, `XF86AudioNext` / `Prev` / `Play` / `Pause`) | `qs -c shell ipc call mpris <action>` + `qs -c shell ipc call osd media <action>` |
+| Brightness (`F5`/`F6`, `XF86MonBrightness*`) | `qs -c shell ipc call brightness decrement` / `increment` |
+
+`qs -c shell ipc call osd volume` only redraws the OSD; it never changes the
+PipeWire sink, so it must not be bound to the volume keys.
+
+If a volume or mic change paints **two** OSDs, the shared `ryoku-osd` window is
+painting next to Iris's own island. `styleOwnsFeedback` in
+`~/.config/quickshell/shell/services/Config.qml` must keep its `iris` branch
+(that file is Ryoku-owned and outside this repo).
+
 This is a modularized Hyprland configuration written in **Lua** (`hyprland.lua` + `conf/*.lua`).
 
 > **Note:** Since Hyprland 0.57 the legacy `.conf` format is unsupported (0.56.1 warns about it).
@@ -22,7 +54,8 @@ This configuration depends on a variety of packages to be fully functional. Here
 - **`pipewire`** & **`wireplumber`**: For audio management (`wpctl`).
 - **`systemd`**: Provides `loginctl` and `systemctl` for session and power management.
 - **`dbus`**: For inter-process communication.
-- **`swayosd`**: On-screen display for volume, brightness, etc. (Covers both client and server).
+- **`quickshell`** (Shima `shell`): the live bar and the only OSD for volume,
+  brightness, mic and media. The old `swayosd` / Noctalia OSDs are not used.
 - **`fcitx5`**: Input method framework (configured via `QT_IM_MODULE`/`XMODIFIERS`).
 
 #### Bars, Launchers & Notifications

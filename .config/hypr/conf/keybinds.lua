@@ -1,10 +1,10 @@
 local P = require("conf.variables")
 
--- Audio — Noctalia owns speaker volume OSD. F10 / XF86AudioMicMute toggle
--- the USB mic via input-mute-toggle.
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"), { locked = true })
+-- Audio — Shima owns the OSD: `audio ...` changes the PipeWire sink and the
+-- bar OSD flashes on that change. `osd volume` only re-displays the level.
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("qs -c shell ipc call audio volumeUp"), { locked = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("qs -c shell ipc call audio volumeDown"), { locked = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("qs -c shell ipc call audio mute"), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"), { locked = true })
 
 local mainMod = "SUPER"
@@ -60,7 +60,7 @@ hl.bind(mainMod .. " + t", hl.dsp.exec_cmd("cg-timer"))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd([[hyprctl reload ; ~/.config/hypr/scripts/hotcorner &]]))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("noctalia msg volume-mute"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("qs -c shell ipc call audio mute"), { locked = true })
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
 
@@ -134,11 +134,11 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 hl.bind("F4", hl.dsp.exec_cmd(P.setup_workspace))
 
--- HP HDMI monitor (DDC/CI)
-hl.bind("F5", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor brightness down"))
-hl.bind("F6", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor brightness up"))
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor brightness down"))
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor brightness up"))
+-- Shima brightness service (DDC/CI for the HP HDMI monitor)
+hl.bind("F5", hl.dsp.exec_cmd("qs -c shell ipc call brightness decrement"))
+hl.bind("F6", hl.dsp.exec_cmd("qs -c shell ipc call brightness increment"))
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("qs -c shell ipc call brightness decrement"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("qs -c shell ipc call brightness increment"), { locked = true, repeating = true })
 hl.bind(mainMod .. " + F5", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor contrast down"))
 hl.bind(mainMod .. " + F6", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor contrast up"))
 hl.bind(mainMod .. " + SHIFT + F5", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor input next"))
@@ -146,15 +146,15 @@ hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("~/.config/hypr/scripts/night
 hl.bind("F2", hl.dsp.exec_cmd("~/.config/hypr/scripts/color_temp warmer"))
 hl.bind(mainMod .. " + F2", hl.dsp.exec_cmd("~/.config/hypr/scripts/color_temp cooler"))
 
-hl.bind("F9", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
-hl.bind("F8", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
+hl.bind("F9", hl.dsp.exec_cmd("qs -c shell ipc call audio volumeUp"), { locked = true })
+hl.bind("F8", hl.dsp.exec_cmd("qs -c shell ipc call audio volumeDown"), { locked = true })
 hl.bind("F10", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/input-mute-toggle"), { locked = true })
-hl.bind("F11", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
+hl.bind("F11", hl.dsp.exec_cmd("qs -c shell ipc call mpris playPause; qs -c shell ipc call osd media play"), { locked = true })
 
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("noctalia msg media next"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("noctalia msg media previous"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("qs -c shell ipc call mpris next; sleep 0.2; qs -c shell ipc call osd media next"), { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("qs -c shell ipc call mpris playPause; qs -c shell ipc call osd media pause"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("qs -c shell ipc call mpris playPause; qs -c shell ipc call osd media play"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("qs -c shell ipc call mpris previous; sleep 0.2; qs -c shell ipc call osd media previous"), { locked = true })
 
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("grim - | wayland-boomer"))
 
