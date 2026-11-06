@@ -1,10 +1,18 @@
-# Hadi Alam's Personal hyprland config
+# Hadi Alam's Personal Hyprland config (lightweight, no Ryoku)
 
-> **Archived (Nov 2026):** Ryoku now owns `~/.config/hypr`. The keybindings from
-> this tree were ported to Ryoku's overlay at
-> `~/.config/ryoku/user_edits/hypr/modules/binds.lua`, and the supporting
-> scripts/shaders were copied into `~/.config/hypr/`. `~/dotfiles/deploy` no
-> longer links this directory; it is kept for reference only.
+> **Personal session (live since Nov 2026):** Log in via SDDM as **Hadi
+> Hyprland (Personal, No Ryoku)** (`~/.local/share/wayland-sessions/hadi-hyprland.desktop`,
+> copy at `~/dotfiles/.local/share/wayland-sessions/`). It launches
+> `Hyprland --config ~/dotfiles/.config/hypr/hyprland.lua` directly, with
+> **no** `start-hyprland` / Ryoku wrapper, **no** quickshell, **no**
+> ryogami/matugen, and **no** Ryoku updates touching this tree.
+> Ryoku's `~/.config/hypr` is left untouched as a fallback — picking the
+> stock **Hyprland** entry at SDDM returns to Ryoku.
+>
+> Bar: system `waybar` 0.15 (broken patched `~/.local/bin/waybar`
+> renamed to `waybar.broken-20261106`), launcher: `rofi`, notifications:
+> `swaync`, lock/idle: `hyprlock`/`hypridle`, screenshots: `grim`+`slurp`.
+> Verify after edits: `Hyprland --verify-config --config ~/dotfiles/.config/hypr/hyprland.lua`
 
 ## Live config: Ryoku + Shima
 

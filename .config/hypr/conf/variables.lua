@@ -1,14 +1,14 @@
 local P = {}
 
 P.quran = "~/opt/r-quran/R-Quran-x86_64.AppImage"
-P.terminal = "st"
+P.terminal = "kitty"
 P.herdr = "kitty herdr"
 P.audiosettings = "pavucontrol"
 P.codeditor = "emacs"
 P.fileManager = "nautilus"
 P.menu = "rofi -show drun -config ~/.config/rofi/drun.rasi"
 P.tmenu = "tofi-drun -c ~/.config/tofi/configA --drun-launch=true"
-P.wallpaper_selector = "~/.config/hypr/scripts/wallpaper_select"
+P.wallpaper_selector = "~/dotfiles/.config/hypr/scripts/wallpaper_select"
 P.camera = "cheese"
 P.look_menu = "lookapp"
 P.discord_web = "brave-origin --profile-directory=Default --app=https://discord.com/channels/@me"
@@ -23,9 +23,9 @@ P.yt = "brave-origin --profile-directory=Default --app=https://youtube.com"
 P.twitch = "brave-origin --profile-directory=Default --app=https://www.twitch.tv/"
 P.colorPicker = "hyprpicker"
 P.fsc = "nbfc set -s 100 || nbfc set -a"
-P.setup_workspace = "~/.config/hypr/scripts/workspace-setup"
+P.setup_workspace = "~/dotfiles/.config/hypr/scripts/workspace-setup"
 
-P.default_wall = "~/.config/hypr/scripts/set_wallpaper ~/Pictures/wall.jpg"
+P.default_wall = "~/dotfiles/.config/hypr/scripts/set_wallpaper ~/Pictures/wall.jpg"
 
 P.web_game_ev = "brave-origin --profile-directory=Default --app=https://ev.io"
 

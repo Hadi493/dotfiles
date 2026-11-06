@@ -11,9 +11,9 @@ WP_DIR="${WP_DIR:-$HOME/Pictures/wallpapers}"
 WP_CACHE_FILE="${WP_CACHE_FILE:-$HOME/.cache/last_wallpaper.path}"
 WP_CACHE_DIR="${WP_CACHE_DIR:-$HOME/.cache/wallpapers}"
 WP_PIDFILE="${WP_PIDFILE:-$HOME/.cache/wallpaper_auto.pid}"
-WP_SET_SCRIPT="${WP_SET_SCRIPT:-$HOME/.config/hypr/scripts/set_wallpaper}"
-WP_AUTO_SCRIPT="${WP_AUTO_SCRIPT:-$HOME/.config/hypr/scripts/wallpaper_auto}"
-WP_SELECT_SCRIPT="${WP_SELECT_SCRIPT:-$HOME/.config/hypr/scripts/wallpaper_select}"
+WP_SET_SCRIPT="${WP_SET_SCRIPT:-$HOME/dotfiles/.config/hypr/scripts/set_wallpaper}"
+WP_AUTO_SCRIPT="${WP_AUTO_SCRIPT:-$HOME/dotfiles/.config/hypr/scripts/wallpaper_auto}"
+WP_SELECT_SCRIPT="${WP_SELECT_SCRIPT:-$HOME/dotfiles/.config/hypr/scripts/wallpaper_select}"
 WP_ROFI_THEME="${WP_ROFI_THEME:-$HOME/.config/rofi/wallpaper.rasi}"
 
 # 1 = composite over a blurred, zoomed backdrop (only used with fit/center);

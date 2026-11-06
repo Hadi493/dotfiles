@@ -57,9 +57,6 @@ case "$MODEv" in
     notify-send -t 800 -i display-brightness "Monitor contrast" "${new}%"
     ;;
   brightness)
-    # Re-read the DDC level through Ryoku/Shima's Brightness service; its
-    # brightnessChanged signal is what updates the OSD percentage.
-    qs -c shell ipc call brightness refresh 2>/dev/null \
-      || qs -c shell ipc call osd brightness 2>/dev/null || true
+    notify-send -t 800 -i display-brightness "Monitor brightness" "${new}%"
     ;;
 esac

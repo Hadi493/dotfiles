@@ -1,3 +1,7 @@
+-- Personal lightweight startup (no Ryoku).
+-- Hyprland loads this via: Hyprland --config ~/dotfiles/.config/hypr/hyprland.lua
+-- (personal Wayland session: hadi-hyprland.desktop)
+
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XMODIFIERS", "@im=fcitx")
@@ -6,27 +10,37 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
+local DOT = os.getenv("HOME") .. "/dotfiles/.config/hypr"
+
 hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    -- Notifications are owned by the Ryoku shell. swaync stays installed
-    -- (nwg-shell depends on it) but must never run: unit is masked, and leftovers
-    -- are killed here so the Ryoku shell wins org.freedesktop.Notifications.
-    -- `ryoku-host session start` brings up the session's services, including the
-    -- shell daemon and its surfaces.
-    hl.exec_cmd("pkill -x swaync || true")
-    hl.exec_cmd("ryoku-host session start")
-    hl.exec_cmd("~/.config/hypr/scripts/restore_wallpaper")
-    hl.exec_cmd("walker --gapplication-service")
-    hl.exec_cmd("elephant")
-    hl.exec_cmd("~/.config/hypr/scripts/xdg_launch")
-    hl.exec_cmd("~/.config/hypr/scripts/run_hypridle")
-    -- hl.exec_cmd("emacs")
+
+    -- Notification daemon (swaync). Unmasked for personal session:
+    -- `systemctl --user unmask swaync.service`
+    hl.exec_cmd("swaync")
+
+    -- Bar (system waybar v0.15). Detached personal session: plain `waybar`
+    -- reads ~/.config/waybar (symlinked to dotfiles). Broken patched build
+    -- lives at ~/.local/bin/waybar.broken-20261106 — do not restore it.
+    hl.exec_cmd("waybar")
+
+    -- Wallpaper via swaybg/mpvpaper lib in dotfiles/scripts (no ryogami).
+    hl.exec_cmd(DOT .. "/scripts/restore_wallpaper")
+
+    -- Portals come up via dbus activation; no manual kill/restart needed.
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-    hl.exec_cmd("~/.config/hypr/scripts/break")
-    hl.exec_cmd("wl-gammarelay-rs run")
-    hl.exec_cmd("~/.config/hypr/scripts/hotcorner")
-    -- hl.exec_cmd("easyeffects --gapplication-service")
-    hl.exec_cmd("~/.config/hypr/scripts/unmute_mic.sh")
+
+    -- Idle / lock (hypridle + hyprlock, no ryoku-shell).
+    hl.exec_cmd(DOT .. "/scripts/run_hypridle")
+
+    -- Break timer (notify-send -> swaync).
+    hl.exec_cmd(DOT .. "/scripts/break &")
+
+    -- Colour temperature relay (started once per session if not running).
+    hl.exec_cmd("pgrep -x wl-gammarelay-rs >/dev/null || wl-gammarelay-rs run")
+
+    -- Login mic fix (USB mic default, unmuted) via pactl.
+    hl.exec_cmd(DOT .. "/scripts/unmute_mic.sh")
 end)

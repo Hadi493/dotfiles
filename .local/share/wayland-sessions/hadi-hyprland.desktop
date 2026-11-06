@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Hadi Hyprland (Personal, No Ryoku)
+Comment=Lightweight personal Hyprland from ~/dotfiles, no Ryoku shell
+Exec=/usr/bin/Hyprland --config /home/hadi/dotfiles/.config/hypr/hyprland.lua
+Type=Application
+DesktopNames=Hyprland

@@ -13,7 +13,7 @@ else
 fi
 [ -z "$MIC" ] && exit 1
 
-SND="$HOME/.config/hypr"
+SND="$HOME/dotfiles/.config/hypr"
 if pactl get-source-mute "$MIC" 2>/dev/null | grep -q "yes"; then
     M=0; BEEP="sounds-unmute.wav"
 else
@@ -22,5 +22,5 @@ fi
 
 pactl set-source-mute "$MIC" "$M" 2>/dev/null
 
-qs -c shell ipc call osd mic 2>/dev/null
+# (personal lightweight: no quickshell OSD; beep only)
 pw-cat -p "$SND/$BEEP" 2>/dev/null &
