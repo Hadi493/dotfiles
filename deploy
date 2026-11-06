@@ -109,8 +109,27 @@ link_helix() {
 }
 
 link_hypr() {
-    echo     "Linking Hyprland configuration..."
-    link_one "$DOTFILES_DIR/.config/hypr" "$HOME/.config/hypr"
+    # Personal lightweight session (no Ryoku, no ~/.config/hypr symlink).
+    # Ryoku owns ~/.config/hypr (materialized base + user_edits). Linking
+    # dotfiles over it would be clobbered on next `ryoku update` and break
+    # the Ryoku fallback. Instead install the detached SDDM entry that
+    # launches Hyprland directly from ~/dotfiles/.config/hypr/hyprland.lua.
+    echo "Installing personal Hyprland session (no Ryoku)..."
+    link_one "$DOTFILES_DIR/.local/share/wayland-sessions/hadi-hyprland.desktop" \
+             "$HOME/.local/share/wayland-sessions/hadi-hyprland.desktop"
+    echo "  Note: ~/.config/hypr stays Ryoku-managed (fallback). Pick"
+    echo "  'Hadi Hyprland (Personal, No Ryoku)' at SDDM for this config."
+    echo "  Verify: Hyprland --verify-config --config $DOTFILES_DIR/.config/hypr/hyprland.lua"
+}
+
+link_waybar() {
+    echo     "Linking Waybar configuration..."
+    link_one "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar"
+}
+
+link_swaync() {
+    echo     "Linking swaync configuration..."
+    link_one "$DOTFILES_DIR/.config/swaync" "$HOME/.config/swaync"
 }
 
 link_kitty() {
@@ -119,8 +138,13 @@ link_kitty() {
 }
 
 link_nvim() {
-    echo     "Linking Neovim configuration..."
+    echo "Linking Neovim configuration..."
     link_one "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim"
+}
+
+link_vis() {
+    echo "Linking vis configuration..."
+    link_one "$DOTFILES_DIR/.config/vis" "$HOME/.config/vis"
 }
 
 link_vim() {
@@ -209,11 +233,18 @@ link_nob() {
     link_one "$DOTFILES_DIR/include" "/usr/include/nob.h"
 }
 
+enable_swaync() {
+    # Personal lightweight notifications are swaync (not Noctalia).
+    # Unmask (old deploy masked it), enable, and reload if running.
+    echo "Enabling swaync (personal notifications)..."
+    systemctl --user unmask swaync.service 2>/dev/null || true
+    systemctl --user enable swaync.service 2>/dev/null || true
+    systemctl --user restart swaync.service 2>/dev/null || true
+}
+
 disable_swaync() {
-    # Notifications are Noctalia-only. swaync stays installed (required by
-    # nwg-shell) but must never run: mask the user unit so neither systemd
-    # nor D-Bus activation (org.freedesktop.Notifications) can start it,
-    # then stop/kill anything currently alive.
+    # Legacy Noctalia-only helper. Kept for manual use; personal
+    # sessions want `enable_swaync`, not this.
     echo "Disabling swaync (Noctalia owns notifications)..."
     systemctl --user stop swaync.service 2>/dev/null || true
     systemctl --user mask swaync.service 2>/dev/null || true
@@ -232,8 +263,11 @@ link_config() {
     link_hypr
     link_kitty
     link_nvim
+    link_vis
     link_vim
     link_rofi
+    link_waybar
+    link_swaync
     link_noctalia
     link_tmux
     link_tofi
@@ -247,10 +281,8 @@ link_config() {
     link_st
     link_fonts
     link_nob
-    disable_swaync
+    enable_swaync
 }
-
-
 
 link_bin() {
     echo "Linking binaries..."
@@ -297,10 +329,13 @@ Commands:
   fish       Link Fish configuration
   nushell    Link Nushell Configuration
   helix      Link Helix configuration
-  hypr       Link Hyprland configuration
+  hypr       Install personal Hyprland session (Hadi Hyprland, No Ryoku)
+  waybar     Link Waybar configuration
+  swaync     Link swaync configuration + enable the service
   kitty      Link Kitty configuration
-  nvim       Link Neovim configuration
-  vim        Link Vim configuration
+  nvim         Link Neovim configuration
+  vis          Link vis configuration (Emacs-style keybindings)
+  vim          Link Vim configuration
   rofi       Link Rofi configuration
   noctalia   Link Noctalia configuration
   tofi       Link Tofi configuration
@@ -314,7 +349,7 @@ Commands:
   st         Build suckless st terminal (kitty/hypr theme)
   tmux       Link Tmux configuration
   nob        Link Nob library
-  noswaync   Mask swaync so Noctalia owns notifications
+  noswaync   Mask swaync (Noctalia-only, legacy; personal uses swaync)
 
 EOF
 }
@@ -341,8 +376,11 @@ case "$cmd" in
     nushell        ) link_nushell   ;;
     helix          ) link_helix     ;;
     hypr           ) link_hypr      ;;
+    waybar         ) link_waybar    ;;
+    swaync         ) { link_swaync; enable_swaync; } ;;
     kitty          ) link_kitty     ;;
     nvim           ) link_nvim      ;;
+    vis            ) link_vis       ;;
     vim            ) link_vim       ;;
     rofi           ) link_rofi      ;;
     noctalia       ) link_noctalia  ;;
