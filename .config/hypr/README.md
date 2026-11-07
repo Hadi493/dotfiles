@@ -13,87 +13,34 @@
 > renamed to `waybar.broken-20261106`), launcher: `rofi`, notifications:
 > `swaync`, lock/idle: `hyprlock`/`hypridle`, screenshots: `grim`+`slurp`.
 > Verify after edits: `Hyprland --verify-config --config ~/dotfiles/.config/hypr/hyprland.lua`
+>
+> **Notifications are session-specific:** `swaync` owns
+> `org.freedesktop.Notifications` in this personal session. The stock
+> **Hyprland** (Ryoku) session owns them via SHIMA's `qs` shell instead.
+> Both daemons are `systemctl --user` units — only one can own the bus
+> name per login. `deploy swaync` enables it; `deploy noswaync` masks it.
+> Never run both in the same login.
+>
+> **Deploy:** `~/dotfiles/deploy -y all` re-applies: `./deploy hypr`
+> (installs the SDDM entry above, never symlinks `~/.config/hypr`),
+> `./deploy waybar swaync` (bar + notifications + enables swaync),
+> plus fish/kitty/rofi/tofi/wlogout etc. `~/.local/bin/waybar` patch
+> is gone — use the system package.
+>
+> **File layout:** `hyprland.lua` requires `conf/{variables,startup,animations,input,theme,window_rules,keybinds}.lua`.
+> Idle/lock configs are used with explicit paths:
+> `hypridle -c ~/dotfiles/.config/hypr/hypridle.conf`,
+> `hyprlock -c ~/dotfiles/.config/hypr/hyprlock.conf` — so Ryoku's
+> `~/.config/hypr/` can never shadow them. `Hyprland 0.57.1` required.
 
-## Live config: Ryoku + Shima
+## Legacy note: old Ryoku + Shima bindings
 
-The live compositor config is Ryoku's `~/.config/hypr/modules/binds.lua`
-(personal changes in `~/.config/ryoku/user_edits/hypr/modules/binds.lua`).
-`hyprland.lua` and `conf/*.lua` here are not loaded any more; the `.conf`
-keybinds are kept in sync as reference only, since Hyprland 0.57 dropped the
-legacy format.
-
-**Shima** (the Quickshell `shell` instance) owns the bar, the OSD and media
-feedback. Bind the IPC call that performs the action, not the display-only OSD:
-
-| Action | Command |
-| --- | --- |
-| Volume up / down / mute (`XF86Audio*`, `F8`/`F9`, `SUPER+M`) | `qs -c shell ipc call audio volumeUp` / `volumeDown` / `mute` |
-| Mic mute (`F10`, `XF86AudioMicMute`) | `~/.config/hypr/scripts/input-mute-toggle` (calls `osd mic`) |
-| Media (`F11`, `XF86AudioNext` / `Prev` / `Play` / `Pause`) | `qs -c shell ipc call mpris <action>` + `qs -c shell ipc call osd media <action>` |
-| Brightness (`F5`/`F6`, `XF86MonBrightness*`) | `qs -c shell ipc call brightness decrement` / `increment` |
-
-`qs -c shell ipc call osd volume` only redraws the OSD; it never changes the
-PipeWire sink, so it must not be bound to the volume keys.
-
-### Ryoku-native tools
-
-The live bindings use Ryoku's tools instead of standalone equivalents:
-
-| Key | Tool |
-| --- | --- |
-| `Print` / `Super+Print` / `Super+Shift+S` | `ryoku-cmd-ryoshot` (region; annotate, beautify, OCR/search/record) |
-| `Shift+Print` | `env RYOSHOT_MODE=monitor ryoku-cmd-ryoshot` (whole monitor) |
-| `Super+P` / `Super+Shift+C` | `ryoku-cmd-color-picker` |
-| `F3` | `qs -c shell ipc call brightness set 100` |
-| `Super+Shift+A` | `ryoku:launcher` (replaces `tofi-drun`) |
-| `Alt+Tab` / `Alt+Shift+Tab` | `ryoku:switcher` / `ryoku:switcher-prev` (window switcher, see below) |
-| `Super+Tab` / `Super+Shift+Tab` | `ryoku:overview` / `ryoku:overview-prev` (workspace expo; steps while open) |
-| `Super+Alt+Tab` | `ryoku:overview` (workspace expo) |
-
-`flameshot` and `hyprshot` are no longer used. Ryoku Shot handles region/window
-snapping, annotation, beautify, OCR and recording in one UI.
-
-If a volume or mic change paints **two** OSDs, the shared `ryoku-osd` window is
-painting next to Iris's own island. `styleOwnsFeedback` in
-`~/.config/quickshell/shell/services/Config.qml` must keep its `iris` branch
-(that file is Ryoku-owned and outside this repo).
-
-### Alt+Tab window switcher
-
-`Alt+Tab` cycles the most-recently-used windows (`Alt+Shift+Tab` walks the same
-snapshot backwards); `Super+Tab` (and `Super+Alt+Tab`) opens the workspace expo
-instead. Once the expo is up, `Super+Tab` / `Super+Shift+Tab` step its selection
-rather than toggling it shut: the compositor bind consumes the Tab press, so the
-shell routes the step to the open surface through
-`ShellState.overviewStepRequested`.
-
-Iris/Shima ships no window switcher of its own, so the surface lives in Ryoku's
-shell at `~/.config/quickshell/shell/modules/switcher/` (Ryoku-owned, outside
-this repo):
-
-- `Singletons/Switcher.qml` snapshots the window list in MRU order on the first
-  press and steps the selection on each further press.
-- `WindowSwitcher.qml` is a passive overlay (no keyboard focus) that names the
-  window just focused and fades out 1.5 s after the last press.
-- `shell.qml` registers the `switcher` / `switcher-prev` global shortcuts and
-  maps them to `Switcher.cycle(±1)`; the Hyprland binds call
-  `hl.dsp.global("ryoku:switcher")` and `hl.dsp.global("ryoku:switcher-prev")`.
-
-Hyprland's `global` dispatcher only reports a press, never the modifier coming
-up, so the switcher commits on **every** press rather than on Alt release. Do
-not give the overlay exclusive keyboard focus to catch the release: releasing
-that grab refocuses the window that was active before the switcher opened and
-would undo the switch.
-
-Two more Ryoku-owned QML patches make the keybinds behave (both documented here
-because an update can overwrite them):
-
-- `~/.config/quickshell/inir/services/CompositorService.qml` — `toggleOverview()`
-  must fall back to `ryoku-shell overview` when `Wm.caps.nativeOverview` is
-  false, which is every Hyprland session. Without the fallback the Hub's
-  "Toggle Overview" row and the hot-corner script are silent no-ops.
-- `~/.config/quickshell/shell/services/Config.qml` — the `iris` branch of
-  `styleOwnsFeedback` described above.
+The old Ryoku session used `~/.config/hypr/modules/binds.lua` + SHIMA
+quickshell OSD. Those `qs -c shell ipc …`, `ryoku:` globals, and
+`ryoku-cmd-*` bindings have been replaced in the personal config with
+vanilla `wpctl`, `brightnessctl`, `playerctl`, `rofi`, `grim`+`slurp`,
+`hyprpicker`, `hyprlock`, `wlogout`, and `swaync-client` — see the intro
+block above and `conf/keybinds.lua`.
 
 This is a modularized Hyprland configuration written in **Lua** (`hyprland.lua` + `conf/*.lua`).
 
