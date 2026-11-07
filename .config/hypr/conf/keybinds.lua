@@ -42,7 +42,7 @@ hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("hyprpicker -a"))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd(DOT .. "/scripts/url_launcher_gui.py"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock -c ~/dotfiles/.config/hypr/hyprlock.conf"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("pavucontrol"))
 hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("swaync-client --toggle-dnd"))
 hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("kitty nmtui"))

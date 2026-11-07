@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Gracefully restart hypridle
+# Gracefully restart hypridle (personal dotfiles config, no Ryoku).
+DOT="$HOME/dotfiles/.config/hypr"
 if pgrep -x hypridle >/dev/null; then
     pkill -x hypridle
     sleep 0.5
 fi
-hypridle &
+hypridle -c "$DOT/hypridle.conf" &
 disown
