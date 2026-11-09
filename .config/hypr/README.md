@@ -32,6 +32,12 @@
 > `hypridle -c ~/dotfiles/.config/hypr/hypridle.conf`,
 > `hyprlock -c ~/dotfiles/.config/hypr/hyprlock.conf` — so Ryoku's
 > `~/.config/hypr/` can never shadow them. `Hyprland 0.57.1` required.
+>
+> **Lightweight deco (UHD 630):** animations disabled, opaque windows
+> (`opacity 1.0`, no `dim_inactive`), `rounding 0`, flat `groupbar`
+> (`gradients false`, height 4), `allow_tearing false`, `vrr 0`,
+> `border_size 0`. Shadow and blur were already off. See
+> `conf/theme.lua` + `conf/animations.lua` (`4c597a3`).
 
 ## Legacy note: old Ryoku + Shima bindings
 
