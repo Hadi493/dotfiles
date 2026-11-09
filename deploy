@@ -109,17 +109,18 @@ link_helix() {
 }
 
 link_hypr() {
-    # Personal lightweight session (no Ryoku, no ~/.config/hypr symlink).
-    # Ryoku owns ~/.config/hypr (materialized base + user_edits). Linking
-    # dotfiles over it would be clobbered on next `ryoku update` and break
-    # the Ryoku fallback. Instead install the detached SDDM entry that
-    # launches Hyprland directly from ~/dotfiles/.config/hypr/hyprland.lua.
-    echo "Installing personal Hyprland session (no Ryoku)..."
+    # Personal session: dotfiles are the only config. A bare `Hyprland` or
+    # `start-hyprland` reads ~/.config/hypr/hyprland.lua, so install a tiny
+    # loader there that points at ~/dotfiles. Never symlink the whole
+    # ~/.config/hypr directory: Hyprland resolves require() from the given
+    # file's directory, and a loader keeps that explicit.
+    echo "Installing personal Hyprland config + session..."
+    install -Dm644 "$DOTFILES_DIR/.config/hypr/loader.lua" \
+                   "$HOME/.config/hypr/hyprland.lua"
     link_one "$DOTFILES_DIR/.local/share/wayland-sessions/hadi-hyprland.desktop" \
              "$HOME/.local/share/wayland-sessions/hadi-hyprland.desktop"
-    echo "  Note: ~/.config/hypr stays Ryoku-managed (fallback). Pick"
-    echo "  'Hadi Hyprland (Personal, No Ryoku)' at SDDM for this config."
-    echo "  Verify: Hyprland --verify-config --config $DOTFILES_DIR/.config/hypr/hyprland.lua"
+    echo "  Loader: ~/.config/hypr/hyprland.lua -> $DOTFILES_DIR/.config/hypr"
+    echo "  Verify: Hyprland --verify-config --config $HOME/.config/hypr/hyprland.lua"
 }
 
 link_waybar() {
