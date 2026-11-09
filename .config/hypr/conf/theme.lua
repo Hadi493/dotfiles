@@ -7,16 +7,17 @@ hl.config({
 
         resize_on_border = true,
 
-        allow_tearing = true,
+        allow_tearing = false,
 
         layout = "scrolling",
     },
 
     decoration = {
-        rounding = 10,
+        rounding = 0,
 
         active_opacity   = 1.0,
-        inactive_opacity = 0.79,
+        inactive_opacity = 1.0,
+        dim_inactive = false,
 
         shadow = {
             enabled      = false,
@@ -35,8 +36,8 @@ hl.config({
 
     group = {
         groupbar = {
-            height         = 8,
-            gradients      = true,
+            height         = 4,
+            gradients      = false,
             render_titles  = false,
             rounding       = 0,
             col = {
@@ -54,7 +55,7 @@ hl.config({
     },
 
     misc = {
-        vrr                        = 2,
+        vrr                        = 0,
         force_default_wallpaper    = 0,
         disable_hyprland_logo      = true,
         disable_splash_rendering   = true,
