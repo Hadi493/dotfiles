@@ -1,8 +1,6 @@
--- Personal lightweight keybinds (no Ryoku, no quickshell).
--- Vanilla backends only: wpctl, brightnessctl, playerctl, rofi, grim/slurp,
--- hyprpicker, hyprlock, wlogout, cliphist+tofi, swaync-client.
+-- Personal lightweight keybinds (vanilla tools only).
 -- Scripts live at ~/dotfiles/.config/hypr/scripts (referenced absolute so a
--- Ryoku-managed ~/.config/hypr can never shadow them).
+-- managed ~/.config/hypr can never shadow them).
 
 local P = require("conf.variables")
 local DOT = os.getenv("HOME") .. "/dotfiles/.config/hypr"
@@ -53,7 +51,6 @@ hl.bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
 hl.bind(mainMod .. "+ G", hl.dsp.group.toggle())
 hl.bind(mainMod .. " + SHIFT + left", hl.dsp.group.prev())
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.group.next())
--- Lightweight window switchers (no Ryoku MRU strip / expo).
 hl.bind("ALT + Tab", hl.dsp.exec_cmd("rofi -show window -config ~/.config/rofi/config.rasi"))
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("rofi -show window -config ~/.config/rofi/config.rasi"))
 

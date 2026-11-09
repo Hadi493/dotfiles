@@ -92,14 +92,6 @@ hl.window_rule({
     size  = { 560, 620 },
 })
 
-hl.window_rule({
-    name  = "float-ryoku-settings",
-    match = { title = "^(Ryoku Settings)$" },
-    float = true,
-    center = true,
-    size  = { 1080, 920 },
-})
-
 
 
 

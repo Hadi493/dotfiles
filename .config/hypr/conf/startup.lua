@@ -32,7 +32,7 @@ hl.on("hyprland.start", function()
     -- Portals come up via dbus activation; no manual kill/restart needed.
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 
-    -- Idle / lock (hypridle + hyprlock, no ryoku-shell).
+    -- Idle / lock (hypridle + hyprlock).
     hl.exec_cmd(DOT .. "/scripts/run_hypridle")
 
     -- Break timer (notify-send -> swaync).
