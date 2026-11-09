@@ -22,5 +22,9 @@ fi
 
 pactl set-source-mute "$MIC" "$M" 2>/dev/null
 
-# (personal lightweight: no quickshell OSD; beep only)
+if [ "$M" = 1 ]; then MSG="muted"; else MSG="live"; fi
+notify-send -t 900 -i microphone-sensitivity-high \
+    -h string:x-canonical-private-synchronous:mic \
+    "Microphone" "$MSG"
+
 pw-cat -p "$SND/$BEEP" 2>/dev/null &

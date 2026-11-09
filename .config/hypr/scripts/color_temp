@@ -1,25 +1,36 @@
 #!/bin/bash
-# Adjust/warm the display color temperature via wl-gammarelay-rs.
-# Usage: color_temp warmer | cooler | [temp-kelvin]
-BUS=rs.wl-gammarelay
-IFACE=rs.wl.gammarelay
+# Adjust the display colour temperature via hyprsunset (Hyprland native).
+# Usage: color_temp warmer | cooler | reset | [kelvin]
+#
+# hyprsunset has no readable property, so the last value is kept in a small
+# state file to make warmer/cooler steps relative.
+set -u
+
+STATE="${XDG_CACHE_HOME:-$HOME/.cache}/hypr-color-temp"
 MIN_TEMP=3500
 MAX_TEMP=7000
 DAY_TEMP=6500
 STEP=400
 
-CURRENT=$(busctl --user get-property "$BUS" / "$IFACE" Temperature 2>/dev/null | awk '{print $2}')
-[ -z "$CURRENT" ] && CURRENT=$DAY_TEMP
+CURRENT=$(cat "$STATE" 2>/dev/null || echo "$DAY_TEMP")
+case "$CURRENT" in ''|*[!0-9]*) CURRENT=$DAY_TEMP ;; esac
 
-case "$1" in
-  warmer) NEW=$((CURRENT - STEP)); [ "$NEW" -lt "$MIN_TEMP" ] && NEW=$MIN_TEMP ;;
-  cooler) NEW=$((CURRENT + STEP)); [ "$NEW" -gt "$MAX_TEMP" ] && NEW=$MAX_TEMP ;;
+case "${1:-}" in
+  warmer) NEW=$((CURRENT - STEP)) ;;
+  cooler) NEW=$((CURRENT + STEP)) ;;
+  reset)  NEW=$DAY_TEMP ;;
   *)
-    if [ "$1" -eq "$1" ] 2>/dev/null; then NEW=$1; else NEW=$DAY_TEMP; fi
-    [ "$NEW" -lt "$MIN_TEMP" ] && NEW=$MIN_TEMP
-    [ "$NEW" -gt "$MAX_TEMP" ] && NEW=$MAX_TEMP ;;
+    if [ "${1:-}" -eq "${1:-}" ] 2>/dev/null; then NEW=$1; else NEW=$CURRENT; fi
+    ;;
 esac
 
-busctl --user set-property "$BUS" / "$IFACE" Temperature q "$NEW" 2>/dev/null
+[ "$NEW" -lt "$MIN_TEMP" ] && NEW=$MIN_TEMP
+[ "$NEW" -gt "$MAX_TEMP" ] && NEW=$MAX_TEMP
+
+if hyprctl hyprsunset temperature "$NEW" >/dev/null 2>&1; then
+    printf '%s\n' "$NEW" > "$STATE"
+    notify-send -t 1200 "Color temperature" "${NEW}K"
+else
+    notify-send -u critical "Color temperature" "hyprsunset is not running"
+fi
 echo "$NEW"
-notify-send -t 1200 "Color temperature" "${NEW}K"

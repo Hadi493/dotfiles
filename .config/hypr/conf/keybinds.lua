@@ -22,9 +22,9 @@ local function bind(keys, disp, opts)
 end
 
 -- Audio (wpctl / PipeWire). Locked so volume works on the lockscreen.
-bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true })
-bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true })
-bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(DOT .. "/scripts/volume up"), { locked = true })
+bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(DOT .. "/scripts/volume down"), { locked = true })
+bind("XF86AudioMute", hl.dsp.exec_cmd(DOT .. "/scripts/volume mute"), { locked = true })
 bind("XF86AudioMicMute", hl.dsp.exec_cmd(DOT .. "/scripts/input-mute-toggle"), { locked = true })
 
 bind("ALT + Q", hl.dsp.exec_cmd(P.quran))
@@ -80,7 +80,7 @@ bind(mainMod .. " + t", hl.dsp.exec_cmd("cg-timer"))
 bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
 bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("systemctl poweroff"))
 
-bind(mainMod .. " + M", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+bind(mainMod .. " + M", hl.dsp.exec_cmd(DOT .. "/scripts/volume mute"), { locked = true })
 
 bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
 
@@ -168,8 +168,8 @@ bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(DOT .. "/scripts/night_mode"))
 bind("F2", hl.dsp.exec_cmd(DOT .. "/scripts/color_temp warmer"))
 bind(mainMod .. " + F2", hl.dsp.exec_cmd(DOT .. "/scripts/color_temp cooler"))
 
-bind("F9", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true })
-bind("F8", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true })
+bind("F9", hl.dsp.exec_cmd(DOT .. "/scripts/volume up"), { locked = true })
+bind("F8", hl.dsp.exec_cmd(DOT .. "/scripts/volume down"), { locked = true })
 bind("F10", hl.dsp.exec_cmd(DOT .. "/scripts/input-mute-toggle"), { locked = true })
 bind("F11", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 

@@ -38,8 +38,8 @@ hl.on("hyprland.start", function()
     -- Break timer (notify-send -> swaync).
     hl.exec_cmd(DOT .. "/scripts/break &")
 
-    -- Colour temperature relay (started once per session if not running).
-    hl.exec_cmd("pgrep -x wl-gammarelay-rs >/dev/null || wl-gammarelay-rs run")
+    -- Colour temperature (hyprsunset, native Hyprland IPC).
+    hl.exec_cmd("pgrep -x hyprsunset >/dev/null || hyprsunset")
 
     -- Login mic fix (USB mic default, unmuted) via pactl.
     hl.exec_cmd(DOT .. "/scripts/unmute_mic.sh")

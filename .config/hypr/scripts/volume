@@ -1,0 +1,19 @@
+#!/bin/bash
+# Volume control with a swaync OSD (replace-in-place, like a native OSD).
+# Usage: volume up | down | mute
+set -u
+
+case "${1:-}" in
+    up)   wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ ;;
+    down) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- ;;
+    mute) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+    *)    exit 1 ;;
+esac
+
+out=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+vol=$(awk '{printf "%d%%", $2 * 100}' <<<"$out")
+case "$out" in *MUTED*) vol="muted" ;; esac
+
+notify-send -t 900 -i audio-volume-high \
+    -h string:x-canonical-private-synchronous:volume \
+    "Volume" "$vol"

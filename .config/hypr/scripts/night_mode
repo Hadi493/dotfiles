@@ -1,26 +1,26 @@
 #!/bin/bash
-# Toggle a warm/night color temperature via wl-gammarelay-rs.
-# Persists state in /tmp so it survives across invocations.
-BUS=rs.wl-gammarelay
-IFACE=rs.wl.gammarelay
+# Toggle a warm/night colour temperature via hyprsunset (Hyprland native).
+# Shares the last value with color_temp so both stay in sync.
+set -u
+
+STATE="${XDG_CACHE_HOME:-$HOME/.cache}/hypr-color-temp"
 DAY_TEMP=6500
 NIGHT_TEMP=4500
 
-if busctl --user get-property "$BUS" / "$IFACE" Temperature >/dev/null 2>&1; then
-  CURRENT=$(busctl --user get-property "$BUS" / "$IFACE" Temperature | awk '{print $2}')
+CURRENT=$(cat "$STATE" 2>/dev/null || echo "$DAY_TEMP")
+case "$CURRENT" in ''|*[!0-9]*) CURRENT=$DAY_TEMP ;; esac
+
+if [ "$CURRENT" -gt "$NIGHT_TEMP" ]; then NEW=$NIGHT_TEMP; else NEW=$DAY_TEMP; fi
+
+if hyprctl hyprsunset temperature "$NEW" >/dev/null 2>&1; then
+    printf '%s\n' "$NEW" > "$STATE"
 else
-  CURRENT=$DAY_TEMP
+    notify-send -u critical "Night mode" "hyprsunset is not running"
+    exit 1
 fi
 
-if [ "$CURRENT" -gt "$NIGHT_TEMP" ]; then
-  NEW=$NIGHT_TEMP
-else
-  NEW=$DAY_TEMP
-fi
-
-busctl --user set-property "$BUS" / "$IFACE" Temperature q "$NEW" 2>/dev/null
 if [ "$NEW" = "$NIGHT_TEMP" ]; then
-  notify-send -t 1200 "Night mode" "Warm (${NIGHT_TEMP}K)"
+    notify-send -t 1200 "Night mode" "Warm (${NIGHT_TEMP}K)"
 else
-  notify-send -t 1200 "Night mode" "Default (${DAY_TEMP}K)"
+    notify-send -t 1200 "Night mode" "Default (${DAY_TEMP}K)"
 fi
