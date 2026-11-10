@@ -29,20 +29,21 @@
           (lambda ()
              (local-set-key (kbd "C-c C-j")
                             #'eval-print-last-sexp)))
-(add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
+(add-to-list 'auto-mode-alist '("\\`Cask\\'" . emacs-lisp-mode))
 
 (load "~/.emacs.shadow/shadow-rc.el" t)
 
-(global-set-key (kbd "C-c c")   'compile)
 (global-set-key (kbd "C-c r")   'recompile)
 (global-set-key (kbd "C-x c")   'compile)
-(global-set-key (kbd "C-x k")   'kill-compilation)
+(global-set-key (kbd "C-x k")   'kill-buffer)
+(global-set-key (kbd "C-x K")   'kill-compilation)
 (global-set-key (kbd "C-S-k")   'kill-buffer)
 (global-set-key (kbd "C-c C-w") 'count-words)
 
-(load-file custom-file)
+;; Insert toggles overwrite-mode, which makes typing delete characters
+(global-set-key [insert] nil)
+(global-set-key [insertchar] nil)
 
-;; Disable backup files like file~
-(setq make-backup-files nil)
+(load-file custom-file)
 (setq shell-file-name "/usr/bin/bash")
 (put 'dired-find-alternate-file 'disabled nil)

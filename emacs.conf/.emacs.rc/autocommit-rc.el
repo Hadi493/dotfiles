@@ -133,7 +133,7 @@ dir locals file."
        (format "*Autocommit-%s*" autocommit-directory)
        (format (if (rc/autocommit--get-lock 'autocommit-offline)
                    "git add -A && git commit -m \"%s\""
-                 "git add -A && git commit -m \"%s\" && git push origin master")
+                 "git add -A && git commit -m \"%s\" && git push")
                autocommit-message)))))
 
 (defun rc/autocommit-beat (autocommit-directory _process event)

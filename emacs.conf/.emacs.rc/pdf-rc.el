@@ -4,7 +4,7 @@
 (rc/require 'pdf-tools)
 
 ;; Initialize pdf-tools
-(pdf-tools-install)
+(when (fboundp 'pdf-tools-install) (pdf-tools-install))
 
 ;; Disable line numbers in PDF view (they are incompatible)
 (add-to-list 'pdf-view-incompatible-modes 'display-line-numbers-mode)

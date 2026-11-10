@@ -56,8 +56,9 @@ First launch auto-installs missing packages from MELPA.
 ### General
 | Key | Command |
 |-----|---------|
-| `C-c c` / `C-x c` | `compile` |
-| `C-x k` | `kill-compilation` |
+| `C-x c` | `compile` |
+| `C-x k` | `kill-buffer` |
+| `C-x K` | `kill-compilation` |
 | `C-S-k` | `kill-buffer` |
 | `C-x C-g` | `find-file-at-point` |
 | `C-c i m` | `imenu` |

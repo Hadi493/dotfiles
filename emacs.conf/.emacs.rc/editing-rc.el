@@ -19,7 +19,7 @@
 ;;; Whitespace mode handling
 (defun rc/set-up-whitespace-handling ()
   (interactive)
-  (add-to-list 'write-file-functions 'delete-trailing-whitespace))
+  (add-hook 'write-file-functions 'delete-trailing-whitespace nil t))
 
 (let ((hooks '(tuareg-mode-hook
                c++-mode-hook
@@ -50,16 +50,6 @@
 
 (add-hook 'markdown-mode-hook 'rc/enable-word-wrap)
 
-;;; Unfill paragraph
-(defun rc/unfill-paragraph ()
-  "Replace newline chars in current paragraph by single spaces.
-This command does the inverse of `fill-paragraph'."
-  (interactive)
-  (let ((fill-column 90002000)) ; 90002000 is just random
-    (fill-paragraph nil)))
-
-(global-set-key (kbd "C-c M-q") 'rc/unfill-paragraph)
-
 ;; Save to disk on idle (modern style)
 (setq auto-save-visited-interval 30)
 (if (fboundp 'auto-save-visited-mode)
@@ -68,9 +58,9 @@ This command does the inverse of `fill-paragraph'."
 ;;
 ;; Notification in the echo area
 (defun rc/show-save-status ()
-  "Show a message only for auto-saves, not manual saves."
+  "Show a message for saves that are not manual `save-buffer' calls."
   (when (not (memq this-command '(save-buffer save-some-buffers)))
-    (message "(Auto-saving %s...done)" (buffer-name))))
+    (message "(Saved %s)" (buffer-name))))
 
 (add-hook 'after-save-hook 'rc/show-save-status)
 
@@ -84,7 +74,7 @@ This command does the inverse of `fill-paragraph'."
 (add-hook 'markdown-mode-hook 'writegood-mode)
 
 ;; Try to find LanguageTool jar automatically
-(let ((lt-path "/usr/share/languagetool/languagetool-commandline.jar"))
+(let ((lt-path "/usr/share/java/languagetool/languagetool-commandline.jar"))
   (when (file-exists-p lt-path)
     (setq langtool-language-tool-jar lt-path)))
 

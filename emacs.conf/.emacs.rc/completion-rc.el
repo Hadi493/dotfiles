@@ -6,8 +6,6 @@
 (when (fboundp 'ido-ubiquitous-mode)
   (ido-ubiquitous-mode -1))
 
-(global-set-key (kbd "M-x") 'execute-extended-command)
-
 ;;; Helm
 (rc/require 'helm)
 (setq helm-ff-transformer-show-only-basename nil)
@@ -21,7 +19,7 @@
 
 ;; Company
 (rc/require 'company 'company-c-headers)
-(require 'company)
+(require 'company nil t)
 (global-company-mode)
 
 ;; Add standard header paths for C/C++ completion

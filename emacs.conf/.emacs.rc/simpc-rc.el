@@ -25,6 +25,7 @@
             (interactive)
             ;; Using astyle for fill-paragraph is aggressive, 
             ;; but keeping it as per user's original config.
-            (setq-local fill-paragraph-function 'astyle-buffer)))
+            (when (executable-find "astyle")
+              (setq-local fill-paragraph-function 'astyle-buffer))))
 
 (provide 'simpc-rc)

@@ -7,14 +7,18 @@
 (defvar rc/package-contents-refreshed nil)
 
 (defun rc/package-refresh-contents-once ()
-  (when (not rc/package-contents-refreshed)
+  (unless rc/package-contents-refreshed
     (setq rc/package-contents-refreshed t)
-    (package-refresh-contents)))
+    (condition-case err
+        (package-refresh-contents)
+      (error (message "rc: package refresh failed: %s" err)))))
 
 (defun rc/require-one-package (package)
-  (when (not (package-installed-p package))
+  (unless (package-installed-p package)
     (rc/package-refresh-contents-once)
-    (package-install package)))
+    (condition-case err
+        (package-install package)
+      (error (message "rc: could not install %s: %s" package err)))))
 
 (defun rc/require (&rest packages)
   (dolist (package packages)
@@ -41,11 +45,9 @@ This is a compatibility shim for dash-functional, which is deprecated."
   x)
 
 (rc/require 'dash)
-(require 'dash)
+(require 'dash nil t)
 
 (rc/require 'dash-functional)
 (when (featurep 'dash-functional)
   (require 'dash-functional))
 
-(when (ignore-errors (require '-- nil t))
-  nil)

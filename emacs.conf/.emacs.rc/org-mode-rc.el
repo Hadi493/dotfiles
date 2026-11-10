@@ -8,16 +8,10 @@
 
 (defun rc/org-increment-move-counter ()
   (interactive)
-
-  (defun default (x d)
-    (if x x d))
-
   (let* ((point (point))
          (move-counter-name "MOVE_COUNTER")
-         (move-counter-value (-> (org-entry-get point move-counter-name)
-                                 (default "0")
-                                 (string-to-number)
-                                 (1+))))
+         (move-counter-value (1+ (string-to-number
+                                 (or (org-entry-get point move-counter-name) "0")))))
     (org-entry-put point move-counter-name
                    (number-to-string move-counter-value)))
   nil)

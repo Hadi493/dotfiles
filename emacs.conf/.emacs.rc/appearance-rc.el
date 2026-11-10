@@ -44,7 +44,8 @@ space-separated form (FAMILY followed by SIZE) is rejected as an invalid font."
               (expand-file-name "~/.emacs.rc")))
 
 ;; (rc/require-theme 'gruber-darker)
-(load-theme 'gruber-darker-ayu t)(when (require 'ligature nil t)
+(load-theme 'gruber-darker-ayu t)
+(when (require 'ligature nil t)
   (ligature-set-ligatures 't '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "%%"
                                "==" "===" "!==" "!= " ">=" "<=" "=>" "=>>" "==>" "=="
                                "&&" "&&&" "||" "|||" "||=" "|=" "||>" "==" "!="

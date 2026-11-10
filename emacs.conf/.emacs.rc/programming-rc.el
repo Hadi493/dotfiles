@@ -45,7 +45,7 @@
 (add-hook 'haskell-mode-hook 'haskell-doc-mode)
 
 ;;; Typescript & Tide
-(rc/require 'typescript-mode 'tide)
+(rc/require 'typescript-mode 'tide 'flycheck)
 (add-to-list 'auto-mode-alist '("\\.mts\\'" . typescript-mode))
 
 (defun rc/turn-on-tide-and-flycheck ()
@@ -57,14 +57,14 @@
 
 ;;; Yasnippet
 (rc/require 'yasnippet)
-(require 'yasnippet)
+(require 'yasnippet nil t)
 (setq yas/triggers-in-field nil)
 (setq yas-snippet-dirs '("~/.emacs.snippets/"))
 (yas-global-mode 1)
 
 ;;; Git Gutter
 (rc/require 'git-gutter)
-(require 'git-gutter)
+(require 'git-gutter nil t)
 (global-git-gutter-mode t)
 
 (global-set-key (kbd "C-c v n") 'git-gutter:next-hunk)

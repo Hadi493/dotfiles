@@ -10,9 +10,9 @@
      default))
  '(package-selected-packages
    '(ag ancient-one-dark-theme avk-emacs-themes avy ayu-theme
-        base16-theme cape clojure-mode cmake-mode company-c-headers
-        consult corfu d-mode dart-mode dash-functional dockerfile-mode
-        doom-modeline dracula-theme elpy empv flutter git-gutter
+        base16-theme cape clojure-mode cmake-mode company company-c-headers
+        consult corfu d-mode dart-mode dash dash-functional dockerfile-mode
+        doom-modeline dracula-theme elpy empv flutter flycheck git-gutter
         glsl-mode go-mode graphviz-dot-mode gruber-darker-ayu-theme
         gruber-darker-theme haskell-mode helm hl-todo
         ido-completing-read+ jinja2-mode kotlin-mode langtool ligature
@@ -22,7 +22,7 @@
         php-mode powershell proof-general purescript-mode qml-mode
         racket-mode rainbow-delimiters rfc-mode rust-mode scala-mode
         smex sml-mode tide toml-mode tuareg typescript-mode
-        uxntal-mode vertico writegood-mode yaml-mode)))
+        uxntal-mode vertico writegood-mode yaml-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
