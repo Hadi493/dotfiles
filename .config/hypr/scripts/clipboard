@@ -1,81 +1,182 @@
 #!/usr/bin/env bash
+# Clipboard manager: pinned entries + cliphist history, with image thumbnails.
+#   Super+V       -> clip history + pins; Enter copies immediately
+#   Super+Alt+V   -> manage: copy / pin / unpin / delete / clear history
+#   Super+Shift+V -> pass (password store)
+#
+# Rows are emitted in Rofi's extended dmenu protocol (<text>\0icon\x1f<icon>)
+# so fuzzel can render a thumbnail for image entries.  fuzzel's --index gives
+# the selected row number (0-based), which maps 1:1 onto the key file.
+set -u
 
 PIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/cliphist-pinned"
-mkdir -p "$PIN_DIR"
+THUMB_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/cliphist-thumbs"
+FUZZEL="${FUZZEL:-$HOME/.config/fuzzel/fuzzel.ini}"
+mkdir -p "$PIN_DIR" "$THUMB_DIR"
+
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+map="$tmpdir/map"
+display="$tmpdir/display"
+
+file_mime() { file -b --mime-type "$1" 2>/dev/null || echo application/octet-stream; }
+
+file_info() {
+    local f="$1" mime dims p
+    mime=$(file_mime "$f")
+    case "$mime" in
+        image/*)
+            dims=$(magick identify -format '%wx%h' "$f" 2>/dev/null || true)
+            [ -n "$dims" ] && printf 'Image %s' "$dims" || printf 'Image'
+            ;;
+        text/*|application/json|application/xml|application/javascript)
+            p=$(head -c 80 "$f"); p=${p//$'\n'/ }; p=${p//$'\t'/ }; p=${p//[[:cntrl:]]/}; printf '%s' "$p"
+            ;;
+        *) printf '%s' "$mime" ;;
+    esac
+}
+
+pin_icon() {
+    local f="$1" mime
+    mime=$(file_mime "$f")
+    case "$mime" in
+        image/*) printf '%s' "$f" ;;
+        *)       printf '%s' "bookmarks-bookmarked" ;;
+    esac
+}
+
+pin_copy() {
+    local f="$1" mime
+    mime=$(file_mime "$f")
+    wl-copy --type "$mime" < "$f"
+}
+
+copy_key() {
+    local key="$1" tmpf mime f
+    case "$key" in
+        pin:*)
+            f="$PIN_DIR/${key#pin:}"
+            [ -f "$f" ] || { notify-send -t 2000 cliphist "pinned entry missing"; return; }
+            pin_copy "$f"
+            ;;
+        hist:*)
+            tmpf="$tmpdir/clip.bin"
+            printf '%s' "${key#hist:}" | cliphist decode > "$tmpf" 2>/dev/null || return
+            mime=$(file_mime "$tmpf")
+            wl-copy --type "$mime" < "$tmpf"
+            ;;
+    esac
+}
+
+pin_entry() {
+    local id="$1" out="$2" name
+    printf '%s' "$id" | cliphist decode > "$out" 2>/dev/null || return 1
+    [ -s "$out" ] || return 1
+    name=$(sha1sum < "$out" | cut -c1-40)
+    cp "$out" "$PIN_DIR/$name"
+}
+
+# row <text> <icon> <key>: emit a display row and record its key.
+row() {
+    printf '%s\0icon\x1f%s\n' "$1" "$2" >> "$display"
+    printf '%s\n' "$3" >> "$map"
+}
+
+build_list() {
+    local manage="${1:-}" f hash preview content id dims thumb icon
+    : > "$map"
+    : > "$display"
+
+    if [ "$manage" = "manage" ]; then
+        row "Clear history" "edit-clear" "action:clear"
+    fi
+
+    # ---- Pinned ----
+    for f in "$PIN_DIR"/*; do
+        [ -f "$f" ] || continue
+        hash=$(basename "$f")
+        preview=$(file_info "$f")
+        [ -z "$preview" ] && preview="(empty)"
+        row "📌 $preview" "$(pin_icon "$f")" "pin:$hash"
+    done
+
+    # ---- History ----
+    # cliphist list already flags images as "[[ binary data ... png WxH ]]",
+    # so only those rows need decoding (for the thumbnail); text rows skip the
+    # decode entirely.  Decoded thumbnails are cached by entry id so repeated
+    # opens do not re-decode the whole history.
+    while IFS=$'\t' read -r id content; do
+        [ -n "$id" ] || continue
+        preview=${content//$'\n'/ }
+        preview=${preview//$'\t'/ }
+        preview=${preview:0:80}
+        preview=${preview//[[:cntrl:]]/}
+        icon="accessories-text-editor"
+        case "$content" in
+            *'[[ binary data'*)
+                thumb="$THUMB_DIR/$id.bin"
+                if [ ! -s "$thumb" ]; then
+                    printf '%s' "$id" | cliphist decode > "$thumb" 2>/dev/null || rm -f "$thumb"
+                fi
+                if [ -s "$thumb" ]; then
+                    dims=$(magick identify -format '%wx%h' "$thumb" 2>/dev/null || true)
+                    [ -n "$dims" ] && preview="Image $dims" || preview="Image"
+                    icon="$thumb"
+                fi
+                ;;
+        esac
+        row "$preview" "$icon" "hist:$id"
+    done < <(cliphist list)
+
+    [ -s "$display" ]
+}
+
+# pick <prompt>: print the key of the selected row, or fail if cancelled.
+pick() {
+    local prompt="$1" idx
+    idx=$(fuzzel --dmenu --index --config "$FUZZEL" -p "$prompt" < "$display" 2>/dev/null) || return 1
+    [ -n "$idx" ] || return 1
+    sed -n "$((idx + 1))p" "$map"
+}
 
 case "${1:-clip}" in
     clip)
-        # pinned_map: N lines, each = hash
-        pinned_map=$(mktemp)
-        pinned_count=0
-        pinned_display=""
-        for f in "$PIN_DIR"/*; do
-            [ -f "$f" ] || continue
-            hash=$(basename "$f")
-            preview=$(head -c 80 "$f" | tr '\n' ' ' | sed 's/[[:cntrl:]]//g')
-            printf "%s\n" "$hash" >> "$pinned_map"
-            pinned_display="${pinned_display}📌 ${preview:-(empty)}"$'\n'
-            pinned_count=$((pinned_count + 1))
-        done
-
-        list=$(cliphist list)
-        [ "$pinned_count" -eq 0 ] && [ -z "$list" ] && rm -f "$pinned_map" && exit 0
-
-        combined=$(printf '%s\n' "${pinned_display%$'\n'}" "$list" | sed '/^$/d')
-        selection=$(echo "$combined" | tofi -c ~/.config/tofi/configV)
-        [ -z "$selection" ] && rm -f "$pinned_map" && exit 0
-
-        case "$selection" in
-            📌*)
-                lineno=$(echo "$combined" | grep -aFn -x "$selection" 2>/dev/null | head -1 | cut -d: -f1)
-                name=$(sed -n "${lineno}p" "$pinned_map" 2>/dev/null)
-                rm -f "$pinned_map"
-                [ -z "$name" ] && notify-send cliphist "error finding pinned entry" && exit 0
-                file="$PIN_DIR/$name"
-                action=$(printf " Copy\n🗑 Delete" | tofi \
-                    --font="IosevkaTerm Nerd Font" --font-size=16 \
-                    --prompt-text="action> " \
-                    --text-color="#d4be98" \
-                    --background-color="#181818d8" \
-                    --selection-color="#7daea3" \
-                    --selection-background="#282828" \
-                    --width=25% --height=15% \
-                    --padding-top=12 --padding-left=16 --padding-right=16 \
-                    --result-spacing=10 --num-results=4 \
-                    --border-width=2 --border-color="#323232")
-                case "$action" in
-                    *Copy)   printf '%s' "$(cat "$file")" | wl-copy ;;
-                    *Delete) rm -f "$file" && notify-send cliphist "pinned deleted" ;;
-                esac
+        build_list || { notify-send -t 1500 cliphist "clipboard is empty"; exit 0; }
+        key=$(pick "Clipboard") || exit 0
+        [ -n "$key" ] || exit 0
+        copy_key "$key"
+        ;;
+    manage)
+        build_list manage || { notify-send -t 1500 cliphist "clipboard is empty"; exit 0; }
+        key=$(pick "Manage") || exit 0
+        [ -n "$key" ] || exit 0
+        case "$key" in
+            action:clear)
+                cliphist wipe
+                notify-send -t 1500 cliphist "history cleared"
+                exit 0
                 ;;
-            *)
-                id=$(echo "$selection" | awk '{print $1}')
-                action=$(printf " Copy\n📌 Pin\n🗑 Delete" | tofi \
-                    --font="IosevkaTerm Nerd Font" --font-size=16 \
-                    --prompt-text="action> " \
-                    --text-color="#d4be98" \
-                    --background-color="#181818d8" \
-                    --selection-color="#7daea3" \
-                    --selection-background="#282828" \
-                    --width=25% --height=15% \
-                    --padding-top=12 --padding-left=16 --padding-right=16 \
-                    --result-spacing=10 --num-results=4 \
-                    --border-width=2 --border-color="#323232")
-                case "$action" in
-                    *Copy)
-                        echo "$selection" | cliphist decode | wl-copy
-                        ;;
-                    *Pin)
-                        content=$(echo "$selection" | cliphist decode)
-                        [ -z "$content" ] && exit 0
-                        name=$(printf '%s' "$content" | sha1sum | cut -c1-40)
-                        printf '%s' "$content" > "$PIN_DIR/$name"
-                        notify-send cliphist "pinned"
-                        ;;
-                    *Delete)
-                        cliphist delete "$id" && notify-send cliphist "deleted $id"
-                        ;;
-                esac
+        esac
+        if [[ "$key" == pin:* ]]; then
+            action=$(printf 'Copy\nUnpin\nDelete' | fuzzel --dmenu --index --config "$FUZZEL" -p "pin>" 2>/dev/null) || exit 0
+        else
+            action=$(printf 'Copy\nPin\nDelete' | fuzzel --dmenu --index --config "$FUZZEL" -p "history>" 2>/dev/null) || exit 0
+        fi
+        case "$action" in
+            0) copy_key "$key" ;;
+            1)
+                if [[ "$key" == pin:* ]]; then
+                    rm -f "$PIN_DIR/${key#pin:}" && notify-send -t 1000 cliphist "unpinned"
+                else
+                    pin_entry "${key#hist:}" "$tmpdir/pin.bin" && notify-send -t 1000 cliphist "pinned"
+                fi
+                ;;
+            2)
+                if [[ "$key" == pin:* ]]; then
+                    rm -f "$PIN_DIR/${key#pin:}" && notify-send -t 1000 cliphist "pinned deleted"
+                else
+                    cliphist delete "${key#hist:}" && notify-send -t 1000 cliphist "deleted"
+                fi
                 ;;
         esac
         ;;
@@ -89,18 +190,8 @@ case "${1:-clip}" in
             notify-send -u critical "pass" "password store empty — run: pass init <gpg-id>"
             exit 0
         fi
-        choice=$(echo "$entries" | tofi \
-            --font="IosevkaTerm Nerd Font" --font-size=18 \
-            --prompt-text="pass> " \
-            --text-color="#d4be98" \
-            --background-color="#181818d8" \
-            --selection-color="#7daea3" \
-            --selection-background="#282828" \
-            --border-color="#323232" \
-            --width=40% --height=40% \
-            --padding-top=20 --padding-left=20 --padding-right=20 \
-            --result-spacing=15 --num-results=8 \
-            --border-width=2)
-        [ -n "$choice" ] && pass -c "$choice" 2>/dev/null && notify-send "pass" "copied $choice"
+        choice=$(printf '%s\n' "$entries" | fuzzel --dmenu --config "$FUZZEL" -p "pass>" 2>/dev/null)
+        [ -n "$choice" ] && pass -c "$choice" 2>/dev/null && notify-send -t 1000 "pass" "copied $choice"
         ;;
 esac
+exit 0
