@@ -90,9 +90,8 @@ wp_persist() {
     printf '%s\n' "$rp" > "$WP_CACHE_FILE"
 }
 
-# Reload waybar's wallpaper-aware state and show a toast.
+# Show a toast for a wallpaper change.
 wp_notify_changed() {
-    killall -SIGUSR2 waybar 2>/dev/null
     notify-send -t 1000 'Wallpaper changed' "$(basename "$1")"
 }
 

@@ -17,14 +17,16 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
 
-    -- Notification daemon (swaync). Unmasked for personal session:
-    -- `systemctl --user unmask swaync.service`
-    hl.exec_cmd("swaync")
+    -- Notification daemon (swaync) is owned by the enabled systemd user
+    -- unit (dbus activation). Starting it here too makes the unit fail with
+    -- "An instance of SwayNotificationCenter is already running!".
 
-    -- Bar (system waybar v0.15). Detached personal session: plain `waybar`
+    -- Bar (system waybar v0.16). Detached personal session: plain `waybar`
     -- reads ~/.config/waybar (symlinked to dotfiles). Broken patched build
     -- lives at ~/.local/bin/waybar.broken-20261106 — do not restore it.
-    hl.exec_cmd("waybar")
+    -- The 1s delay lets the Hyprland IPC socket come up before waybar
+    -- connects (a plain exec at start races it and waybar exits).
+    hl.exec_cmd("sh -c 'sleep 1; exec waybar'")
 
     -- Wallpaper via swaybg/mpvpaper lib in dotfiles/scripts (no ryogami).
     hl.exec_cmd(DOT .. "/scripts/restore_wallpaper")

@@ -149,7 +149,7 @@ Animations are disabled, windows are opaque (`active/inactive_opacity 1.0`, no
 | Plain terminal (`kitty`) | `Super + Shift + Return` |
 | App launcher (Rofi drun) | `Super + D` |
 | App launcher (Tofi) | `Super + Shift + A` |
-| Window switcher (Rofi) | `Alt + Tab` / `Alt + Shift + Tab` |
+| Cycle windows (global MRU) | `Alt + Tab` / `Alt + Shift + Tab` |
 | Cycle windows in workspace | `Super + Tab` / `Super + Shift + Tab` |
 | File manager (Nautilus) | `Super + E` |
 | Editor (Emacs) | `Super + C` |
@@ -157,9 +157,11 @@ Animations are disabled, windows are opaque (`active/inactive_opacity 1.0`, no
 | Quran reader | `Alt + Q` |
 | Session app | `Super + S` or `Alt + S` |
 | Wallpaper picker | `Super + W` |
-| Clipboard history | `Super + V` |
+| Clipboard history (Enter copies) | `Super + V` |
+| Manage clipboard / clear history | `Super + Alt + V` |
 | Password store | `Super + Shift + V` |
-| Audio mixer (`pavucontrol`) | `Super + A` or `Super + N` |
+| Audio mixer (`pavucontrol`) | `Super + A` |
+| Notification panel | `Super + N` |
 | Hardware mixer (`alsamixer`) | `Alt + A` |
 | Network TUI (`nmtui`) | `Super + J` |
 | Do-not-disturb toggle | `Super + I` |
@@ -202,6 +204,7 @@ Web-app shortcuts (Brave Origin app windows) live in `conf/keybinds.lua`:
 | Resize column via scroll | `Super + Ctrl + scroll` |
 | Resize window freely | `Super + Ctrl + arrows` |
 | Toggle group/tab mode | `Super + G` |
+| Group prev/next | `Super + Alt + ←` / `Super + Alt + →` |
 
 ### Workspaces, monitors and media
 

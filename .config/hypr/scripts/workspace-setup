@@ -44,26 +44,26 @@ wait_for_new_window() {
 }
 
 unfloat() {
-  hyprctl activewindow | grep -q "floating: 1" && { hyprctl dispatch togglefloating; sleep 0.3; }
+  hyprctl activewindow | grep -q "floating: 1" && { hyprctl dispatch 'hl.dsp.window.float({action="toggle"})'; sleep 0.3; }
 }
 
 for entry in "${LAYOUT[@]}"; do
   IFS='|' read -r ws title cmd flags <<< "$entry"
 
-  hyprctl dispatch workspace "$ws"
+  hyprctl dispatch "hl.dsp.focus({workspace=$ws})"
   sleep 0.5
 
   before=$(window_count_on_ws "$ws")
 
-  hyprctl dispatch exec "$cmd"
+  hyprctl dispatch "hl.dsp.exec_cmd('$cmd')"
 
   wait_for_new_window "$ws" "$before"
 
   if [[ "$flags" == *"g"* ]]; then
     unfloat
-    hyprctl dispatch togglegroup
+    hyprctl dispatch 'hl.dsp.group.toggle()'
     sleep 0.3
   fi
 done
 
-hyprctl dispatch workspace 1
+hyprctl dispatch 'hl.dsp.focus({workspace=1})'

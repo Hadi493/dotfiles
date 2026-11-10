@@ -28,7 +28,6 @@ start() {
                 if "$WP_SET_SCRIPT" "$wp" >/dev/null 2>&1; then
                     wp_persist "$wp"
                 fi
-                killall -SIGUSR2 waybar 2>/dev/null
                 sleep "$interval_sec"
             done
         done

@@ -21,6 +21,35 @@ local function bind(keys, disp, opts)
     end, opts)
 end
 
+-- Global MRU window cycle for Alt+Tab. hl.dsp.window.cycle_next() only
+-- cycles inside the active workspace (in the scrolling layout it behaves
+-- like movefocus), so with one window per workspace it never leaves the
+-- workspace. Build the MRU list from the focus history instead.
+-- focus_history_id: 0 = most recently focused, -1 = never focused.
+local function cycle_global(prev)
+    local wins = hl.get_windows()
+    if #wins < 2 then return end
+    table.sort(wins, function(a, b)
+        local fa, fb = a.focus_history_id, b.focus_history_id
+        if fa < 0 then fa = math.huge end
+        if fb < 0 then fb = math.huge end
+        return fa < fb
+    end)
+    local active = hl.get_active_window()
+    local idx = 1
+    if active then
+        for i, w in ipairs(wins) do
+            if w.address == active.address then
+                idx = i
+                break
+            end
+        end
+    end
+    local target = prev and (idx > 1 and idx - 1 or #wins)
+        or (idx < #wins and idx + 1 or 1)
+    hl.dispatch(hl.dsp.focus({ window = wins[target].address }))
+end
+
 -- Audio (wpctl / PipeWire). Locked so volume works on the lockscreen.
 bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(DOT .. "/scripts/volume up"), { locked = true })
 bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(DOT .. "/scripts/volume down"), { locked = true })
@@ -55,7 +84,7 @@ bind(mainMod .. " + U", hl.dsp.exec_cmd(DOT .. "/scripts/url_launcher_gui.py"))
 bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock -c ~/dotfiles/.config/hypr/hyprlock.conf"))
-bind(mainMod .. " + N", hl.dsp.exec_cmd("pavucontrol"))
+bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client --toggle-panel"))
 bind(mainMod .. " + I", hl.dsp.exec_cmd("swaync-client --toggle-dnd"))
 bind(mainMod .. " + J", hl.dsp.exec_cmd("kitty nmtui"))
 bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
@@ -63,15 +92,14 @@ bind(mainMod .. " + C", hl.dsp.exec_cmd(P.codeditor))
 bind("ALT + C", hl.dsp.exec_cmd("kitty peaclock"))
 
 bind(mainMod .. "+ G", hl.dsp.group.toggle())
-bind(mainMod .. " + SHIFT + left", hl.dsp.group.prev())
-bind(mainMod .. " + SHIFT + right", hl.dsp.group.next())
-bind("ALT + Tab", hl.dsp.exec_cmd("rofi -show window -config ~/.config/rofi/config.rasi"))
-bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("rofi -show window -config ~/.config/rofi/config.rasi"))
+bind(mainMod .. " + ALT + left", hl.dsp.group.prev())
+bind(mainMod .. " + ALT + right", hl.dsp.group.next())
+bind("ALT + Tab", function() cycle_global(false) end)
+bind("ALT + SHIFT + Tab", function() cycle_global(true) end)
 
-bind(mainMod .. " + Z", hl.dsp.exec_cmd("coomer"))
-
--- Clipboard via dotfiles script (tofi-based).
+-- Clipboard via dotfiles script (fuzzel-based, image thumbnails).
 bind(mainMod .. " + V", hl.dsp.exec_cmd(DOT .. "/scripts/clipboard"))
+bind(mainMod .. " + ALT + V", hl.dsp.exec_cmd(DOT .. "/scripts/clipboard manage"))
 bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(DOT .. "/scripts/clipboard pass"))
 
 bind(mainMod .. " + R", hl.dsp.exec_cmd(DOT .. "/scripts/toggle_recording"))
@@ -102,8 +130,8 @@ bind(mainMod .. " + SHIFT + up", hl.dsp.layout("focus u"))
 bind(mainMod .. " + SHIFT + down", hl.dsp.layout("focus d"))
 
 -- Scrolling layout keybindings
-bind(mainMod .. " + period", hl.dsp.layout("move +col"))
-bind(mainMod .. " + comma", hl.dsp.layout("move -col"))
+bind(mainMod .. " + period", hl.dsp.layout("consume_or_expel next"))
+bind(mainMod .. " + comma", hl.dsp.layout("consume_or_expel prev"))
 bind(mainMod .. " + SHIFT + period", hl.dsp.layout("swapcol r"))
 bind(mainMod .. " + SHIFT + comma", hl.dsp.layout("swapcol l"))
 bind(mainMod .. " + SHIFT + bracketright", hl.dsp.layout("promote"))
@@ -124,8 +152,8 @@ end
 
 bind(mainMod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 bind(mainMod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
-bind(mainMod .. " + Tab", hl.dsp.exec_cmd("hyprctl dispatch cyclewindow"))
-bind(mainMod .. " + SHIFT + Tab", hl.dsp.exec_cmd("hyprctl dispatch cyclewindow --prev"))
+bind(mainMod .. " + Tab", hl.dsp.window.cycle_next())
+bind(mainMod .. " + SHIFT + Tab", hl.dsp.window.cycle_next({ next = false }))
 bind(mainMod .. " + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun")) -- session app
 
 bind("ALT + S", hl.dsp.exec_cmd("~/opt/squashfs-root/AppRun"))

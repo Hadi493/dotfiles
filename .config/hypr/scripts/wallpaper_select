@@ -1,5 +1,6 @@
 #!/bin/bash
-# Rofi script-mode wallpaper/branch picker.
+# Rofi wallpaper picker: thumbnail grid + slash commands.
+#   /fill /fit /blur /noblur /random /auto <interval> /stop /chbranch /<branch>
 
 source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/wallpaper.sh"
 
@@ -17,7 +18,9 @@ fi
 
 list_wallpapers() {
     wp_list | while IFS= read -r -d $'\0' w; do
-        printf '%s\x00icon\x1f%s\x1finfo\x1f%s\n' "$(basename "$w")" "$w" "$w"
+        # Path relative to the wallpaper dir, so collections stay clear.
+        rel=${w#"$WP_DIR"/}
+        printf '%s\x00icon\x1f%s\x1finfo\x1f%s\n' "$rel" "$w" "$w"
     done
 }
 
@@ -29,6 +32,16 @@ switch_branch() {
         return 0
     fi
     return 1
+}
+
+random_wallpaper() {
+    mapfile -d '' arr < <(wp_list)
+    local n=${#arr[@]}
+    if [ "$n" -eq 0 ]; then
+        notify-send -t 2000 "Wallpaper" "No wallpapers found"
+        return
+    fi
+    wp_apply "${arr[$((RANDOM % n))]}"
 }
 
 case "${ROFI_RETV:-}" in
@@ -46,36 +59,23 @@ case "${ROFI_RETV:-}" in
     2)
         input="$1"
         case "$input" in
+            /random*) random_wallpaper ;;
             /auto*)
                 interval="${input#/auto}"
                 interval="${interval# }"
                 "$WP_AUTO_SCRIPT" start "${interval:-5m}" >/dev/null 2>&1 </dev/null
                 ;;
-            /stop*)
-                "$WP_AUTO_SCRIPT" stop >/dev/null 2>&1
-                ;;
-            /fill*)
-                wp_use_fill
-                wp_reapply
-                ;;
-            /fit*)
-                wp_use_fit
-                wp_reapply
-                ;;
-            /noblur*|/no-blur*)
-                WP_BLUR="0"; wp_save_state
-                wp_reapply
-                ;;
-            /blur*)
-                WP_BLUR="1"; wp_save_state
-                wp_reapply
-                ;;
+            /stop*)   "$WP_AUTO_SCRIPT" stop >/dev/null 2>&1 ;;
+            /fill*)   wp_use_fill; wp_reapply ;;
+            /fit*)    wp_use_fit; wp_reapply ;;
+            /noblur*|/no-blur*) WP_BLUR="0"; wp_save_state; wp_reapply ;;
+            /blur*)   WP_BLUR="1"; wp_save_state; wp_reapply ;;
             /chbranch*)
                 echo -en "\x00prompt\x1fSwitch branch\n"
                 git -C "$GIT_REPO" branch --format='%(refname:short)'
                 ;;
             /)
-                notify-send -t 2000 "Commands" "/fill · /fit · /blur · /noblur · /auto <interval> · /stop · /chbranch · /<branch>"
+                notify-send -t 2000 "Commands" "/fill · /fit · /blur · /noblur · /random · /auto <interval> · /stop · /chbranch · /<branch>"
                 ;;
             /*)
                 branch="${input#/}"
