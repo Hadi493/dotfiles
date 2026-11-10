@@ -1,8 +1,9 @@
-@define-color background #181818;
+@define-color bg #181818;
 @define-color surface #1c1c2a;
 @define-color surface2 #2a2a3e;
-@define-color foreground #ffffff;
-@define-color text-dim #95a99f;
+@define-color border #363652;
+@define-color text #ffffff;
+@define-color dim #6B7B8E;
 @define-color red #FF7B85;
 @define-color green #C5E665;
 @define-color yellow #E6B450;
@@ -14,91 +15,94 @@
 * {
     outline: none;
     font-family: "Iosevka Nerd Font";
-    font-size: 18px;
+    font-size: 15px;
     text-shadow: none;
-    color: @foreground;
-    background-color: @background;
+    color: @text;
     background: transparent;
 }
 
+/* ---- control center panel ---- */
 .control-center {
-    background-color: alpha(@background, 0.92);
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.65);
-    padding: 5px;
-    border: 1px solid #363652;
-    border-radius: 14px;
+    background-color: alpha(@bg, 0.94);
+    border: 1px solid @border;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
 }
 
+/* ---- notification rows ---- */
 .control-center .notification-row .notification-background {
-    border-radius: 12px;
+    border-radius: 10px;
     margin: 4px;
 }
 
 .notification {
     background-color: @surface;
-    border: 1px solid #363652;
-    border-radius: 12px;
+    border: 1px solid @border;
+    border-radius: 10px;
 }
 
 .notification-content {
-    padding: 10px 10px 10px 20px;
+    padding: 10px 12px 10px 16px;
 }
 
 .summary {
-    font-size: 1.1rem;
-    color: @foreground;
+    font-size: 1rem;
+    font-weight: bold;
+    color: @text;
 }
 
 .time {
-    font-size: 0.8rem;
-    color: @text-dim;
+    font-size: 0.78rem;
+    color: @dim;
 }
 
 .body {
-    font-size: 1rem;
-    color: @foreground;
+    font-size: 0.95rem;
+    color: @text;
 }
 
 .notification.critical {
-    background-color: @surface;
-    border: 1px solid @red;
+    border-color: @red;
 }
 
 .notification.low,
 .notification.normal {
-    background-color: @surface;
-    border: 1px solid #363652;
+    border-color: @border;
 }
 
 .close-button {
-    background-color: alpha(@surface2, 0.9);
-    border-radius: 8px;
+    background-color: @surface2;
+    border-radius: 6px;
 }
 
 .close-button:hover {
-    background-color: alpha(@red, 0.8);
+    background-color: @red;
 }
 
 .notification-group-header,
 .notification-group-icon {
     font-size: 0.9rem;
-    color: @foreground;
+    color: @text;
 }
 
 .notification-group-collapse-button,
 .notification-group-close-all-button {
     background-color: @surface;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .notification-group-collapse-button:hover {
-    background-color: alpha(@blue, 0.8);
+    background-color: @blue;
+    color: @bg;
 }
 
 .notification-group-close-all-button:hover {
-    background-color: alpha(@red, 0.8);
+    background-color: @red;
+    color: @bg;
 }
 
+/* ---- sliders ---- */
 trough highlight {
     background: @blue;
 }
@@ -113,56 +117,54 @@ scale trough {
 
 slider {
     background-color: transparent;
-    width: 1px;
 }
 
 tooltip {
     background-color: @surface;
-    border: 1px solid #363652;
+    border: 1px solid @border;
     border-radius: 8px;
 }
 
+/* ---- buttons grid ---- */
 .widget-buttons-grid {
     font-size: 1rem;
-    padding: 20px 20px 10px;
+    padding: 6px;
     margin: unset;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button {
     background: @surface;
-    border: 1px solid #363652;
-    border-radius: 10px;
-    min-width: 49px;
+    border: 1px solid @border;
+    border-radius: 8px;
+    min-width: 48px;
     min-height: 30px;
     padding: 6px;
-    margin: 0 3px 0;
-    transition: all .3s ease;
+    margin: 0 3px;
+    transition: all .2s ease;
+    color: @text;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
     background: @surface2;
     border-color: @yellow;
+    color: @yellow;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked {
-    background: alpha(@blue, 0.85);
+    background: alpha(@blue, 0.25);
     border-color: @blue;
-    color: @foreground;
+    color: @blue;
 }
 
-.widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked:hover {
-    background: alpha(@blue, 1.0);
-}
-
-@define-color mpris-album-art-overlay alpha(@background, 0.85);
-@define-color mpris-button-hover alpha(@background, 0.5);
+/* ---- mpris ---- */
+@define-color mpris-overlay alpha(@bg, 0.85);
 
 .widget-mpris .widget-mpris-player {
-    padding: 16px;
-    margin: 16px 20px;
-    background-color: @mpris-album-art-overlay;
-    border-radius: 12px;
-    border: 1px solid #363652;
+    padding: 12px;
+    margin: 6px;
+    background-color: @surface;
+    border-radius: 10px;
+    border: 1px solid @border;
 }
 
 .widget-mpris .widget-mpris-player .widget-mpris-album-art {
@@ -171,91 +173,93 @@ tooltip {
 
 .widget-mpris .widget-mpris-player .widget-mpris-title {
     font-weight: bold;
-    font-size: 1.2rem;
-    color: @foreground;
-    margin: 0px 8px 8px 8px;
+    font-size: 1.05rem;
+    color: @text;
+    margin: 0 8px 4px 8px;
 }
 
 .widget-mpris .widget-mpris-player .widget-mpris-subtitle {
-    font-size: 1rem;
-    color: @text-dim;
+    font-size: 0.9rem;
+    color: @dim;
 }
 
+/* ---- volume ---- */
 .widget-volume {
-    padding: 6px 5px 5px 5px;
-    margin: unset;
-    font-size: 1.3rem;
-}
-
-.widget-volume > box > button {
-    border: none;
-}
-
-.per-app-volume {
-    padding: 4px 8px 8px 8px;
-    margin: 0px 8px 8px 8px;
-}
-
-.widget-backlight {
-    padding: 0 0 3px 16px;
+    padding: 6px;
     margin: unset;
     font-size: 1.1rem;
 }
 
+.widget-volume > box > button {
+    border: none;
+    color: @orange;
+}
+
+.per-app-volume {
+    padding: 4px 8px 8px 8px;
+    margin: 0 8px 8px 8px;
+}
+
+/* ---- do not disturb ---- */
 .widget-dnd {
     font-weight: bold;
     margin: unset;
-    padding: 20px 15px 15px 15px;
+    padding: 12px 15px;
 }
 
 .widget-dnd > switch {
-    border-radius: 12px;
-    background: @yellow;
-    border: none;
-    padding: 3px;
+    border-radius: 10px;
+    background: @surface2;
+    border: 1px solid @border;
+    padding: 2px;
 }
 
 .widget-dnd > switch:checked {
     background: @green;
+    border-color: @green;
 }
 
 .widget-dnd > switch slider {
-    background: @background;
-    border-radius: 10px;
+    background: @text;
+    border-radius: 8px;
     min-width: 18px;
     min-height: 18px;
 }
 
+/* ---- title ---- */
 .widget-title {
     font-weight: bold;
-    padding: 15px;
+    padding: 10px 15px;
 }
 
 .widget-title > label {
-    font-size: 1.5rem;
-    color: @foreground;
+    font-size: 1.2rem;
+    color: @yellow;
 }
 
 .widget-title > button {
-    background: @red;
-    border: none;
-    border-radius: 8px;
-    padding: 0px 6px;
-    transition: all .5s ease;
+    background: @surface2;
+    border: 1px solid @border;
+    border-radius: 6px;
+    padding: 0 6px;
+    transition: all .2s ease;
+    color: @text;
 }
 
 .widget-title > button:hover {
-    background: alpha(@red, 0.8);
+    background: @red;
+    border-color: @red;
+    color: @bg;
 }
 
+/* ---- shared widget surfaces ---- */
 .widget-volume,
-.widget-backlight,
 .widget-dnd,
 .widget-title,
 .widget-buttons-grid {
-    background-color: @background;
-    border: 1px solid #363652;
+    background-color: @surface;
+    border: 1px solid @border;
     margin: 5px;
-    padding: 10px;
-    border-radius: 12px;
+    padding: 8px;
+    border-radius: 10px;
 }

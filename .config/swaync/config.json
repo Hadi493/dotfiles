@@ -2,18 +2,21 @@
     "$schema": "/etc/xdg/swaync/configSchema.json",
     "positionX": "right",
     "positionY": "bottom",
+    "control-center-positionY": "top",
     "cssPriority": "user",
-    
+
     "layer": "overlay",
     "control-center-layer": "top",
     "layer-shell": true,
+    "layer-shell-cover-screen": true,
 
     "control-center-width": 400,
-    "control-center-height": 850,
-    "control-center-margin-top": 10,
-    "control-center-margin-bottom": 10,
+    "control-center-height": 720,
+    "control-center-margin-top": 8,
+    "control-center-margin-bottom": 0,
     "control-center-margin-right": 10,
     "control-center-margin-left": 0,
+    "control-center-exclusive-zone": false,
 
     "notification-window-width": 380,
     "notification-icon-size": 50,
@@ -23,7 +26,7 @@
     "timeout": 10,
     "timeout-low": 5,
     "timeout-critical": 10,
- 
+
     "fit-to-screen": false,
     "keyboard-shortcuts": true,
     "image-visibility": "when-available",
@@ -32,18 +35,11 @@
     "hide-on-action": true,
     "text-empty": "No Notifications",
     "script-fail-notify": true,
-    "notification-visibility": {
-        "example-name": {
-            "state": "muted",
-            "urgency": "Low",
-            "app-name": "Spotify"
-        }
-    },
+
     "widgets": [
         "buttons-grid",
         "mpris",
         "volume",
-        "backlight",
         "dnd",
         "title",
         "notifications"
@@ -60,9 +56,6 @@
             "show-per-app": true,
             "show-per-app-icon": true,
             "show-per-app-label": false
-        },
-        "backlight": {
-            "label": "󰃟 "
         },
         "dnd": {
             "text": "Do Not Disturb"
@@ -86,7 +79,7 @@
                     "type": "toggle",
                     "active": true,
                     "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && rfkill unblock bluetooth || rfkill block bluetooth'",
-                    "update-command": "sh -c \"rfkill list bluetooth | grep -q \"Soft blocked: no\" && echo true || echo false\""
+                    "update-command": "sh -c \"rfkill list bluetooth | grep -q \\\"Soft blocked: no\\\" && echo true || echo false\""
                 },
                 {
                     "label": "   ",
@@ -101,14 +94,14 @@
                     "active": false,
                     "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pactl set-sink-mute @DEFAULT_SINK@ 1 || pactl set-sink-mute @DEFAULT_SINK@ 0'",
                     "update-command": "sh -c '[[ $(pactl get-sink-mute @DEFAULT_SINK@) == *yes* ]] && echo true || echo false'"
-                },	
-				{
-				  "label": " ",
-				  "type": "toggle",
-				  "active": false,
-				  "command": "sh -c 'pgrep gammastep && pkill gammastep || gammastep -O 2555'",
-				  "update-command": "sh -c 'pgrep gammastep >/dev/null && echo true || echo false'"
-				}
+                },
+                {
+                    "label": " ",
+                    "type": "toggle",
+                    "active": false,
+                    "command": "~/.config/hypr/scripts/night_mode",
+                    "update-command": "sh -c '[[ $(cat ~/.cache/hypr-color-temp 2>/dev/null) == 4500 ]] && echo true || echo false'"
+                }
             ]
         }
     }

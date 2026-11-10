@@ -27,8 +27,8 @@
     flamingo:  #FFA375;
     rosewater: #ffffff;
 
-    font: "Iosevka Nerd Font 15";
-    border-radius: 8px;
+    font: "Iosevka Nerd Font 14";
+    border-radius: 10px;
 }
 
 configuration {
@@ -40,8 +40,8 @@ configuration {
 }
 
 window {
-    width: 1760px;
-    height: 790px;
+    width: 72%;
+    height: 78%;
     transparency: "real";
     fullscreen: false;
     enabled: true;
@@ -55,8 +55,8 @@ window {
 
 mainbox {
     enabled: true;
-    spacing: 6px;
-    padding: 7px;
+    spacing: 8px;
+    padding: 10px;
     orientation: vertical;
     children: ["listbox", "inputbar"];
     background-color: transparent;
@@ -64,9 +64,8 @@ mainbox {
 
 inputbar {
     enabled: true;
-    padding: 12px;
+    padding: 10px 12px;
     spacing: 8px;
-    margin: 6px;
     background-color: @surface0;
     text-color: @text;
     border-radius: @border-radius;
@@ -78,7 +77,7 @@ entry {
     padding: 4px;
     text-color: inherit;
     cursor: text;
-    placeholder: "Search wallpapers...";
+    placeholder: "Search wallpapers...  (/fill /fit /random /auto /chbranch)";
     placeholder-color: @subtext0;
     background-color: transparent;
 }
@@ -92,10 +91,10 @@ listbox {
 }
 
 listview {
-    padding: 2px;
-    spacing: 0px;
+    padding: 0px;
+    spacing: 6px;
     enabled: true;
-    columns: 2;
+    columns: 4;
     cycle: true;
     dynamic: true;
     scrollbar: false;
@@ -105,16 +104,15 @@ listview {
     fixed-columns: true;
     cursor: "default";
     background-color: transparent;
-    border-radius: @border-radius;
 }
 
 element {
     orientation: vertical;
     enabled: true;
-    spacing: 0px;
-    padding: 0px;
+    spacing: 6px;
+    padding: 6px;
     cursor: pointer;
-    background-color: @base;
+    background-color: @surface0;
     color: @text;
     border-radius: @border-radius;
 }
@@ -126,7 +124,7 @@ element selected.normal {
 }
 
 element-icon {
-    size: 670px;
+    size: 220px;
     cursor: inherit;
     background-color: transparent;
     text-color: inherit;
@@ -138,7 +136,7 @@ element-text {
     cursor: inherit;
     background-color: transparent;
     text-color: inherit;
-    font: "Iosevka Nerd Font 13";
+    font: "Iosevka Nerd Font 12";
 }
 
 error-message {

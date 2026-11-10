@@ -11,12 +11,11 @@ num-results = 5
 font = IosevkaTerm Nerd Font
 font-size = 20
 
-text-color = #d4be98
+text-color = #ffffff
 
 prompt-text = "  "
 
 background-color = #181818d8
-selection-color = #7daea3
-selection-background = #282828
-border-color = #323232
-
+selection-color = #E6B450
+selection-background = #363652
+border-color = #363652

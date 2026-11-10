@@ -1,0 +1,67 @@
+# Static palette -> Alacritty (hand-tuned, no daemon).
+
+[colors.primary]
+background = '#1a120d'
+foreground = '#f0dfd7'
+
+[colors.cursor]
+text = '#1a120d'
+cursor = '#f0dfd7'
+
+[colors.vi_mode_cursor]
+text = '#1a120d'
+cursor = '#ffb68d'
+
+[colors.selection]
+text = '#1a120d'
+background = '#ffb68d'
+
+[colors.search.matches]
+foreground = '#1a120d'
+background = '#cdc991'
+
+[colors.search.focused_match]
+foreground = '#1a120d'
+background = '#ffb68d'
+
+[colors.footer_bar]
+foreground = '#f0dfd7'
+background = '#271e19'
+
+[colors.hints.start]
+foreground = '#1a120d'
+background = '#cdc991'
+
+[colors.hints.end]
+foreground = '#1a120d'
+background = '#cdc991'
+
+[colors.normal]
+black = '#1a120d'
+red = '#ffb4ab'
+green = '#ffb68d'
+yellow = '#cdc991'
+blue = '#e5bfaa'
+magenta = '#ffb68d'
+cyan = '#cdc991'
+white = '#f0dfd7'
+
+[colors.bright]
+black = '#9f8d84'
+red = '#ffb4ab'
+green = '#ffb68d'
+yellow = '#cdc991'
+blue = '#e5bfaa'
+magenta = '#ffb68d'
+cyan = '#9f8d84'
+white = '#ffdbc9'
+
+[colors.dim]
+black = '#1a120d'
+red = '#ffb4ab'
+green = '#ffb68d'
+yellow = '#cdc991'
+blue = '#e5bfaa'
+magenta = '#ffb68d'
+cyan = '#cdc991'
+white = '#f0dfd7'

@@ -1,96 +1,110 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "type": "kitty",
-    "source": "~/.config/fastfetch/logo.png",
-    "width": 32,
-    "height": 16
+    "type": "kitty-direct",
+    "source": "~/.config/fastfetch/fastfetch-emblem.png",
+    "width": 28,
+    "height": 14,
+    "padding": {
+      "left": 3,
+      "right": 5,
+      "top": 5
+    }
   },
-
   "display": {
-    "separator": " : "
+    "color": {
+      "keys": "38;2;230;180;80",
+      "separator": "#6B7B8E",
+      "title": "#ffffff"
+    },
+    "key": {
+      "width": 9
+    },
+    "percent": {
+      "color": {
+        "green": "#C5E665",
+        "red": "#FF7B85",
+        "yellow": "#E6B450"
+      },
+      "type": 9
+    },
+    "separator": "  "
   },
   "modules": [
     "break",
     {
       "type": "title",
-      "key": "  \ue8c5  user",
-      "format": "{6}{7}{8}",
-      "keyColor": "#E6B450"
+      "format": "{#1;title}{user-name}{#}{#separator} @ {#}{#1;title}{host-name}{#}"
     },
     {
-      "type": "chassis",
-      "key": "  \uf0c7  Chassis",
-      "format": "{2} {1}",
-      "keyColor": "#6DCFFF"
+      "format": "{#keys}■{#} {#separator}HADI · a hand-built Arch Linux desktop{#}",
+      "type": "custom"
+    },
+    "break",
+    {
+      "format": "{#keys}──{#} {#1;title}VITALS{#} {#38;2;54;54;82}──────────────────────────{#} ────",
+      "type": "custom"
     },
     {
-      "type": "os",
-      "key": "  \uf0e7  OS",
-      "format": "{2}",
-      "keyColor": "#C5E665"
+      "key": "CPU",
+      "type": "cpu"
     },
     {
-      "type": "kernel",
-      "key": "  \ueb2e  Kernel",
-      "format": "{2}",
-      "keyColor": "#C5E665"
+      "detectionMethod": "pci",
+      "key": "GPU",
+      "type": "gpu"
     },
     {
-      "type": "packages",
-      "key": "  \uf0d7  Packages",
-      "keyColor": "#FF9944"
+      "key": "MEMORY",
+      "type": "memory"
     },
     {
-      "type": "display",
-      "key": "  \uf0b9  Display",
-      "format": "{1}x{2} @ {3}Hz [{7}]",
-      "keyColor": "#6DCFFF"
+      "key": "DISK",
+      "type": "disk"
+    },
+    "break",
+    {
+      "format": "{#keys}──{#} {#1;title}SYSTEM{#} {#38;2;54;54;82}──────────────────────────{#} ────",
+      "type": "custom"
     },
     {
-      "type": "terminal",
-      "key": "  \uf0e9  Terminal",
-      "keyColor": "#E6B450"
+      "key": "OS",
+      "type": "os"
     },
     {
-      "type": "wm",
-      "key": "  \uf1c3  WM",
-      "format": "{2}",
-      "keyColor": "#E6B450"
+      "key": "KERNEL",
+      "type": "kernel"
     },
     {
-      "type": "cpu",
-      "key": "  \uf0bc  CPU",
-      "format": "{1} @ {7}",
-      "keyColor": "#FF7B85"
+      "key": "WM",
+      "type": "wm"
     },
     {
-      "type": "gpu",
-      "key": "  \uf08a  GPU",
-      "format": "{1} {2}",
-      "keyColor": "#FF7B85"
+      "key": "SHELL",
+      "type": "shell"
     },
     {
-      "type": "gpu",
-      "key": "  \uf020  GPU Driver",
-      "format": "{3}",
-      "keyColor": "#4AC8E6"
+      "key": "PKGS",
+      "type": "packages"
+    },
+    "break",
+    {
+      "format": "{#keys}──{#} {#1;title}SESSION{#} {#38;2;54;54;82}─────────────────────────{#} ────",
+      "type": "custom"
     },
     {
-      "type": "memory",
-      "key": "  \uefc5  Memory",
-      "keyColor": "#E0B8FF"
+      "key": "UPTIME",
+      "type": "uptime"
     },
     {
-      "type": "uptime",
-      "key": "  \uf1d0  Uptime",
-      "keyColor": "#C5E665"
+      "key": "TERM",
+      "type": "terminal"
     },
     "break",
     {
       "type": "colors",
-      "paddingLeft": 2,
-      "symbol": "square"
+      "symbol": "circle",
+      "paddingLeft": 2
     },
     "break"
   ]

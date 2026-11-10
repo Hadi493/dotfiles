@@ -62,7 +62,7 @@ window {
     width: 600px;
     height: 610px;
     spacing: 0px;
-    border-radius: 16px;
+    border-radius: 10px;
     cursor: "default";
     background-color: @base;
     border: 2px solid;
@@ -76,7 +76,7 @@ mainbox {
     margin: 0px;
     padding: 20px;
     border: 0px solid;
-    border-radius: 12px;
+    border-radius: 10px;
     background-color: transparent;
     orientation: vertical;
     children: [ "listview", "inputbar" ];
@@ -88,7 +88,7 @@ inputbar {
     margin: 0px;
     padding: 14px 16px;
     border: 0px solid;
-    border-radius: 12px;
+    border-radius: 10px;
     background-color: @surface0;
     text-color: @text;
     children: [ "prompt", "entry" ];
