@@ -68,11 +68,6 @@ link_emacs() {
     done
 }
 
-link_dunst() {
-    echo     "Linking Dunst configuration..."
-    link_one "$DOTFILES_DIR/.config/dunst" "$HOME/.config/dunst"
-}
-
 link_bash() {
     echo     "Linking Bash configuration..."
     link_one "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
@@ -168,6 +163,11 @@ link_tofi() {
     link_one "$DOTFILES_DIR/.config/tofi" "$HOME/.config/tofi"
 }
 
+link_fuzzel() {
+    echo     "Linking Fuzzel configuration..."
+    link_one "$DOTFILES_DIR/.config/fuzzel" "$HOME/.config/fuzzel"
+}
+
 link_tmux() {
     echo     "Linking Tmux configuration..."
     mkdir -p "$HOME/.config/tmux"
@@ -253,7 +253,6 @@ disable_swaync() {
 }
 
 link_config() {
-    link_dunst
     link_bash
     link_fastfetch
     link_cava
@@ -272,6 +271,7 @@ link_config() {
     link_noctalia
     link_tmux
     link_tofi
+    link_fuzzel
     link_flameshot
     link_wlogout
     link_gitconfig
@@ -322,7 +322,6 @@ Commands:
   config     Link all .config directories
   bin        Link all binaries to /usr/bin/
   fonts      Link all fonts to ~/.local/share/fonts
-  dunst      Link Dunst configuration
   bash       Link Bash configuration
   fastfetch  Link fastfetch configuration
   cava       Link cava configuration
@@ -340,6 +339,7 @@ Commands:
   rofi       Link Rofi configuration
   noctalia   Link Noctalia configuration
   tofi       Link Tofi configuration
+  fuzzel     Link Fuzzel configuration
   flameshot  Link Flameshot configuration
   pipewire   Link PipeWire configuration
   wlogout    Link wlogout configuration (layout + style)
@@ -368,7 +368,6 @@ case "$cmd" in
     config         ) link_config    ;;
     bin            ) link_bin       ;;
     fonts          ) link_fonts     ;;
-    dunst          ) link_dunst     ;;
     bash           ) link_bash      ;;
     fastfetch      ) link_fastfetch ;;
     cava           ) link_cava      ;;
@@ -386,6 +385,7 @@ case "$cmd" in
     rofi           ) link_rofi      ;;
     noctalia       ) link_noctalia  ;;
     tofi           ) link_tofi      ;;
+    fuzzel         ) link_fuzzel    ;;
     flameshot      ) link_flameshot ;;
     pipewire       ) link_pipewire  ;;
     wlogout        ) link_wlogout   ;;
