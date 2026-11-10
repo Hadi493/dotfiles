@@ -14,8 +14,8 @@ tree directly, with no Ryoku, no Quickshell shell, and no display manager.
 - **Bar:** system **Waybar** 0.16 (no patched build).
 - **Notifications / OSD:** **swaync** — volume and mic feedback is sent
   as replace-in-place notifications.
-- **Launchers:** [Rofi](https://github.com/davatorium/rofi) (drun + window
-  switcher) and [Tofi](https://github.com/philj56/tofi).
+- **Launchers:** [Rofi](https://github.com/davatorium/rofi) (drun) and
+  [Tofi](https://github.com/philj56/tofi).
 - **Lock / idle:** `hyprlock` + `hypridle`.
 - **Screenshots:** `grim` + `slurp` (region or full monitor).
 - **Clipboard:** `cliphist` + `wl-clipboard`.
@@ -63,8 +63,8 @@ hyprctl reload
 > its local `bind()` helper. Keep using that helper; do not add raw
 > dispatcher-table binds.
 
-The legacy `.conf` files in `.config/hypr/` are **not loaded** by Hyprland 0.57
-and are kept only for reference. The Lua tree is authoritative.
+The legacy `.conf` files in `.config/hypr/` were removed: Hyprland 0.57 only
+loads the Lua tree, which is authoritative.
 
 See [`.config/hypr/README.md`](.config/hypr/README.md) for the full key map,
 startup sequence and requirements.
@@ -79,13 +79,13 @@ Modifier is `Super`.
 | Plain terminal | `Super + Shift + Return` |
 | App launcher (Rofi drun) | `Super + D` |
 | App launcher (Tofi) | `Super + Shift + A` |
-| Window switcher (Rofi) | `Alt + Tab` / `Alt + Shift + Tab` |
+| Cycle windows (global MRU) | `Alt + Tab` / `Alt + Shift + Tab` |
 | Cycle windows in workspace | `Super + Tab` / `Super + Shift + Tab` |
 | File manager | `Super + E` |
 | Editor (Emacs) | `Super + C` |
 | Browser | `Super + B` |
 | Wallpaper picker | `Super + W` |
-| Clipboard history / password store | `Super + V` / `Super + Shift + V` |
+| Clipboard history / manage / password store | `Super + V` / `Super + Alt + V` / `Super + Shift + V` |
 | Session app | `Super + S` |
 | Close window | `Super + Q` |
 | Toggle fullscreen | `Super + F` |
