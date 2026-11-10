@@ -1,16 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# waybar notification indicator: wraps swaync's event stream so the count is
+# hidden when empty and a bell icon is always shown.
+set -u
 
-# Notification indicator script for waybar
-# Shows different icon based on notification status (Noctalia only)
+swaync-client --subscribe-waybar | while IFS= read -r line; do
+    text=$(printf '%s' "$line" | jq -r '.text // "0"')
+    class=$(printf '%s' "$line" | jq -r '.class // "none"')
+    tooltip=$(printf '%s' "$line" | jq -r '.tooltip // ""')
+    case "$text" in ''|*[!0-9]*) text=0 ;; esac
 
-if command -v noctalia &> /dev/null; then
-    # Use Noctalia DND state
-    if [ "$(noctalia msg notification-dnd-status 2>/dev/null)" = "on" ]; then
-        echo '{"text":"󰂛","tooltip":"Do Not Disturb enabled","class":"notification"}'
+    if [ "$class" = "dnd-notification" ]; then
+        printf '{"text":"󰂛 %s","tooltip":"%s","class":"dnd-notification"}\n' "$text" "$tooltip"
+    elif [ "$text" -gt 0 ]; then
+        printf '{"text":"󰂚 %s","tooltip":"%s","class":"notification"}\n' "$text" "$tooltip"
     else
-        echo '{"text":"󰂜","tooltip":"Noctalia notifications","class":"empty"}'
+        printf '{"text":"󰂜","tooltip":"%s","class":"none"}\n' "$tooltip"
     fi
-else
-    # Fallback
-    echo '{"text":"󰂜","tooltip":"Click to view system messages","class":"empty"}'
-fi
+done

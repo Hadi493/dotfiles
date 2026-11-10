@@ -1,8 +1,10 @@
+/* Waybar — Gruber Darker Ayu, minimal islands. */
+
 * {
     border: none;
     border-radius: 0;
     font-family: "Iosevka Nerd Font";
-    font-size: 15px;
+    font-size: 14px;
     min-height: 0;
 }
 
@@ -11,115 +13,95 @@ window#waybar {
     color: #ffffff;
 }
 
-#custom-separator {
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    min-width: 4px;
-}
-
 .modules-left,
 .modules-center,
 .modules-right {
-    background: rgba(24, 24, 24, 0.85);
+    background: rgba(24, 24, 24, 0.82);
     border: 1px solid #363652;
-    border-radius: 0;
-    padding: 3px 6px;
-    margin: 0;
+    border-radius: 10px;
+    padding: 2px 8px;
+    margin: 0 2px;
 }
 
+.modules-center {
+    padding: 2px 16px;
+}
+
+/* ---------------- left: workspaces ---------------- */
 #workspaces {
     margin: 0;
     padding: 0;
-    border-radius: 8px;
     background: transparent;
 }
 
 #workspaces button {
-    padding: 3px 10px;
+    padding: 2px 8px;
     margin: 2px 2px;
     background: transparent;
     color: #6DCFFF;
     border-radius: 6px;
-    transition: background 0.2s ease;
+    transition: background 0.15s ease;
 }
 
 #workspaces button:hover {
-    background: rgba(109, 207, 255, 0.2);
-    color: #6DCFFF;
+    background: rgba(109, 207, 255, 0.18);
 }
 
 #workspaces button.active {
     background: #E6B450;
-    color: #0d0d0d;
+    color: #181818;
     font-weight: bold;
 }
 
 #workspaces button.urgent {
     background: #FF7B85;
-    color: #0d0d0d;
-    animation: urgent-blink 1s infinite;
+    color: #181818;
 }
 
-@keyframes urgent-blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
-}
-
-/* ---------------- CENTER ---------------- */
+/* ---------------- center: clock ---------------- */
 #clock {
     color: #E6B450;
     font-weight: bold;
-    padding: 0 14px;
-    margin: 0 2px;
-    background: transparent;
+}
+
+/* ---------------- right ---------------- */
+#custom-notification,
+#custom-clipboard,
+#custom-updates,
+#custom-power,
+#network,
+#pulseaudio,
+#cpu,
+#memory {
+    padding: 0 8px;
+    margin: 0 1px;
     border-radius: 6px;
 }
 
-/* ---------------- RIGHT ---------------- */
-#custom-network,
-#custom-audio,
-#custom-mic,
-#custom-cpu,
-#custom-memory,
-#custom-disk,
-#custom-uptime,
-#custom-temperature,
-#custom-updates {
-    padding: 0 10px;
-    margin: 0 2px;
-    background: transparent;
-    border-radius: 6px;
-}
+#custom-notification { color: #6DCFFF; }
+#custom-notification.notification { color: #C5E665; }
+#custom-notification.dnd-notification { color: #E6B450; }
+#custom-notification.none { color: #6B7B8E; }
 
-#custom-network { color: #6DCFFF; }
-#custom-network.disconnected { color: #FF7B85; }
-#custom-audio { color: #FFA375; }
-#custom-audio.muted { color: #FF7B85; }
+#custom-clipboard { color: #E0B8FF; }
+#custom-updates { color: #C5E665; }
+#custom-power { color: #FF7B85; font-size: 16px; }
+
+#network { color: #6DCFFF; }
+#network.disconnected,
+#network.disabled { color: #FF7B85; }
+
+#pulseaudio { color: #FFA375; }
+#pulseaudio.muted { color: #FF7B85; }
 #custom-mic { color: #E0B8FF; }
 #custom-mic.muted { color: #FF7B85; }
-#custom-cpu { color: #C5E665; }
-#custom-memory { color: #E0B8FF; }
-#custom-disk { color: #A8F0D8; }
-#custom-uptime { color: #4AC8E6; }
-#custom-temperature { color: #FFA375; }
-#custom-updates { color: #C5E665; }
 
-#custom-power {
-    color: #FF7B85;
-    padding: 0 10px;
-    margin: 0 2px;
-    background: transparent;
-    border-radius: 6px;
-    font-size: 17px;
-}
+#cpu { color: #C5E665; }
+#memory { color: #E0B8FF; }
 
 #tray {
-    background: transparent;
-    border-radius: 6px;
-    padding: 0 8px;
-    margin: 0 2px;
+    padding: 0 6px;
+    margin: 0 1px;
 }
 
 #tray > .passive {
@@ -128,6 +110,10 @@ window#waybar {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
-    background-color: rgba(255, 123, 133, 0.2);
-    border-radius: 4px;
+}
+
+tooltip {
+    background: rgba(24, 24, 24, 0.95);
+    border: 1px solid #363652;
+    border-radius: 8px;
 }

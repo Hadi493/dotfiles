@@ -1,33 +1,27 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 0,
-    "spacing": 0,
-    "margin": "5 10 0 10",
+    "height": 34,
+    "spacing": 6,
+    "margin": "6 10 0 10",
     "modules-left": [
-        "custom/separator",
-        "hyprland/workspaces",
-        "custom/separator"
+        "hyprland/workspaces"
     ],
     "modules-center": [
         "clock"
     ],
     "modules-right": [
-        "custom/separator",
-        "custom/network",
-        "custom/audio",
+        "custom/notification",
+        "custom/clipboard",
+        "network",
+        "pulseaudio",
         "custom/mic",
-        "custom/cpu",
-        "custom/memory",
-        "custom/disk",
-        "custom/uptime",
-        "custom/temperature",
-        "custom/separator",
+        "cpu",
+        "memory",
         "tray",
         "custom/updates",
         "custom/power"
     ],
-
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -35,7 +29,6 @@
         "on-click": "activate",
         "format": "{name}"
     },
-
     "clock": {
         "interval": 1,
         "format": "{:%I:%M %p}",
@@ -62,72 +55,51 @@
             "on-scroll-down": "shift_down"
         }
     },
-
-    "custom/network": {
-        "exec": "~/.config/waybar/scripts/network.sh",
+    "custom/notification": {
+        "exec": "~/.config/waybar/scripts/notification_indicator.sh",
         "return-type": "json",
-        "interval": 10,
-        "on-click": "kitty -e nmtui"
+        "on-click": "swaync-client --toggle-panel",
+        "on-click-right": "swaync-client --toggle-dnd",
+        "tooltip": true
     },
-
-    "custom/audio": {
-        "exec": "~/.config/waybar/scripts/audio.sh",
-        "return-type": "json",
-        "interval": 2,
+    "custom/clipboard": {
+        "format": "",
+        "tooltip": "Clipboard history (Super+V)",
+        "on-click": "~/dotfiles/.config/hypr/scripts/clipboard"
+    },
+    "network": {
+        "format-wifi": "󰖩 {signalStrength}%",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰖪",
+        "tooltip-format-wifi": "{essid} · {ipaddr}",
+        "tooltip-format-ethernet": "{ipaddr}",
+        "on-click": "kitty -e nmtui",
+        "interval": 10
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-icons": [
+            "󰕿",
+            "󰖀",
+            "󰕾"
+        ],
         "on-click": "pavucontrol",
-        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
-        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "scroll-step": 2
     },
-
-    "custom/mic": {
-        "exec": "~/.config/waybar/scripts/mic.sh",
-        "return-type": "json",
-        "interval": 2,
-        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-        "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
-        "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%"
+    "cpu": {
+        "format": "󰘚 {usage}%",
+        "interval": 3
     },
-
-    "custom/cpu": {
-        "exec": "~/.config/waybar/scripts/cpu.sh",
-        "interval": 3,
-        "format": "󰘚 {}%",
-        "tooltip": true
+    "memory": {
+        "format": "󰍛 {percentage}%",
+        "interval": 10
     },
-
-    "custom/memory": {
-        "exec": "~/.config/waybar/scripts/memory.sh",
-        "interval": 10,
-        "format": "󰍛 {}%",
-        "tooltip": true
-    },
-
-    "custom/disk": {
-        "exec": "~/.config/waybar/scripts/disk.sh",
-        "interval": 60,
-        "format": "󰋊 {}%",
-        "tooltip": true
-    },
-
-    "custom/uptime": {
-        "exec": "~/.config/waybar/scripts/uptime.sh",
-        "interval": 30,
-        "tooltip": true
-    },
-
-    "custom/temperature": {
-        "exec": "~/.config/waybar/scripts/temperature.sh",
-        "interval": 10,
-        "format": "󰔏 {}°C",
-        "on-click": "kitty -e s-tui"
-    },
-
     "tray": {
         "icon-size": 18,
         "spacing": 6
     },
-
     "custom/updates": {
         "exec": "~/.config/waybar/scripts/updates.sh",
         "return-type": "json",
@@ -135,17 +107,19 @@
         "format": "󰚰 {}",
         "on-click": "kitty -e yay -Syu"
     },
-
     "custom/power": {
-        "tooltip": true,
-        "tooltip-format": "Power Menu",
         "format": "⏻",
+        "tooltip": "Power menu",
         "on-click": "~/.config/waybar/scripts/wlogout.sh"
     },
-
-    "custom/separator": {
-        "format": "",
-        "interval": "once",
-        "tooltip": false
+    "custom/mic": {
+        "exec": "~/.config/waybar/scripts/mic.sh",
+        "return-type": "json",
+        "interval": 2,
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "on-click-right": "pavucontrol",
+        "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
+        "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%",
+        "tooltip": true
     }
 }
