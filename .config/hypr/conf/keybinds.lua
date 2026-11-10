@@ -25,12 +25,23 @@ end
 -- cycles inside the active workspace (in the scrolling layout it behaves
 -- like movefocus), so with one window per workspace it never leaves the
 -- workspace. Build the MRU list from the focus history instead.
+-- hl.get_windows() defaults to mapped=true, which can exclude windows on
+-- inactive workspaces, so merge the unmapped set too and dedupe by address.
 -- focus_history_id: 0 = most recently focused, -1 = never focused.
 local function cycle_global(prev)
-    local wins = hl.get_windows()
+    local seen, wins = {}, {}
+    local function add(w)
+        if w.address and w.workspace and not seen[w.address] then
+            seen[w.address] = true
+            wins[#wins + 1] = w
+        end
+    end
+    for _, w in ipairs(hl.get_windows()) do add(w) end
+    for _, w in ipairs(hl.get_windows({ mapped = false })) do add(w) end
     if #wins < 2 then return end
     table.sort(wins, function(a, b)
-        local fa, fb = a.focus_history_id, b.focus_history_id
+        local fa = a.focus_history_id or -1
+        local fb = b.focus_history_id or -1
         if fa < 0 then fa = math.huge end
         if fb < 0 then fb = math.huge end
         return fa < fb
