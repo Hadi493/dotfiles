@@ -41,7 +41,7 @@ configuration {
 
 window {
     width: 72%;
-    height: 78%;
+    height: 85%;
     transparency: "real";
     fullscreen: false;
     enabled: true;
