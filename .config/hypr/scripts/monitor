@@ -52,8 +52,7 @@ case "$MODEv" in
     notify-send -t 800 "Monitor input" "${label:-changed}"
     ;;
   contrast)
-    # Ryoku/Shima has no contrast OSD; the brightness pill would show an
-    # unchanged brightness, so report the contrast value itself.
+    # Report the contrast value itself; there is no separate contrast OSD.
     notify-send -t 800 -i display-brightness "Monitor contrast" "${new}%"
     ;;
   brightness)

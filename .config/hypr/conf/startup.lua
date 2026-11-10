@@ -4,8 +4,22 @@
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("XMODIFIERS", "@im=fcitx")
-hl.env("QT_IM_MODULE", "fcitx")
+
+-- fcitx5 is optional: only export its env vars (and start the daemon) when it
+-- is actually installed. The module name is `fcitx`, not `fcitx5`; exporting
+-- it without the daemon breaks GTK/Qt input in terminal-launched apps
+-- (same rule as fish/user.fish).
+local fcitx = ""
+local fcitx_p = io.popen("command -v fcitx5 2>/dev/null")
+if fcitx_p then
+    fcitx = fcitx_p:read("*l") or ""
+    fcitx_p:close()
+end
+if #fcitx > 0 then
+    hl.env("XMODIFIERS", "@im=fcitx")
+    hl.env("QT_IM_MODULE", "fcitx")
+end
+
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
@@ -13,7 +27,7 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 local DOT = os.getenv("HOME") .. "/dotfiles/.config/hypr"
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("fcitx5 -d")
+    if #fcitx > 0 then hl.exec_cmd("fcitx5 -d") end
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
 

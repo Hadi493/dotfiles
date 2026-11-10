@@ -1,7 +1,7 @@
 #!/bin/bash
 # F10 — toggle USB mic mute. Auto-detects the USB source, falls back to
 # the current default source if no USB mic is plugged in.
-# Feedback: low beep = muted, high beep = live (plus Shima mic OSD).
+# Feedback: low beep = muted, high beep = live (plus a swaync OSD).
 
 USB=$(pactl list short sources | awk '{print $2}' | grep -i -m1 'usb')
 if [ -n "$USB" ]; then

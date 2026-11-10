@@ -75,10 +75,9 @@ must not be required.
 | `sounds-*.wav` | Mic mute/unmute feedback used by `input-mute-toggle`. |
 
 The legacy Hyprland `.conf` files (`hyprland.conf`, `keybinds.conf`,
-`startup.conf`, …) are **not loaded** by Hyprland 0.57. They may still mention
-removed tools; only the Lua tree is authoritative for the compositor.
-`hypridle.conf` and `hyprlock.conf` are separate programs and are used with
-explicit paths.
+`startup.conf`, …) were removed: Hyprland 0.57 only loads the Lua tree, which is
+the single source of truth for the compositor. `hypridle.conf` and
+`hyprlock.conf` are separate programs and are used with explicit paths.
 
 ## Hyprland 0.57 bind workaround
 
@@ -112,7 +111,7 @@ hyprctl dispatch 'hl.dsp.exec_cmd("notify-send hello")'
 
 `conf/startup.lua` runs on `hyprland.start`:
 
-- `fcitx5 -d` (input method).
+- `fcitx5 -d` — input method, started only when fcitx5 is installed.
 - `wl-paste` watchers feeding `cliphist`.
 - **swaync** — the only notification daemon; it owns
   `org.freedesktop.Notifications`.
@@ -268,8 +267,8 @@ file so both stay in sync.
 - `xdg-desktop-portal-hyprland`
 - `pipewire`, `wireplumber`
 - `dbus`, `systemd`
-- `fcitx5` (optional input method; environment variables are harmless when it
-  is absent)
+- `fcitx5` (optional input method; its env vars are only exported when it is
+  installed)
 
 ### Bar, launchers, notifications
 
@@ -301,9 +300,8 @@ file so both stay in sync.
 - `wayland-boomer` (zoom), `cg-timer` (timer) — optional
 - `st` — built from `st/` via `./deploy st`
 
-Not part of the session anymore: Ryoku, Quickshell/Shima, `wl-gammarelay-rs`
-(one leftover call in `eink-toggle`, see caveats), the patched Waybar build, and
-any `qs -c shell` or `ryoku-cmd-*` command.
+Not part of the session anymore: Ryoku, Quickshell/Shima, `wl-gammarelay-rs`,
+the patched Waybar build, and any `qs -c shell` or `ryoku-cmd-*` command.
 
 ## Known caveats
 
@@ -312,10 +310,7 @@ any `qs -c shell` or `ryoku-cmd-*` command.
   Remap or remove it if that is not wanted.
 - **`F4`, `F7`, `F12`.** `F4` spawns `scripts/workspace-setup`; `F7` and `F12`
   are unbound.
-- **E-ink warmth.** `scripts/eink-toggle` toggles the grayscale shader correctly,
-  but its warm/brightness step still calls the retired `wl-gammarelay-rs`.
-  Use `Super + Shift + N` or `F2` for colour temperature.
-- **Idle display power-off.** The lock and suspend listeners in `hypridle.conf`
-  work; the `dpms` listeners (15-minute power-off and post-sleep power-on) still
-  use the pre-0.57 string form, which this Hyprland rejects. They need the Lua
-  dispatcher (`hyprctl dispatch 'hl.dsp.dpms("off")'`).
+- **E-ink dimming.** `scripts/eink-toggle` switches the grayscale shader and the
+  colour temperature (via `hyprsunset`, sharing its state with `F2` and
+  `Super + Shift + N`), but the old `wl-gammarelay-rs` brightness step is gone,
+  so paper mode is no longer dimmed.

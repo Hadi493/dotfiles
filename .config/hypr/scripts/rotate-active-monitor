@@ -76,9 +76,8 @@ BORDER=$(hyprctl -j getoption general:border_size 2>/dev/null | jq -r '.int // 0
 ROUNDING=$(hyprctl -j getoption decoration:rounding 2>/dev/null | jq -r '.int // 0')
 [ -z "$GAPS_IN" ] && GAPS_IN=5
 [ -z "$GAPS_OUT" ] && GAPS_OUT=10
-# Ryoku's bar is its own Quickshell layer (`quickshell:iris-chassis`), which
-# follows the transform in place instead of being recreated, so the bar needs no
-# save/restore dance across a rotation.
+# The bar follows the transform in place instead of being recreated, so it
+# needs no save/restore dance across a rotation.
 
 if hyprctl eval "hl.monitor({output=\"${NAME}\", transform=${NEW}})" 2>&1 | grep -qv "error"; then
   # eval succeeded, transform applied via Lua
@@ -91,7 +90,7 @@ else
   fi
 fi
 
-# Give Hyprland and the Ryoku shell time to re-apply the monitor before restoring gaps
+# Give Hyprland time to re-apply the monitor before restoring gaps
 sleep 0.5
 
 # Restore gaps/border/rounding that may have been reset by theme reload
@@ -99,8 +98,7 @@ if [ -n "$GAPS_IN" ] && [ -n "$GAPS_OUT" ]; then
   hyprctl eval "hl.config({ general = { gaps_in = $GAPS_IN, gaps_out = $GAPS_OUT, border_size = $BORDER }, decoration = { rounding = $ROUNDING } })" >/dev/null 2>&1 || true
 fi
 
-# Notifications go through Ryoku's notification daemon, so the banner matches the
-# shell instead of Hyprland's built-in OSD.
+# Notifications go through swaync.
 case "$NEW" in
   0) LABEL="0° normal" ;;
   1) LABEL="90° right" ;;
