@@ -124,9 +124,10 @@ bind(mainMod .. " + M", hl.dsp.exec_cmd(DOT .. "/scripts/volume mute"), { locked
 bind(mainMod .. " + W", hl.dsp.exec_cmd(P.wallpaper_selector))
 
 -- Screenshots: grim + slurp to ~/Pictures/Screenshots, clipboard copy.
-bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png && notify-send -t 1500 Screenshot 'Saved to ~/Pictures/Screenshots'"))
-bind("PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png && notify-send -t 1500 Screenshot 'Saved to ~/Pictures/Screenshots'"))
-bind("SHIFT + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png && notify-send -t 1500 Screenshot 'Saved to ~/Pictures/Screenshots'"))
+-- bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png && notify-send -t 1500 Screenshot 'Saved to ~/Pictures/Screenshots'"))
+-- bind("PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png && notify-send -t 1500 Screenshot 'Saved to ~/Pictures/Screenshots'"))
+-- bind("SHIFT + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png && notify-send -t 1500 Screenshot 'Saved to ~/Pictures/Screenshots'"))
+bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
 
 bind("CTRL + Escape", hl.dsp.exec_cmd("bash -c 'pgrep -x waybar >/dev/null && pkill waybar || (waybar &)'"))
 bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd(DOT .. "/scripts/toggle_gaps"))
