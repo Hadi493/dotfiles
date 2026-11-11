@@ -2,31 +2,62 @@
 
 # Check if required arguments are provided
 if [ $# -lt 1 ]; then
-    echo "Usage: $0 <image_file> [dpi] [size]"
+    echo "Usage: $0 <image_file|glob>... [dpi] [size]"
     echo "Example: $0 img.jpg 200 8000"
+    echo "         $0 *.png"
     exit 1
 fi
 
-IMAGE_FILE="$1"
-DPI="${2:-200}"        # Default to 200 if not specified
-SIZE="${3:-8999}"      # Default to 8999 if not specified
+FILES=()
+NUMERIC=()
 
-# Check if file exists
-if [ ! -f "$IMAGE_FILE" ]; then
-    echo "Error: File '$IMAGE_FILE' not found"
+# Existing files are inputs; bare numbers are the optional dpi/size
+for arg in "$@"; do
+    if [ -f "$arg" ]; then
+        FILES+=("$arg")
+    elif [[ "$arg" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        NUMERIC+=("$arg")
+    elif [ -d "$arg" ]; then
+        echo "Skipping directory '$arg'"
+    else
+        echo "Error: File '$arg' not found"
+        exit 1
+    fi
+done
+
+if [ ${#FILES[@]} -eq 0 ]; then
+    echo "Error: no input files"
     exit 1
 fi
 
-echo "Processing: $IMAGE_FILE"
-echo "DPI: $DPI, Size: ${SIZE}x${SIZE}"
+DPI="${NUMERIC[0]:-200}"        # Default to 200 if not specified
+SIZE="${NUMERIC[1]:-8999}"      # Default to 8999 if not specified
 
-# Strip metadata
-magick "$IMAGE_FILE" -define strip=all "$IMAGE_FILE"
+for f in "${FILES[@]}"; do
+    echo "Processing: $f"
 
-# Set density (DPI)
-magick "$IMAGE_FILE" -density "$DPI" "$IMAGE_FILE"
+    # Skip anything that is not a real image
+    fmt=$(magick identify -format '%m' "$f" 2>/dev/null) || { echo "Skipping '$f': not an image"; continue; }
 
-# Resize image
-magick "$IMAGE_FILE" -resize "${SIZE}x${SIZE}" "$IMAGE_FILE"
+    # Convert non-jpeg images to jpeg and delete the original
+    if [ "$fmt" != "JPEG" ]; then
+        jpg="${f%.*}.jpg"
+        if [ "$jpg" != "$f" ] && [ -f "$jpg" ]; then
+            echo "Skipping '$f': '$jpg' already exists"
+            continue
+        fi
+        magick "$f" "$jpg" || { echo "Error: cannot convert '$f'"; continue; }
+        # mislabeled .jpg converts in place, so there is no original to delete
+        if [ "$jpg" != "$f" ]; then
+            rm "$f"
+            f="$jpg"
+        fi
+    fi
 
-echo "Done! Processed $IMAGE_FILE"
+    echo "DPI: $DPI, Size: ${SIZE}x${SIZE}"
+    if magick "$f" -strip -density "$DPI" -resize "${SIZE}x${SIZE}" "$f"; then
+        echo "Done! Processed $f"
+    else
+        echo "Error: failed to process '$f'"
+    fi
+done
