@@ -29,7 +29,7 @@ local DOT = os.getenv("HOME") .. "/dotfiles/.config/hypr"
 hl.on("hyprland.start", function()
     if #fcitx > 0 then hl.exec_cmd("fcitx5 -d") end
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch " .. DOT .. "/scripts/clipboard-store")
 
     -- Notification daemon (swaync) is owned by the enabled systemd user
     -- unit (dbus activation). Starting it here too makes the unit fail with

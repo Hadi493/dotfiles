@@ -112,7 +112,9 @@ hyprctl dispatch 'hl.dsp.exec_cmd("notify-send hello")'
 `conf/startup.lua` runs on `hyprland.start`:
 
 - `fcitx5 -d` — input method, started only when fcitx5 is installed.
-- `wl-paste` watchers feeding `cliphist`.
+- `wl-paste` watchers feeding `cliphist`: text goes straight to `cliphist
+  store`, images go through `scripts/clipboard-store`, which builds the
+  picker thumbnail right after storing.
 - **swaync** — the only notification daemon; it owns
   `org.freedesktop.Notifications`.
 - **waybar** — system package 0.16; no patched build and no `~/.local/bin`
@@ -283,6 +285,28 @@ file so both stay in sync.
 - `grim`, `slurp`
 - `hyprpicker`
 - `wl-clipboard`, `cliphist`
+
+### Clipboard manager
+
+`scripts/clipboard` is the fuzzel front end for `cliphist`; `scripts/clipboard-store`
+is its `wl-paste --watch` target. Entries are shown newest first, pinned entries
+(★) above them, and rows are tagged with their kind: `URL`, `Path`, `Colour`,
+`Email`, `JSON`, or `Image WxH`.
+
+Speed notes, if the picker ever feels slow again:
+
+- thumbnails are 128 px PNGs in `~/.cache/cliphist-thumbs`, keyed by entry id,
+  built once by `clipboard-store` and pruned when the entry disappears. The
+  picker must never decode image data or run `magick identify`; dimensions come
+  from cliphist's own preview line (`[[ binary data … png 600x600 ]]`).
+- a missing thumbnail shows a generic image icon for one open and is backfilled
+  in the background, so the window never blocks on ImageMagick.
+- text rows are formatted in-process; a command substitution per row costs more
+  than the whole rest of the build at 750 entries.
+
+History grows to `cliphist -max-items` (750 by default) and stores full images,
+so `~/.cache/cliphist/db` is ~50 MB. Set a smaller `-max-items` in
+`~/.config/cliphist/config` if that matters; the picker does not care.
 
 ### Wallpaper, media and hardware
 

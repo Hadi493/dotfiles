@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Target for `wl-paste --watch`.  Stores the clipboard entry, then builds its
+# thumbnail in the background so Super+V never pays the decode cost.
+set -u
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$DIR/lib/clip-thumb.sh"
+
+cliphist store || exit 0
+
+# cliphist store prints nothing; the entry it just wrote is the newest row.
+first=$(cliphist list 2>/dev/null | head -n 1)
+[[ $first == *'[[ binary data'* ]] || exit 0
+id=${first%%$'\t'*}
+[ -n "$id" ] || exit 0
+
+# Detach: the watch loop must not wait for ImageMagick.
+(clip_ensure_thumb "$id" > /dev/null 2>&1 &)
+exit 0

@@ -4,66 +4,308 @@
 #   Super+Alt+V   -> manage: copy / pin / unpin / delete / clear history
 #   Super+Shift+V -> pass (password store)
 #
+# Presentation: newest first, pinned rows (★, bookmark icon) above the rest,
+# rows tagged by kind (URL / Path / Colour / Email / JSON / Image WxH), plain
+# text rows left icon-free so the list reads as text rather than glyph soup.
+#
 # Rows are emitted in Rofi's extended dmenu protocol (<text>\0icon\x1f<icon>)
 # so fuzzel can render a thumbnail for image entries.  fuzzel's --index gives
-# the selected row number (0-based), which maps 1:1 onto the key file.
+# the selected row number (0-based), which maps 1:1 onto the line number of the
+# keys file written in the same pass.
+#
+# Everything the picker shows is built without spawning ImageMagick per entry.
+# Image dimensions come from cliphist's own preview line, and the downscaled
+# thumbnail (128px, ~10 KiB) is built once and cached by entry id.  The old
+# version ran `magick identify` for every image on every open and handed
+# fuzzel multi-megabyte originals as icons: ~1.5 s before the window appeared.
 set -u
 
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$DIR/lib/clip-thumb.sh"
+
 PIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/cliphist-pinned"
-THUMB_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/cliphist-thumbs"
+THUMB_DIR="$CLIP_THUMB_DIR"
+PIN_THUMB_DIR="$PIN_DIR/.thumbs"
+PREVIEW_MAX="${PREVIEW_MAX:-76}"
 FUZZEL="${FUZZEL:-$HOME/.config/fuzzel/fuzzel.ini}"
-mkdir -p "$PIN_DIR" "$THUMB_DIR"
+mkdir -p "$PIN_DIR" "$PIN_THUMB_DIR"
 
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
-map="$tmpdir/map"
-display="$tmpdir/display"
+
+DISPLAY_FILE="$tmpdir/display"
+KEYS_FILE="$tmpdir/keys"
+N_HIST=0
+N_IMG=0
+N_PIN=0
+
+notify() {
+    notify-send -a cliphist -i edit-paste -t 900 \
+        -h string:x-canonical-private-synchronous:cliphist "$@"
+}
 
 file_mime() { file -b --mime-type "$1" 2>/dev/null || echo application/octet-stream; }
 
-file_info() {
-    local f="$1" mime dims p
-    mime=$(file_mime "$f")
-    case "$mime" in
-        image/*)
-            dims=$(magick identify -format '%wx%h' "$f" 2>/dev/null || true)
-            [ -n "$dims" ] && printf 'Image %s' "$dims" || printf 'Image'
+# ---- text formatting -------------------------------------------------------
+
+# Flatten a preview to a single line of printable, single-spaced text.
+# Sets CLEAN.
+clean_text() {
+    local s="$1"
+    # Fast path: the vast majority of previews are already one clean line.
+    if [[ $s != *[[:cntrl:]]* && $s != *'  '* && ${s:0:1} != ' ' && ${s: -1} != ' ' ]]; then
+        CLEAN=$s
+        return
+    fi
+    s=${s//$'\r'/ }
+    s=${s//$'\n'/ }
+    s=${s//$'\t'/ }
+    s=${s//[[:cntrl:]]/}
+    while [[ $s == *'  '* ]]; do s=${s//'  '/' '}; done
+    s=${s#"${s%%[![:space:]]*}"}
+    s=${s%"${s##*[![:space:]]}"}
+    CLEAN=$s
+}
+
+# Cut on a word boundary so rows do not end mid-word.  Sets PREVIEW.
+truncate_text() {
+    local s="$1" max="${2:-$PREVIEW_MAX}" cut
+    if ((${#s} <= max)); then
+        PREVIEW=$s
+        return
+    fi
+    cut=${s:0:max}
+    [[ $cut == *' '* ]] && cut=${cut% *}
+    PREVIEW="$cut…"
+}
+
+# Short tag for the things people paste most often; empty for plain prose.
+# Sets TYPE.  Bash regex is expensive, so each pattern is gated by a cheap
+# glob/length test first.
+text_type() {
+    local s="$1"
+    TYPE=""
+    case "$s" in
+        http://*|https://*|ftp://*|www.*) TYPE='URL'; return ;;
+        /*|"~"/*|./*|../*) TYPE='Path'; return ;;
+        '#'*)
+            if ((${#s} == 4 || ${#s} == 7 || ${#s} == 9)) &&
+                [[ $s =~ ^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$ ]]; then
+                TYPE='Colour'
+                return
+            fi
             ;;
-        text/*|application/json|application/xml|application/javascript)
-            p=$(head -c 80 "$f"); p=${p//$'\n'/ }; p=${p//$'\t'/ }; p=${p//[[:cntrl:]]/}; printf '%s' "$p"
+        *@*.*)
+            if [[ $s =~ ^[^@[:space:]]+@[^@[:space:]]+\.[a-zA-Z]{2,}$ ]]; then
+                TYPE='Email'
+                return
+            fi
             ;;
-        *) printf '%s' "$mime" ;;
+        '{'*'}'|'['*']') TYPE='JSON'; return ;;
     esac
 }
 
-pin_icon() {
-    local f="$1" mime
-    mime=$(file_mime "$f")
-    case "$mime" in
-        image/*) printf '%s' "$f" ;;
-        *)       printf '%s' "bookmarks-bookmarked" ;;
-    esac
+# Set LABEL for one preview line.  Deliberately writes a global instead of
+# printing: a command substitution would fork a subshell per row (750 rows ->
+# ~4 s of pre-UI time).
+text_label() {
+    local clean tag preview
+    clean_text "$1"
+    clean=$CLEAN
+    if [ -z "$clean" ]; then
+        LABEL='(empty)'
+        return
+    fi
+    text_type "$clean"
+    tag=$TYPE
+    truncate_text "$clean"
+    preview=$PREVIEW
+    if [ -n "$tag" ]; then
+        LABEL="$tag · $preview"
+    else
+        LABEL="$preview"
+    fi
 }
 
-pin_copy() {
-    local f="$1" mime
-    mime=$(file_mime "$f")
-    wl-copy --type "$mime" < "$f"
+# "600x600" tail of cliphist's image preview -> DIMS=600×600
+preview_dims() {
+    local re='([0-9]+)x([0-9]+) \]\]$'
+    DIMS=""
+    [[ $1 =~ $re ]] && DIMS="${BASH_REMATCH[1]}×${BASH_REMATCH[2]}"
 }
+
+# ---- thumbnails -----------------------------------------------------------
+
+# Build the cached thumbnail for one pinned entry.  Pins are content-addressed,
+# so the cache is safe to keep until the pin is removed.
+ensure_pin_thumb() {
+    local f="$1" hash="$2" out="$PIN_THUMB_DIR/$2.png" tmp="$tmpdir/pin-$2.png"
+    [ -s "$out" ] || {
+        magick "$f" -thumbnail "${CLIP_THUMB_PX}x${CLIP_THUMB_PX}>" -strip "png:$tmp" 2>/dev/null &&
+            [ -s "$tmp" ] && mv -f "$tmp" "$out"
+    }
+    [ -s "$out" ] && printf '%s' "$out"
+}
+
+prune_pin_thumbs() {
+    local f hash
+    for f in "$PIN_THUMB_DIR"/*; do
+        [ -f "$f" ] || continue
+        hash=${f##*/}
+        [ -f "$PIN_DIR/${hash%.png}" ] || rm -f "$f"
+    done
+}
+
+# ---- list building --------------------------------------------------------
+
+# row <text> <icon> <key>: emit a display row and record its key.  Both files
+# are held open by build_list (fds 3 and 4) so this is one write per list item.
+# An empty icon omits the extension entirely, so plain text rows stay text-only
+# instead of carrying a decorative glyph on every line.
+row() {
+    if [ -n "$2" ]; then
+        printf '%s\0icon\x1f%s\n' "$1" "$2" >&3
+    else
+        printf '%s\n' "$1" >&3
+    fi
+    printf '%s\n' "$3" >&4
+}
+
+build_list() {
+    local manage="${1:-}"
+    local id content label icon hash mime f
+    local -a ids=() missing=()
+    N_HIST=0
+    N_IMG=0
+    N_PIN=0
+    : > "$DISPLAY_FILE"
+    : > "$KEYS_FILE"
+    exec 3>> "$DISPLAY_FILE"
+    exec 4>> "$KEYS_FILE"
+
+    if [ "$manage" = "manage" ]; then
+        row "Clear history" "edit-clear" "action:clear"
+    fi
+
+    # ---- Pinned ----
+    for f in "$PIN_DIR"/*; do
+        [ -f "$f" ] || continue
+        hash=${f##*/}
+        N_PIN=$((N_PIN + 1))
+        mime=$(file_mime "$f")
+        case "$mime" in
+            image/*)
+                label="Image"
+                icon=$(ensure_pin_thumb "$f" "$hash") || icon="image-x-generic"
+                ;;
+            *)
+                text_label "$(head -c 200 "$f")"
+                label=$LABEL
+                icon="bookmarks-bookmarked"
+                ;;
+        esac
+        row "★ $label" "$icon" "pin:$hash"
+    done
+
+    # ---- History ----
+    # cliphist list already carries a one-line preview, so text rows need no
+    # decode at all; image rows only need their cached thumbnail path.
+    #
+    # Thumbnails are built at store time (clipboard-store) and backfilled in the
+    # background here.  The picker never waits for ImageMagick: a missing
+    # thumbnail just shows a generic image icon for this one open.
+    while IFS=$'\t' read -r id content; do
+        [ -n "$id" ] || continue
+        ids+=("$id")
+        N_HIST=$((N_HIST + 1))
+        case "$content" in
+            *'[[ binary data'*)
+                N_IMG=$((N_IMG + 1))
+                preview_dims "$content"
+                [ -n "$DIMS" ] && label="Image $DIMS" || label="Image"
+                icon="$THUMB_DIR/$id.png"
+                [ -s "$icon" ] || { icon="image-x-generic"; missing+=("$id"); }
+                ;;
+            *)
+                text_label "$content"
+                label=$LABEL
+                icon=""
+                ;;
+        esac
+        row "$label" "$icon" "hist:$id"
+    done < <(cliphist list)
+
+    exec 3>&-
+    exec 4>&-
+
+    clip_prune_thumbs "${ids[@]}"
+    prune_pin_thumbs
+    if ((${#missing[@]})); then
+        (
+            for id in "${missing[@]}"; do
+                clip_ensure_thumb "$id" > /dev/null 2>&1
+            done
+        ) &
+    fi
+
+    ((N_HIST + N_PIN > 0))
+}
+
+# ---- picker ---------------------------------------------------------------
+
+mesg_for() {
+    local mode="$1" status="${2:-}"
+    local stats="$N_HIST entries"
+    ((N_IMG)) && stats+=" · $N_IMG images"
+    ((N_PIN)) && stats+=" · $N_PIN pinned"
+    if [ "$mode" = "manage" ]; then
+        printf '%s\n%s\nEnter opens actions · Esc closes' "$stats" "${status:-pick an entry}"
+    else
+        printf '%s\nSuper+Alt+V manages · Enter copies' "$stats"
+    fi
+}
+
+# pick <prompt> <message>: print the key of the selected row, or fail if cancelled.
+pick() {
+    local prompt="$1" mesg="$2" idx key
+    idx=$(fuzzel --dmenu --index --counter --minimal-lines \
+        --config "$FUZZEL" -p "$prompt" --mesg "$mesg" < "$DISPLAY_FILE" 2>/dev/null) || return 1
+    [[ $idx =~ ^[0-9]+$ ]] || return 1
+    key=$(sed -n "$((idx + 1))p" "$KEYS_FILE")
+    [ -n "$key" ] || return 1
+    printf '%s' "$key"
+}
+
+# menu <prompt> <entries>: index of the chosen action, fail on cancel.
+menu() {
+    printf '%s\n' "$2" |
+        fuzzel --dmenu --index --only-match --config "$FUZZEL" -p "$1" 2>/dev/null
+}
+
+empty_state() {
+    fuzzel --prompt-only="$1" --mesg="$2" --config "$FUZZEL" 2>/dev/null
+}
+
+confirm() {
+    [ "$(menu "$1 " $'No\nYes, clear')" = "1" ]
+}
+
+# ---- actions --------------------------------------------------------------
 
 copy_key() {
-    local key="$1" tmpf mime f
+    local key="$1" mime f
     case "$key" in
         pin:*)
             f="$PIN_DIR/${key#pin:}"
-            [ -f "$f" ] || { notify-send -t 2000 cliphist "pinned entry missing"; return; }
-            pin_copy "$f"
+            [ -f "$f" ] || { notify "pinned entry missing"; return 1; }
+            mime=$(file_mime "$f")
+            wl-copy --type "$mime" < "$f"
             ;;
         hist:*)
-            tmpf="$tmpdir/clip.bin"
-            printf '%s' "${key#hist:}" | cliphist decode > "$tmpf" 2>/dev/null || return
-            mime=$(file_mime "$tmpf")
-            wl-copy --type "$mime" < "$tmpf"
+            printf '%s' "${key#hist:}" | cliphist decode > "$tmpdir/clip.bin" 2>/dev/null || return 1
+            [ -s "$tmpdir/clip.bin" ] || return 1
+            mime=$(file_mime "$tmpdir/clip.bin")
+            wl-copy --type "$mime" < "$tmpdir/clip.bin"
             ;;
     esac
 }
@@ -76,112 +318,62 @@ pin_entry() {
     cp "$out" "$PIN_DIR/$name"
 }
 
-# row <text> <icon> <key>: emit a display row and record its key.
-row() {
-    printf '%s\0icon\x1f%s\n' "$1" "$2" >> "$display"
-    printf '%s\n' "$3" >> "$map"
-}
+manage() {
+    local key action status=""
+    while :; do
+        build_list manage || { empty_state "Manage " "Clipboard is empty"; exit 0; }
+        key=$(pick "Manage " "$(mesg_for manage "$status")") || exit 0
+        [ -n "$key" ] || exit 0
 
-build_list() {
-    local manage="${1:-}" f hash preview content id dims thumb icon
-    : > "$map"
-    : > "$display"
+        case "$key" in
+            action:clear)
+                confirm "Clear all clipboard history?" || continue
+                cliphist wipe
+                notify "History cleared"
+                exit 0
+                ;;
+            pin:*) action=$(menu "pin> " $'Copy\nUnpin\nDelete') || exit 0 ;;
+            hist:*) action=$(menu "history> " $'Copy\nPin\nDelete') || exit 0 ;;
+            *) exit 0 ;;
+        esac
 
-    if [ "$manage" = "manage" ]; then
-        row "Clear history" "edit-clear" "action:clear"
-    fi
-
-    # ---- Pinned ----
-    for f in "$PIN_DIR"/*; do
-        [ -f "$f" ] || continue
-        hash=$(basename "$f")
-        preview=$(file_info "$f")
-        [ -z "$preview" ] && preview="(empty)"
-        row "📌 $preview" "$(pin_icon "$f")" "pin:$hash"
-    done
-
-    # ---- History ----
-    # cliphist list already flags images as "[[ binary data ... png WxH ]]",
-    # so only those rows need decoding (for the thumbnail); text rows skip the
-    # decode entirely.  Decoded thumbnails are cached by entry id so repeated
-    # opens do not re-decode the whole history.
-    while IFS=$'\t' read -r id content; do
-        [ -n "$id" ] || continue
-        preview=${content//$'\n'/ }
-        preview=${preview//$'\t'/ }
-        preview=${preview:0:80}
-        preview=${preview//[[:cntrl:]]/}
-        icon="accessories-text-editor"
-        case "$content" in
-            *'[[ binary data'*)
-                thumb="$THUMB_DIR/$id.bin"
-                if [ ! -s "$thumb" ]; then
-                    printf '%s' "$id" | cliphist decode > "$thumb" 2>/dev/null || rm -f "$thumb"
+        case "$action" in
+            0)
+                copy_key "$key" && notify "Copied"
+                exit 0
+                ;;
+            1)
+                if [[ $key == pin:* ]]; then
+                    rm -f "$PIN_DIR/${key#pin:}" && { status="unpinned ✓"; notify "Unpinned"; }
+                else
+                    pin_entry "${key#hist:}" "$tmpdir/pin.bin" && { status="pinned ✓"; notify "Pinned"; }
                 fi
-                if [ -s "$thumb" ]; then
-                    dims=$(magick identify -format '%wx%h' "$thumb" 2>/dev/null || true)
-                    [ -n "$dims" ] && preview="Image $dims" || preview="Image"
-                    icon="$thumb"
+                ;;
+            2)
+                if [[ $key == pin:* ]]; then
+                    rm -f "$PIN_DIR/${key#pin:}" && { status="pin deleted ✓"; notify "Pin deleted"; }
+                else
+                    # `cliphist delete` reads a list line ("<id>\t<preview>") from
+                    # stdin; passing the id as an argument silently does nothing.
+                    printf '%s\t\n' "${key#hist:}" | cliphist delete && { status="deleted ✓"; notify "Deleted"; }
                 fi
                 ;;
         esac
-        row "$preview" "$icon" "hist:$id"
-    done < <(cliphist list)
-
-    [ -s "$display" ]
-}
-
-# pick <prompt>: print the key of the selected row, or fail if cancelled.
-pick() {
-    local prompt="$1" idx
-    idx=$(fuzzel --dmenu --index --config "$FUZZEL" -p "$prompt" < "$display" 2>/dev/null) || return 1
-    [ -n "$idx" ] || return 1
-    sed -n "$((idx + 1))p" "$map"
+    done
 }
 
 case "${1:-clip}" in
     clip)
-        build_list || { notify-send -t 1500 cliphist "clipboard is empty"; exit 0; }
-        key=$(pick "Clipboard") || exit 0
+        build_list || { empty_state "Clipboard " "Clipboard is empty"; exit 0; }
+        key=$(pick "Clipboard " "$(mesg_for clip)") || exit 0
         [ -n "$key" ] || exit 0
-        copy_key "$key"
+        copy_key "$key" && notify "Copied"
         ;;
     manage)
-        build_list manage || { notify-send -t 1500 cliphist "clipboard is empty"; exit 0; }
-        key=$(pick "Manage") || exit 0
-        [ -n "$key" ] || exit 0
-        case "$key" in
-            action:clear)
-                cliphist wipe
-                notify-send -t 1500 cliphist "history cleared"
-                exit 0
-                ;;
-        esac
-        if [[ "$key" == pin:* ]]; then
-            action=$(printf 'Copy\nUnpin\nDelete' | fuzzel --dmenu --index --config "$FUZZEL" -p "pin>" 2>/dev/null) || exit 0
-        else
-            action=$(printf 'Copy\nPin\nDelete' | fuzzel --dmenu --index --config "$FUZZEL" -p "history>" 2>/dev/null) || exit 0
-        fi
-        case "$action" in
-            0) copy_key "$key" ;;
-            1)
-                if [[ "$key" == pin:* ]]; then
-                    rm -f "$PIN_DIR/${key#pin:}" && notify-send -t 1000 cliphist "unpinned"
-                else
-                    pin_entry "${key#hist:}" "$tmpdir/pin.bin" && notify-send -t 1000 cliphist "pinned"
-                fi
-                ;;
-            2)
-                if [[ "$key" == pin:* ]]; then
-                    rm -f "$PIN_DIR/${key#pin:}" && notify-send -t 1000 cliphist "pinned deleted"
-                else
-                    cliphist delete "${key#hist:}" && notify-send -t 1000 cliphist "deleted"
-                fi
-                ;;
-        esac
+        manage
         ;;
     pass)
-        if ! command -v pass &>/dev/null; then
+        if ! command -v pass &> /dev/null; then
             notify-send -u critical "pass" "not installed — run: pacman -S pass"
             exit 1
         fi
@@ -190,8 +382,9 @@ case "${1:-clip}" in
             notify-send -u critical "pass" "password store empty — run: pass init <gpg-id>"
             exit 0
         fi
-        choice=$(printf '%s\n' "$entries" | fuzzel --dmenu --config "$FUZZEL" -p "pass>" 2>/dev/null)
-        [ -n "$choice" ] && pass -c "$choice" 2>/dev/null && notify-send -t 1000 "pass" "copied $choice"
+        choice=$(printf '%s\n' "$entries" |
+            fuzzel --dmenu --only-match --config "$FUZZEL" -p "pass> " --mesg "Enter copies the password" 2>/dev/null)
+        [ -n "$choice" ] && pass -c "$choice" 2>/dev/null && notify "Password copied" "pass: $choice"
         ;;
 esac
 exit 0
