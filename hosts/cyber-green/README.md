@@ -19,3 +19,26 @@
   `./deploy hypr` with this machine's absolute paths.
 
 Everything else in this directory is documentation. Do not put secrets here.
+
+## Pending one-time cleanup (needs root)
+
+`~/dotfiles/bin` used to be linked into `/usr/bin`. `deploy` no longer does
+that, but five root-owned symlinks are still there:
+
+| Path | Points at |
+|---|---|
+| `/usr/bin/yay`, `/usr/bin/paru` | vendored AUR helpers (no package provides them) |
+| `/usr/bin/toofan`, `/usr/bin/cg-timer`, `/usr/bin/wayland-boomer` | vendored helpers, now in `~/.local/bin` |
+| `/usr/bin/wlogout` | replaced by the vendored binary; the packaged one is gone |
+
+They are harmless (they resolve to the same files `~/.local/bin` has), and
+removing them cannot break a bind: the running compositor's `PATH` starts with
+`/home/hadi/.local/bin` (verified 2026-11-17 with
+`tr '\0' '\n' < /proc/$(pgrep -x Hyprland)/environ`).
+
+```bash
+sudo rm /usr/bin/yay /usr/bin/paru /usr/bin/toofan \
+        /usr/bin/cg-timer /usr/bin/wayland-boomer
+sudo pacman -S --overwrite /usr/bin/wlogout wlogout
+```
+
