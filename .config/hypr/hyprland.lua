@@ -1,13 +1,23 @@
 -----------------
 ---- MONITORS ----
 -----------------
+-- Default for this machine. A per-machine override may live outside the repo
+-- at ~/.config/hypr/monitors.local.lua (gitignored): it must call hl.monitor()
+-- itself and fully replaces this default. Never add a host override here.
+local monitors_override = os.getenv("HOME") .. "/.config/hypr/monitors.local.lua"
+local monitors_file = io.open(monitors_override, "r")
 
-hl.monitor({
-    output   = "eDP-1",
-    mode     = "1920x1080",
-    position = "auto",
-    scale    = 1,
-})
+if monitors_file then
+    monitors_file:close()
+    dofile(monitors_override)
+else
+    hl.monitor({
+        output   = "eDP-1",
+        mode     = "1920x1080",
+        position = "auto",
+        scale    = 1,
+    })
+end
 
 -----------------
 ---- PLUGINS ----

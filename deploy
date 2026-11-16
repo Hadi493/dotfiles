@@ -4,6 +4,10 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Binaries go to a user-writable directory; never to /usr/bin. ~/.local/bin is
+# first on PATH for fish, bash and the systemd session, so commands resolve.
+BIN_DIR="${BIN_DIR:-$HOME/.local/bin}"
+
 # Set to 1 to auto-accept replacement of existing files/dirs without prompting.
 force_yes=0
 
@@ -55,10 +59,11 @@ link_one() {
 
 link_emacs() {
     echo "Linking Emacs configuration..."
+    # ~/.emacs.local and ~/.emacs.shadow are per-machine and intentionally not
+    # tracked; Emacs loads them only if they exist.
     local items=(
         ".emacs"
         ".emacs.custom.el"
-        ".emacs.local"
         ".emacs.rc"
         ".emacs.snippets"
     )
@@ -106,14 +111,24 @@ link_helix() {
 link_hypr() {
     # Personal session: dotfiles are the only config. A bare `Hyprland` or
     # `start-hyprland` reads ~/.config/hypr/hyprland.lua, so install a tiny
-    # loader there that points at ~/dotfiles. Never symlink the whole
+    # loader there that points at the repo. Never symlink the whole
     # ~/.config/hypr directory: Hyprland resolves require() from the given
     # file's directory, and a loader keeps that explicit.
     echo "Installing personal Hyprland config + session..."
     install -Dm644 "$DOTFILES_DIR/.config/hypr/loader.lua" \
                    "$HOME/.config/hypr/hyprland.lua"
-    link_one "$DOTFILES_DIR/.local/share/wayland-sessions/hadi-hyprland.desktop" \
-             "$HOME/.local/share/wayland-sessions/hadi-hyprland.desktop"
+    # The session entry is generated from a template so the paths follow this
+    # clone instead of being hardcoded. Render to a temp file first: an older
+    # install made the destination a symlink to the source, and `sed src > dst`
+    # would truncate it before reading.
+    local entry_src="$DOTFILES_DIR/.local/share/wayland-sessions/hadi-hyprland.desktop.in"
+    local entry_dst="$HOME/.local/share/wayland-sessions/hadi-hyprland.desktop"
+    local entry_tmp
+    entry_tmp="$(mktemp)"
+    sed "s|@DOTFILES_DIR@|$DOTFILES_DIR|g" "$entry_src" > "$entry_tmp"
+    rm -f "$entry_dst"
+    install -Dm644 "$entry_tmp" "$entry_dst"
+    rm -f "$entry_tmp"
     echo "  Loader: ~/.config/hypr/hyprland.lua -> $DOTFILES_DIR/.config/hypr"
     echo "  Verify: Hyprland --verify-config --config $HOME/.config/hypr/hyprland.lua"
 }
@@ -154,8 +169,16 @@ link_rofi() {
 }
 
 link_noctalia() {
-    echo     "Linking Noctalia configuration..."
-    link_one "$DOTFILES_DIR/.config/noctalia" "$HOME/.config/noctalia"
+    # Legacy: the personal session runs swaync/waybar, not Noctalia. Kept
+    # installable for testing, but no longer part of `deploy all`/`config`.
+    echo     "Linking Noctalia configuration (legacy)..."
+    link_one "$DOTFILES_DIR/legacy/noctalia" "$HOME/.config/noctalia"
+}
+
+link_swayosd() {
+    # Legacy: volume/mic feedback uses swaync notifications, not swayosd.
+    echo     "Linking swayosd configuration (legacy)..."
+    link_one "$DOTFILES_DIR/legacy/swayosd" "$HOME/.config/swayosd"
 }
 
 link_tofi() {
@@ -268,7 +291,6 @@ link_config() {
     link_rofi
     link_waybar
     link_swaync
-    link_noctalia
     link_tmux
     link_tofi
     link_fuzzel
@@ -279,14 +301,14 @@ link_config() {
     link_btop
     link_envd
     link_pipewire
-    link_st
     link_fonts
-    link_nob
     enable_swaync
 }
 
 link_bin() {
-    echo "Linking binaries..."
+    echo "Linking binaries into $BIN_DIR..."
+    mkdir -p "$BIN_DIR"
+    # wlogout is provided by the wlogout package; do not shadow it.
     local files=(
         "wayland-boomer"
         "cg-timer"
@@ -294,12 +316,11 @@ link_bin() {
         "paru"
         "toofan"
         "wal"
-        "wlogout"
         "yay"
     )
 
     for file in "${files[@]}"; do
-        link_one "$DOTFILES_DIR/bin/$file" "/usr/bin/$file"
+        link_one "$DOTFILES_DIR/bin/$file" "$BIN_DIR/$file"
     done
 }
 
@@ -318,9 +339,10 @@ Options:
 
 Commands:
   all        Link all configurations (default)
+  check      Run bootstrap/verify.sh (syntax, commands, symlinks, Hyprland)
   emacs      Link Emacs configuration
   config     Link all .config directories
-  bin        Link all binaries to /usr/bin/
+  bin        Link all binaries to $BIN_DIR (default ~/.local/bin)
   fonts      Link all fonts to ~/.local/share/fonts
   bash       Link Bash configuration
   fastfetch  Link fastfetch configuration
@@ -337,7 +359,8 @@ Commands:
   vis          Link vis configuration (Emacs-style keybindings)
   vim          Link Vim configuration
   rofi       Link Rofi configuration
-  noctalia   Link Noctalia configuration
+  noctalia   Link Noctalia configuration (legacy, not in all)
+  swayosd    Link swayosd configuration (legacy, not in all)
   tofi       Link Tofi configuration
   fuzzel     Link Fuzzel configuration
   flameshot  Link Flameshot configuration
@@ -347,9 +370,9 @@ Commands:
   alacritty  Link Alacritty configuration
   btop       Link btop configuration
   envd       Link environment.d (Hyprland session env)
-  st         Build suckless st terminal (kitty/hypr theme)
+  st         Build suckless st terminal (network + X11 headers)
   tmux       Link Tmux configuration
-  nob        Link Nob library
+  nob        Install nob.h into /usr/include (needs root; not in all)
   noswaync   Mask swaync (Noctalia-only, legacy; personal uses swaync)
 
 EOF
@@ -364,6 +387,7 @@ case "$cmd" in
 esac
 case "$cmd" in
     all            ) link_all       ;;
+    check          ) exec bash "$DOTFILES_DIR/bootstrap/verify.sh" ;;
     emacs          ) link_emacs     ;;
     config         ) link_config    ;;
     bin            ) link_bin       ;;
@@ -384,6 +408,7 @@ case "$cmd" in
     vim            ) link_vim       ;;
     rofi           ) link_rofi      ;;
     noctalia       ) link_noctalia  ;;
+    swayosd        ) link_swayosd   ;;
     tofi           ) link_tofi      ;;
     fuzzel         ) link_fuzzel    ;;
     flameshot      ) link_flameshot ;;

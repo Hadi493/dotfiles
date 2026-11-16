@@ -4,6 +4,9 @@ The live desktop is a plain Hyprland session loaded from this repository.
 There is no Ryoku, no Quickshell shell, no `ryogami`/matugen integration and no
 display manager. `~/dotfiles` is the only config source.
 
+Repo-wide rules live in [`SPECS/invariants.md`](../../SPECS/invariants.md); the
+boot/deploy mechanics are in [`SPECS/architecture.md`](../../SPECS/architecture.md).
+
 ## Boot and deploy
 
 Log in on a TTY and start the compositor:
@@ -229,13 +232,18 @@ Web-app shortcuts (Brave Origin app windows) live in `conf/keybinds.lua`:
 
 | Action | Keybinding |
 |---|---|
-| Region screenshot to `~/Pictures/Screenshots` | `Print` or `Super + Print` |
-| Full-monitor screenshot | `Shift + Print` |
+| Region screenshot (flameshot editor) | `Print` |
+| Full-screen capture | `Super + Z` → `grim - \| wayland-boomer` |
 | Toggle gaps | `Super + Shift + G` |
 | Toggle window opacity | `Super + O` |
 | E-ink/paper shader toggle | `Super + Shift + E` |
 | Night mode (4500 K ↔ 6500 K) | `Super + Shift + N` |
 | Screen recording toggle | `Super + R` |
+| Clipboard history / manage / passwords | `Super + V` / `Super + Alt + V` / `Super + Shift + V` |
+
+`Print` runs `flameshot gui` (region capture, then flameshot's editor). There is
+no `Shift + Print` bind: the earlier grim/slurp screenshot binds are commented
+out in `conf/keybinds.lua` and kept only for reference.
 
 ## Function keys
 
@@ -338,3 +346,7 @@ the patched Waybar build, and any `qs -c shell` or `ryoku-cmd-*` command.
   colour temperature (via `hyprsunset`, sharing its state with `F2` and
   `Super + Shift + N`), but the old `wl-gammarelay-rs` brightness step is gone,
   so paper mode is no longer dimmed.
+- **Monitor defaults.** `hyprland.lua` hardcodes this machine's `eDP-1`
+  1920x1080 panel. Put per-machine output changes in
+  `~/.config/hypr/monitors.local.lua` (gitignored), never in the tracked tree;
+  see `SPECS/tools/hyprland.md`.

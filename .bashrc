@@ -3,7 +3,7 @@ export HISTFILESIZE=10000
 
 export HISTCONTROL=ignoredups
 
-export EDITOR='vim'
+export EDITOR='nvim'
 
 alias l='ls'
 alias ll='ls -lha'
@@ -45,5 +45,9 @@ elif [ -f /etc/bash_completion ]; then
 fi
 
 
-# Added by Antigravity CLI installer
-export PATH="/home/hadi/.local/bin:$PATH"
+# User-local binaries (claude, oh-my-posh, scripts). Prepended once, without
+# hardcoding a user's home.
+case ":$PATH:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac

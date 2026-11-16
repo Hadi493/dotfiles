@@ -46,22 +46,24 @@ set -g fish_complete_case_insensitive 1
 # Enable autosuggestions from history
 set -g fish_autosuggestion_enabled 1
 
-set -Ux CHROME_EXECUTABLE /bin/chromium
-export CHROME_EXECUTABLE
+set -gx CHROME_EXECUTABLE /bin/chromium
 
-set -Ux ANDROID_HOME ~/Android/Sdk
-set -Ux ANDROID_SDK_ROOT ~/Android/Sdk
+set -gx ANDROID_HOME $HOME/Android/Sdk
+set -gx ANDROID_SDK_ROOT $HOME/Android/Sdk
 # fish_add_path is idempotent; rewriting the universal PATH here made it grow
 # a little more (and duplicate entries) on every new shell.
-fish_add_path $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
-set -Ux VIRTUAL_ENV_DISABLE_PROMPT 1
+for __dir in $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
+    test -d $__dir; and fish_add_path $__dir
+end
+set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
 # Flutter SDK (manually installed; `dart` here is the one bundled with Flutter)
-fish_add_path ~/development/flutter/bin
+test -d $HOME/development/flutter/bin; and fish_add_path $HOME/development/flutter/bin
 # Android emulator binary, so `emulator -avd <name>` works from the shell
-fish_add_path $ANDROID_HOME/emulator
+test -d $ANDROID_HOME/emulator; and fish_add_path $ANDROID_HOME/emulator
 
-set -Ux EDITOR vim
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 # ===============================================
 # HISTORY SETTINGS
@@ -204,14 +206,10 @@ alias cl="c ;; l"
 # yay
 alias yayf="yay -Slq | fzf --multi --preview 'yay -Sii {1}' --preview-window=down:75% | xargs -ro yay -S"
 
-#play
-alias playurl="~/.config/waybar/scripts/play-song.sh"
-
-# configs
+# configs (Hyprland's config is Lua inside the dotfiles repo)
 alias fconf="nv ~/.config/fish/config.fish"
-alias niri-config="nv ~/.config/niri/config.kdl"
-alias hyprconf="nv ~/.config/hypr/hyprland.conf"
-alias whconf="nv ~/.config/hypr/scripts/lib/wallpaper.sh"
+alias hyprconf="nv ~/dotfiles/.config/hypr/hyprland.lua"
+alias whconf="nv ~/dotfiles/.config/hypr/scripts/lib/wallpaper.sh"
 alias cdwm="nv ~/cg-dwm/config.h"
 alias mdwm="cd ~/cg-dwm; sudo make clean install; cd -"
 
@@ -442,8 +440,8 @@ if not contains /usr/bin $PATH
     set -x PATH /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin $PATH
 end
 
-# kimi-code
-fish_add_path -g "/home/hadi/.kimi-code/bin"
+# kimi-code (only when installed)
+test -d $HOME/.kimi-code/bin; and fish_add_path -g $HOME/.kimi-code/bin
 
 fish_add_path $HOME/.pixi/bin
 

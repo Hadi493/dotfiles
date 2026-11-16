@@ -1,60 +1,32 @@
-# **Cyber Green Fish Prompt** **(cg-fp)**
-A fresh, clean, and personalized `fish-shell` prompt
+# fish configuration
 
-![Cyber Green Fish Prompt](fish-shell.png)
+Part of `~/dotfiles`; `./deploy fish` links `~/.config/fish` here. Do **not**
+delete `~/.config/fish` and clone a separate repo over it — that removes the
+dotfiles-managed config and the `user.fish` layer.
 
-### Requarements
-- Any Linux distro (I personally use CachyOS)
-- Fish shell 
-- Fastfetch
+## Load order
 
-### Usage
-Backup and remove old-config
+```
+conf.d/*.fish      (fish-generated migrations, deno/rustup env, desktop display)
+config.fish        shipped: PATH, tool hooks, colours, greeting
+  └─ user.fish     personal additions, loaded last and wins
+```
+
+## Files
+
+| Path | Role |
+|---|---|
+| `config.fish` | Shipped config. Conditional hooks for starship, zoxide, mise, fzf, eza, fd, fastfetch. |
+| `user.fish` | Personal aliases/functions/prompt. Tracked, but treat as the local override layer. |
+| `conf.d/` | `deno.fish`, `rustup.fish` (source only if installed), `desktop-display.fish` (heals DISPLAY in tmux/herdr panes). |
+| `themes/gruber-darker-ayu.fish` | Palette, sourced from `user.fish`. |
+| `functions/` | `bind_M_n_history`, `fzf/*`. |
+| `fish_variables` | Universal variables — ignored, never commit. |
+
+Full spec: [`SPECS/tools/fish.md`](../../SPECS/tools/fish.md).
+
+## Check
 
 ```bash
-mkdir -p ~/fish.bak
-cp ~/.config/fish/* -r ~/fish.bak
-rm -rf ~/.config/fish
-```
-
-Clone
-```bash
-git clone https://github.com/Hadi493/cg-fish.git ~/.config/fish/
-```
-
-source
-```bash
-source ~/.config/fish/config.fish
-```
-
-### Aliases 
-```
-ll, la, cls, git_graph, g_graph, gb_graph.
-sys-upgrade, full-sys-upgrade
-```
-
-### ⚠️ Important: Customize Your Aliases
-Please make sure to review the ***[config.fish](./config.fish)*** file and update the aliases according to your Linux distribution.
-Note: Default aliases are pre-configured for Arch-based systems.
-
-
-### Customize aliases
-nvim
-```bash
-nvim ~/.config/fish/config.fish
-```
-
-
-### Custom Aliases Examples
-For Debian
-
-```bash
-alias sys-upgrade="sudo apt update && sudo apt upgrade -y"
-alias apt="sudo apt"
-```
-
-For Fedora
-```bash
-alias sys-upgrade="sudo dnf upgrade -y"
-alias dnf="sudo dnf"
+fish -n ~/.config/fish/config.fish ~/.config/fish/user.fish
 ```

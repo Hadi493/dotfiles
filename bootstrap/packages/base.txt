@@ -1,0 +1,29 @@
+# Base system — Arch/CachyOS. Install with:
+#   sudo pacman -S --needed - < bootstrap/packages/base.txt
+#
+# Curated 2026-11-17 from legacy/packages.system.pkglist. The legacy dump was a
+# whole-machine `pacman -Qqe` and is kept only as a reference.
+base
+base-devel
+linux
+linux-firmware
+intel-ucode
+sudo
+git
+networkmanager
+wpa_supplicant
+btrfs-progs
+efibootmgr
+zram-generator
+pipewire
+pipewire-pulse
+pipewire-alsa
+wireplumber
+alsa-utils
+pavucontrol
+bluez
+bluez-utils
+firewalld
+ufw
+reflector
+pacman-contrib

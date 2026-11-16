@@ -7,6 +7,15 @@
 hypr/.cache/
 .cache/url_launcher/
 .config/hypr/monitors.conf
+# per-machine monitor override (see SPECS/tools/hyprland.md)
+.config/hypr/monitors.local.lua
+# local-only shell/env overrides and secrets.
+# NB: `*.local` also matches the `.local/` directory in this repo, so that
+# subtree is un-ignored explicitly below.
+*.local
+!.local/
+!.local/**
+.freebuff/
 # large vendored / installable via pacman (keep on disk, not in git)
 fonts/
 .config/helix/runtime/

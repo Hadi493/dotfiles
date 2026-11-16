@@ -79,11 +79,12 @@ end
 test -f $__fish_config_dir/user.fish && source $__fish_config_dir/user.fish
 
 
-# Added by Antigravity CLI installer
-set -gx PATH "/home/hadi/.local/bin" $PATH
+# Added by Antigravity CLI installer (kept idempotent: config.fish already adds
+# $HOME/.local/bin with fish_add_path).
 
 # <HarnessCLI>
-fish_add_path "$HOME/.local/bin"
-harness completion fish | source
+if command -q harness
+    harness completion fish | source
+end
 # </HarnessCLI>
 

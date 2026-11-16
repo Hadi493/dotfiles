@@ -1,0 +1,9 @@
+# AUR-only packages used by the dotfiles (verified with `pacman -Si`, 2026-11-17).
+# Install with an AUR helper, e.g.:
+#   paru -S --needed - < bootstrap/packages/aur.txt
+ddcutil-service
+tofi
+peaclock
+ttf-iosevka-ss04
+# optional: referenced by P.fsc in conf/variables.lua, not bound to a key
+nbfc

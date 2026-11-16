@@ -1,0 +1,83 @@
+# Desktop session — everything the dotfiles call at runtime.
+#   sudo pacman -S --needed - < bootstrap/packages/desktop.txt
+# AUR-only packages are in aur.txt.
+#
+# Compositor + session
+hyprland
+hypridle
+hyprlock
+hyprsunset
+hyprpicker
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+qt6ct
+
+# Bar, notifications, launchers
+waybar
+swaync
+rofi
+fuzzel
+wlogout
+
+# Capture, clipboard, colour
+grim
+slurp
+flameshot
+wl-clipboard
+cliphist
+imagemagick
+jq
+
+# Media / hardware
+playerctl
+brightnessctl
+ddcutil
+pipewire-pulse
+
+# Terminals (st is built from ./st, not a package)
+kitty
+
+# Editors
+neovim
+emacs
+helix
+vim
+tmux
+
+# Shells and CLI tooling
+fish
+nushell
+starship
+zoxide
+mise
+fzf
+fd
+ripgrep
+eza
+bat
+btop
+cava
+mpv
+fastfetch
+tree
+lsof
+ncdu
+yt-dlp
+pandoc-cli
+
+# Desktop apps referenced by keybinds
+nautilus
+brave-origin-bin
+discord
+telegram-desktop
+eom
+pass
+gnupg
+
+# Fonts (Iosevka Term SS04 + Nerd Font icons; the AUR iosevka is in aur.txt)
+ttf-iosevka-nerd
+ttf-jetbrains-mono-nerd
+ttf-nerd-fonts-symbols
+noto-fonts
+noto-fonts-emoji
+noto-fonts-cjk
