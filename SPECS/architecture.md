@@ -135,7 +135,46 @@ Adding a runtime dependency means: add the package to `desktop.txt` or
 `aur.txt`, add the command to `required-commands.txt`, then run
 `./bootstrap/verify.sh`.
 
-## 5. Adding a new tool
+## 5. Git history, branches and blobs
+
+The working branch is `hypr`.
+
+`.git` was 327 MB because `fonts/IosevkaCurlySlab-*.ttc` (45–47 MB each) were
+committed on the old `i3` branch. `fonts/` is gitignored and does not exist in
+the working tree, so those blobs were reachable only through that branch.
+
+On 2026-11-17 the local `i3` branch and its tracking ref were dropped, then:
+
+```bash
+git reflog expire --expire-unreachable=now --all
+git gc --prune=now
+```
+
+and the fetch refspec was narrowed so a plain `git fetch` cannot pull the fonts
+back:
+
+```
+remote.origin.fetch = +refs/heads/hypr:refs/remotes/origin/hypr
+                      +refs/heads/master:refs/remotes/origin/master
+```
+
+`.git` is ~31 MB now. `i3` still exists on the forges; to get it back:
+
+```bash
+git config --add remote.origin.fetch '+refs/heads/i3:refs/remotes/origin/i3'
+git fetch origin i3
+git branch i3 origin/i3
+```
+
+Rules:
+
+- Never `git add -f` anything under `fonts/` or another ignored bulk directory.
+- `bin/` still carries `yay` (9 MB), `paru` (7.7 MB) and `toofan` (4.8 MB);
+  they are vendored on purpose because no package provides them.
+- Do not rewrite history of `hypr` to shrink it further without an explicit
+  decision: four remotes would need a force-push.
+
+## 6. Adding a new tool
 
 1. Put its config at `.config/<tool>/` (or a single tracked file).
 2. Add a `link_<tool>()` function in `deploy` using `link_one`.
