@@ -11,9 +11,37 @@ case "${1:-}" in
 esac
 
 out=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
-vol=$(awk '{printf "%d%%", $2 * 100}' <<<"$out")
-case "$out" in *MUTED*) vol="muted" ;; esac
+level=$(awk '{printf "%d", $2 * 100}' <<<"$out")
 
-notify-send -t 900 -i audio-volume-high \
-    -h string:x-canonical-private-synchronous:volume \
-    "Volume" "$vol"
+# swaync has no native OSD level bar, so the body carries one: eight cells of
+# block glyphs. Iosevka (the OSD font) is monospace, so the bar keeps a fixed
+# width and does not jitter as the percentage changes.
+bar() {
+    local filled=$1 cells=8 i out=""
+    for ((i = 0; i < cells; i++)); do
+        if ((i < filled)); then out+="▰"; else out+="▱"; fi
+    done
+    printf '%s' "$out"
+}
+
+cells=$(((level + 6) / 12))   # 0-100% onto 0-8 cells
+[ "$cells" -gt 8 ] && cells=8
+
+if   [ "$cells" -eq 0 ]; then icon=audio-volume-muted
+elif [ "$cells" -lt 4 ];  then icon=audio-volume-low
+elif [ "$cells" -lt 7 ];  then icon=audio-volume-medium
+else                           icon=audio-volume-high
+fi
+
+case "$out" in
+    *MUTED*)
+        notify-send -t 900 -u critical -i audio-volume-muted \
+            -h string:x-canonical-private-synchronous:volume \
+            "Volume" "$(bar 0)  muted"
+        ;;
+    *)
+        notify-send -t 900 -i "$icon" \
+            -h string:x-canonical-private-synchronous:volume \
+            "Volume" "$(bar "$cells")  ${level}%"
+        ;;
+esac

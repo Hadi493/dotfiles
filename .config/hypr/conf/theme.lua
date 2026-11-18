@@ -27,7 +27,9 @@ hl.config({
         },
 
         blur = {
-            enabled   = false,
+            -- Enabled only so the OSD layer rule below can frost the island.
+            -- No window rule asks for blur, so tiled clients stay sharp.
+            enabled   = true,
             size      = 4,
             passes    = 2,
             vibrancy  = 0.1696,
@@ -73,4 +75,15 @@ hl.config({
     debug = {
         disable_logs = true,
     },
+})
+
+-- The OSD is swaync's floating-notification layer. Two rules, both scoped to
+-- that namespace: a frosted backdrop for the island itself (its CSS paints a
+-- translucent rounded rectangle, so the blur shows through) and no rounding
+-- change elsewhere. Transparent pixels are ignored so only the island blurs.
+hl.layer_rule({
+    name         = "osd-blur",
+    match        = { namespace = "swaync-notification-window" },
+    blur         = true,
+    ignore_alpha = 0.2,
 })

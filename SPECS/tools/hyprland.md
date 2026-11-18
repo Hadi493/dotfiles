@@ -42,8 +42,12 @@ hyprctl dispatch 'hl.dsp.exec_cmd("notify-send hello")'
   `.conf` files were deleted rather than kept as dead weight.
 - **Loader, not symlink.** `require()` resolves relative to the loaded file
   (INV-2).
-- **No animations/blur.** The Intel UHD 630 cannot sustain them; startup
-  latency matters more than decoration.
+- **No animations, and blur only for the OSD.** The Intel UHD 630 cannot
+  sustain motion/blur for windows, so `decoration.blur.enabled` is on *solely*
+  so one layer rule can frost the OSD island (`swaync-notification-window`);
+  no window rule requests blur, so tiled clients stay sharp and unblurred. If
+  the compositor feels heavy, deleting that single `hl.layer_rule` in
+  `conf/theme.lua` restores the old behaviour.
 - **Monitor override outside the repo.** `hyprland.lua` checks for
   `~/.config/hypr/monitors.local.lua` and `dofile`s it when present; otherwise
   it applies the `eDP-1 1920x1080` default. Per-machine output changes belong

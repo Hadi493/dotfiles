@@ -71,6 +71,64 @@
     border-color: @border;
 }
 
+/* ---- OSD: the floating volume/mic/level island ----
+   swaync draws the OSD in its floating-notification window, so these rules are
+   scoped to .floating-notifications and never touch the control centre. The
+   soft edge comes from the border radius; the frost comes from the Hyprland
+   layer rule in .config/hypr/conf/theme.lua. */
+.floating-notifications.background .notification-row .notification-background,
+.floating-notifications .notification {
+    background-color: alpha(@bg, 0.78);
+    border: 1px solid alpha(@border, 0.85);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.floating-notifications .notification-content {
+    padding: 9px 18px 9px 14px;
+}
+
+/* Small caps label ("VOLUME"), then the reading as the loud element. */
+.floating-notifications .summary {
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.14em;
+    color: @dim;
+}
+
+.floating-notifications .body {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: @yellow;
+}
+
+/* Mic uses urgency low, muted states use critical: give each its own accent
+   instead of the volume gold. */
+.floating-notifications .notification.low .body {
+    color: @blue;
+}
+
+.floating-notifications .notification.critical .body,
+.floating-notifications .notification.critical .summary {
+    color: @red;
+}
+
+/* The popup is an OSD, not a notification you manage: no timestamp, no close
+   button, no hover chrome. font-size 0 (not just opacity 0) is what collapses
+   the row - opacity alone leaves dead space under the reading. */
+.floating-notifications .time,
+.floating-notifications .close-button {
+    font-size: 0;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    opacity: 0;
+    background: transparent;
+}
+
 .close-button {
     background-color: @surface2;
     border-radius: 6px;
