@@ -10,6 +10,7 @@
 #   INV-3  no bind bypasses the bind() wrapper
 #   INV-4  no hardcoded /home/<user>
 #   INV-5  EDITOR/VISUAL are nvim everywhere
+#   INV-7  a notification daemon owns org.freedesktop.Notifications
 #   INV-8  deploy touches no system path and never uses sudo
 #   INV-9  no secrets or machine state are tracked
 #   INV-11 every required command exists
@@ -204,6 +205,29 @@ done < <(cd "$ROOT" && grep -rIn '/home/' \
             .config .bashrc .vimrc bin deploy st .local \
             --exclude='*.md' --exclude='fish_variables' 2>/dev/null \
             | grep -vE ':[0-9]+:[[:space:]]*#')
+
+section "INV-7 notification daemon"
+
+# No owner of org.freedesktop.Notifications means no notifications and no
+# volume/mic OSD - the failure is silent, so check for it explicitly.
+# NB: `grep -q` would exit early, make busctl die of SIGPIPE, and pipefail
+# would then report a false failure; `grep -c` consumes the whole stream.
+if ! command -v busctl >/dev/null 2>&1; then
+    skip "busctl not installed"
+elif ! busctl --user list >/dev/null 2>&1; then
+    skip "no user D-Bus session"
+else
+    # Column 2 is the PID; "-" means the name is merely activatable, i.e. no
+    # daemon is running. awk consumes the whole stream (see pipefail note above).
+    notif_owner="$(busctl --user list --no-legend 2>/dev/null \
+        | awk '$1 == "org.freedesktop.Notifications" && $2 ~ /^[0-9]+$/ { print $3 }' \
+        | head -1)"
+    if [ -n "$notif_owner" ]; then
+        ok "INV-7 notification daemon running: $notif_owner"
+    else
+        bad "INV-7: nothing runs org.freedesktop.Notifications (no OSDs; run ./deploy swaync)"
+    fi
+fi
 
 section "INV-12 compositor config"
 

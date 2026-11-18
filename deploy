@@ -259,11 +259,18 @@ link_nob() {
 
 enable_swaync() {
     # Personal lightweight notifications are swaync (not Noctalia).
-    # Unmask (old deploy masked it), enable, and reload if running.
+    # Unmask (old deploy masked it), enable, then reload if running.
     echo "Enabling swaync (personal notifications)..."
     systemctl --user unmask swaync.service 2>/dev/null || true
     systemctl --user enable swaync.service 2>/dev/null || true
     systemctl --user restart swaync.service 2>/dev/null || true
+    # Never swallow this: a masked or crashed unit leaves the session with no
+    # notification daemon, so volume/mic OSDs silently stop appearing.
+    if ! systemctl --user is-active --quiet swaync.service; then
+        echo "  WARNING: swaync is not running - notifications and OSDs are off." >&2
+        echo "  Check: systemctl --user status swaync.service" >&2
+        echo "  Masked? systemctl --user is-enabled swaync.service" >&2
+    fi
 }
 
 disable_swaync() {

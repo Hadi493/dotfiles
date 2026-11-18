@@ -16,7 +16,7 @@ looking at the screen; they are marked manual and must be checked by hand.
 | INV-4 PATH / no hardcoded home | automated |
 | INV-5 one editor variable | automated |
 | INV-6 leader keys | **manual** |
-| INV-7 clipboard and launchers wired | **manual** |
+| INV-7 clipboard and launchers wired | **manual** (notification daemon automated) |
 | INV-8 deploy stays root-free | automated |
 | INV-9 no secrets tracked | automated |
 | INV-10 startup budget | **manual** |
