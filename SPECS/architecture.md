@@ -35,6 +35,7 @@ manager and is the single supported installation path.
 ./deploy -y all       # same, never prompt
 ./deploy <command>    # one unit: hypr, waybar, kitty, fish, nvim, ...
 ./deploy check        # run bootstrap/verify.sh
+./deploy hook         # install the pre-commit gate
 ./deploy -h           # command list
 ```
 
@@ -62,8 +63,25 @@ Re-running any command is safe and idempotent.
 | `st` | cloned + patched + compiled into `~/.local/bin/st` (network) |
 | `fonts/` | links each file into `~/.local/share/fonts` (currently absent) |
 
-### Deliberately not in `deploy all`
+### The pre-commit hook
 
+`./deploy hook` symlinks `bootstrap/hooks/pre-commit` into the repo's real hooks
+directory (`git rev-parse --git-path hooks`, so it also works inside worktrees).
+Every commit then runs `bootstrap/verify.sh` and aborts on any failure. It
+checks the whole tree, not the diff, because the invariants are properties of
+the tree — a broken `$HOME/dotfiles` reference or a symlinked loader is not
+visible in a one-file diff.
+
+Bypass when you know why, and say why in the commit message:
+
+```bash
+git commit --no-verify
+SKIP_VERIFY=1 git commit -m "..."
+```
+
+`./deploy all` installs or refreshes the hook, so a fresh clone gets it too.
+
+### Deliberately not in `deploy all`
 - `./deploy st` — clones `git.suckless.org`, needs X11/Xft headers.
 - `./deploy nob` — writes `/usr/include/nob.h`, needs root.
 - `./deploy noctalia`, `./deploy swayosd` — legacy, in `legacy/`.

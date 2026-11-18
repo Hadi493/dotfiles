@@ -275,6 +275,12 @@ disable_swaync() {
     pkill -x swaync 2>/dev/null || true
 }
 
+enable_osd() {
+    echo "Enabling hadi-osd (dynamic island)..."
+    systemctl --user enable "$DOTFILES_DIR/osd-daemon/hadi-osd.service" 2>/dev/null || true
+    systemctl --user start hadi-osd.service 2>/dev/null || true
+}
+
 link_config() {
     link_bash
     link_fastfetch
@@ -303,6 +309,7 @@ link_config() {
     link_pipewire
     link_fonts
     enable_swaync
+    enable_osd
 }
 
 link_bin() {
@@ -328,6 +335,22 @@ link_all() {
     link_emacs
     link_config
     link_bin
+    link_hook
+}
+
+link_hook() {
+    # A symlink into the repo, so editing bootstrap/hooks/pre-commit takes
+    # effect without reinstalling. `git rev-parse --git-path` keeps this
+    # correct inside worktrees, where hooks do not live in .git/hooks.
+    echo "Installing git pre-commit hook..."
+    local hooks_dir
+    hooks_dir="$(cd "$DOTFILES_DIR" && git rev-parse --git-path hooks)"
+    case "$hooks_dir" in
+        /*) ;;
+        *) hooks_dir="$DOTFILES_DIR/$hooks_dir" ;;
+    esac
+    mkdir -p "$hooks_dir"
+    ln -snfv "$DOTFILES_DIR/bootstrap/hooks/pre-commit" "$hooks_dir/pre-commit"
 }
 
 usage() {
@@ -339,7 +362,8 @@ Options:
 
 Commands:
   all        Link all configurations (default)
-  check      Run bootstrap/verify.sh (syntax, commands, symlinks, Hyprland)
+  check      Run bootstrap/verify.sh (all automated invariants)
+  hook       Install the pre-commit hook (runs verify.sh before each commit)
   emacs      Link Emacs configuration
   config     Link all .config directories
   bin        Link all binaries to $BIN_DIR (default ~/.local/bin)
@@ -374,6 +398,7 @@ Commands:
   tmux       Link Tmux configuration
   nob        Install nob.h into /usr/include (needs root; not in all)
   noswaync   Mask swaync (Noctalia-only, legacy; personal uses swaync)
+  osd        Enable hadi-osd dynamic island daemon
 
 EOF
 }
@@ -388,6 +413,7 @@ esac
 case "$cmd" in
     all            ) link_all       ;;
     check          ) exec bash "$DOTFILES_DIR/bootstrap/verify.sh" ;;
+    hook           ) link_hook      ;;
     emacs          ) link_emacs     ;;
     config         ) link_config    ;;
     bin            ) link_bin       ;;
@@ -422,6 +448,7 @@ case "$cmd" in
     tmux           ) link_tmux      ;;
     nob            ) link_nob       ;;
     noswaync       ) disable_swaync ;;
+    osd            ) enable_osd     ;;
     -h|--help|help ) usage          ;;
     *              )
         usage

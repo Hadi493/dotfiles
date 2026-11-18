@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Pre-commit gate for this repo: run the checks before the commit exists.
+#
+# Installed by `./deploy hook` as a symlink at .git/hooks/pre-commit, so edits
+# to this file take effect immediately.
+#
+# Bypass once with:
+#   git commit --no-verify
+#   SKIP_VERIFY=1 git commit ...
+#
+# This verifies the whole repository, not just staged files: the invariants are
+# properties of the tree (symlinks, loader, refspec), not of a single diff.
+
+set -euo pipefail
+
+if [ "${SKIP_VERIFY:-0}" = "1" ]; then
+    echo "pre-commit: skipped (SKIP_VERIFY=1)"
+    exit 0
+fi
+
+ROOT="$(git rev-parse --show-toplevel)"
+exec "$ROOT/bootstrap/verify.sh"

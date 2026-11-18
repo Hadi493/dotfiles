@@ -69,6 +69,7 @@ Stow, Chezmoi, Nix or display manager.
 ./deploy -y all       # no prompts
 ./deploy <unit>       # hypr, waybar, swaync, kitty, fish, nvim, ...
 ./deploy check        # health check (syntax, commands, symlinks, Hyprland)
+./deploy hook         # install the pre-commit gate (runs ./deploy check)
 ./bootstrap/verify.sh -v
 ./bootstrap/install-packages.sh --dry-run --all
 ```
@@ -118,6 +119,10 @@ If a new secret is needed, put it in an ignored `*.local` file or
 1. `git status --short` shows only intended changes.
 2. `bash -n` / `fish -n` / `luac -p` pass for every edited file.
 3. `./deploy check` passes (or the only failures are pre-existing and named).
+   The pre-commit hook runs it for you; bypass with `SKIP_VERIFY=1` only when
+   the failure is unrelated and you say so in the message.
 4. Hyprland config verifies if `.config/hypr/**` changed.
 5. The relevant `SPECS/` page is updated in the same commit.
 6. The commit message says what changed and why.
+7. Manual invariants (INV-6, INV-7, INV-10 in `SPECS/invariants.md`) are
+   checked by a human: leader keys, clipboard/launcher wiring, startup time.

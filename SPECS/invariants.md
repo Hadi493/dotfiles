@@ -4,6 +4,28 @@ Rules that **must not break**. Each one names why it exists and how to check it.
 If a change requires breaking one, update this file and the affected specs in
 the same commit, and say so in the commit message.
 
+Nine invariants are machine-checked by `./bootstrap/verify.sh`, which the
+pre-commit hook runs on every commit. Three cannot be automated without a human
+looking at the screen; they are marked manual and must be checked by hand.
+
+| Invariant | Status |
+|---|---|
+| INV-1 `$HOME/dotfiles` references resolve | automated |
+| INV-2 loader is a regular file | automated |
+| INV-3 binds use `bind()` | automated |
+| INV-4 PATH / no hardcoded home | automated |
+| INV-5 one editor variable | automated |
+| INV-6 leader keys | **manual** |
+| INV-7 clipboard and launchers wired | **manual** |
+| INV-8 deploy stays root-free | automated |
+| INV-9 no secrets tracked | automated |
+| INV-10 startup budget | **manual** |
+| INV-11 package coverage | automated |
+| INV-12 compositor config verifies | automated |
+
+Manual checks are not optional — they are the ones a reviewer signs off. A green
+`./deploy check` means "nothing automated broke", not "the session works".
+
 ## INV-1 — The repo lives at `~/dotfiles`
 
 The Hyprland loader, `conf/keybinds.lua`, `hyprlock.conf`, `hypridle.conf`,
