@@ -57,6 +57,13 @@ centre keeps its own styling.
 
 Two consequences worth knowing:
 
+- **Only `.notification` is a surface.** The popup nests a window container
+  (`.floating-notifications.background`, a fixed 360 px wide and taller than the
+  pill) around a row wrapper (`.notification-row .notification-background`)
+  around `.notification`. Leaving the window or wrapper painted draws a second,
+  square-cornered rectangle behind the island — the CSS explicitly clears both
+  and adds no `box-shadow`, because the rest of the theme is flat.
+
 - **Blur needs `decoration.blur.enabled = true`**, which the theme now sets. No
   window rule asks for blur, so tiled clients stay sharp; only this layer is
   frosted.
