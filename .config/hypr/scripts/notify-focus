@@ -1,0 +1,60 @@
+#!/bin/bash
+# Focus the application that sent a notification.
+#
+# Run by swaync when a notification is clicked (see the "scripts" block in
+# ~/.config/swaync/config.json with "run-on": "action").
+#
+# Why this exists: swaync's click handler only invokes the *sender's* default
+# action. Plenty of senders ship none (plain libnotify, many browsers), and
+# then a click does nothing at all - no focus, no dismiss. swaync runs action
+# scripts before that check, so this is the only hook available without
+# patching the daemon. The freedesktop spec has no "focus the sender" field,
+# so the mapping from notification to window is ours to make.
+#
+# Env supplied by swaync: SWAYNC_APP_NAME, SWAYNC_DESKTOP_ENTRY, SWAYNC_SUMMARY,
+# SWAYNC_BODY, SWAYNC_URGENCY, SWAYNC_ID.
+set -u
+
+app="${SWAYNC_APP_NAME:-}"
+entry="${SWAYNC_DESKTOP_ENTRY:-}"
+
+# Our own volume/mic OSDs are not apps you can visit.
+case "$(printf '%s' "$app" | tr '[:upper:]' '[:lower:]')" in
+    '' | notify-send | swaynotificationcenter | volume | microphone) exit 0 ;;
+esac
+
+# Needles, most specific first: the last component of a reverse-DNS
+# desktop-entry (org.gnome.Nautilus -> Nautilus), the whole entry, the app name.
+needles=()
+[ -n "$entry" ] && needles+=("${entry##*.}" "$entry")
+[ -n "$app" ] && needles+=("$app")
+
+clients=$(hyprctl clients -j 2>/dev/null) || exit 0
+[ -z "$clients" ] && exit 0
+
+addr=""
+for needle in "${needles[@]}"; do
+    # A one- or two-character needle matches almost anything.
+    [ "${#needle}" -lt 3 ] && continue
+    lc="$(printf '%s' "$needle" | tr '[:upper:]' '[:lower:]')"
+    addr="$(printf '%s' "$clients" | jq -r --arg n "$lc" '
+        [ .[]
+          | select(
+              (((.class // "") + " " + (.initialClass // "") + " " + (.title // ""))
+               | ascii_downcase) | contains($n))
+        ]
+        | sort_by(.focusHistoryID)[0].address // empty')"
+    [ -n "$addr" ] && break
+done
+[ -n "$addr" ] || exit 0
+
+# The focus dispatcher takes a window object, not an address string, and
+# hl.get_windows() by default only returns mapped windows - so merge in the
+# unmapped list to reach a window on another workspace.
+hyprctl eval "local a='$addr'; local f=false
+local function t(w) if w.address == a then hl.dispatch(hl.dsp.focus({ window = w })); f=true end end
+for _, w in ipairs(hl.get_windows()) do t(w) end
+if not f then for _, w in ipairs(hl.get_windows({ mapped = false })) do t(w) end end" \
+    >/dev/null 2>&1
+
+exit 0

@@ -37,6 +37,13 @@
     "text-empty": "No Notifications",
     "script-fail-notify": true,
 
+    "scripts": {
+        "focus-app-on-click": {
+            "exec": "~/dotfiles/.config/hypr/scripts/notify-focus",
+            "run-on": "action"
+        }
+    },
+
     "widgets": [
         "buttons-grid",
         "mpris",

@@ -41,6 +41,42 @@ The only notification daemon and the volume/mic OSD. It owns
 - **Replace-in-place hint.** Colour-temperature changes notify *without* the
   hint, because they are not repetitive.
 
+## Clicking a notification
+
+A click runs **the sender's default action**, nothing more. From
+`notification.vala`:
+
+```vala
+private void action_clicked (Action ?action) {
+    noti_daemon.run_scripts (param, ScriptRunOnType.ACTION);
+    if (action != null && action.identifier != "") { ... ActionInvoked ... }
+}
+```
+
+The freedesktop spec has no "focus the sender" field, so when a sender ships no
+action (plain `notify-send`, many browsers) a click does nothing at all — no
+focus, no dismiss. That is why "click the notification to reach the app"
+appeared broken.
+
+`run_scripts` fires *before* that null check, so it is the one hook available
+without patching swaync:
+
+| Piece | Value |
+|---|---|
+| `config.json` → `scripts.focus-app-on-click` | `exec: ~/dotfiles/.config/hypr/scripts/notify-focus`, `run-on: action` |
+| Script input | `SWAYNC_APP_NAME`, `SWAYNC_DESKTOP_ENTRY` |
+| Matching | case-insensitive substring of the window's class / initialClass / title, most recently focused wins |
+| Focus call | `hl.dispatch(hl.dsp.focus({ window = w }))` on the window object — the dispatcher rejects a bare address string — with unmapped windows merged in so another workspace can be reached |
+
+Notes:
+
+- The `exec` path must be `~/dotfiles/...`: `~/.config/hypr` is an installed
+  loader, not a symlink, so `~/.config/hypr/scripts/` does not exist.
+- Only the **first** matching script runs, so this catch-all entry owns the
+  `scripts` key; adding another script means merging the two.
+- Notifications from `notify-send` are ignored (that is our own volume/mic OSD),
+  and an unmatched app name leaves focus untouched.
+
 ## OSD presentation
 
 The OSD is swaync's *floating-notification* window, restyled as a top-centre
