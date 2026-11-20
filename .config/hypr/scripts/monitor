@@ -37,33 +37,40 @@ vcp_set() {
   gdbus call "${DBUS_DEST[@]}" --method com.ddcutil.DdcutilInterface.SetVcp "$DISPLAY_NUM" '' "$1" "$2" 0 2>/dev/null >/dev/null
 }
 
-# --- brightness state --------------------------------------------------------
+# --- DDC state ---------------------------------------------------------------
 # Serialise presses and remember the value we wrote: GetVcp can keep answering
 # with the old value for a few hundred ms after SetVcp, so a key held down
-# would otherwise stay on one step.
+# would otherwise stay on one step. One lock for the whole panel, one state
+# file per VCP.
 statedir="${XDG_RUNTIME_DIR:-$HOME/.cache}"
 mkdir -p "$statedir"
-state="$statedir/monitor-brightness.state"
+state="$statedir/monitor-$MODEv.state"
 CACHE_MS=1500
 now_ms() { date +%s%3N; }
+# The summary doubles as the OSD label and the failure message's first line.
+case "$MODEv" in
+  brightness) LABEL=Brightness; ICON=weather-clear ;;
+  contrast)   LABEL=Contrast;   ICON=contrast ;;
+  input)      LABEL="Monitor input"; ICON=video-display ;;
+esac
 
-if [ "$MODEv" = brightness ]; then
-  exec 9>"$state.lock"
+if [ "$MODEv" != input ]; then
+  exec 9>"$statedir/monitor-ddc.lock"
   # Never wedge the keybind on a stale lock.
   flock -w 1 9 || true
 fi
 
 cur=$(vcp_get "$VCP")
 if [ -z "$cur" ]; then
-  if [ "$MODEv" = brightness ]; then
+  if [ "$MODEv" != input ]; then
     notify-send -t 1500 -u critical -i video-display \
-      "Brightness" "no DDC reply from the monitor"
+      "$LABEL" "no DDC reply from the monitor"
     exit 1
   fi
   cur=50
 fi
 
-if [ "$MODEv" = brightness ] && [ -f "$state" ]; then
+if [ "$MODEv" != input ] && [ -f "$state" ]; then
   read -r stamp cached <"$state" || true
   if [ -n "${cached:-}" ] && (($(now_ms) - stamp < CACHE_MS)); then
     cur=$cached
@@ -85,7 +92,7 @@ esac
 
 set_ok=1
 vcp_set "$VCP" "$new" || set_ok=0
-if [ "$MODEv" = brightness ] && [ "$set_ok" = 1 ]; then
+if [ "$MODEv" != input ] && [ "$set_ok" = 1 ]; then
   printf '%s %s\n' "$(now_ms)" "$new" >"$state"
 fi
 
@@ -101,34 +108,35 @@ bar() {
   printf '%s' "$out"
 }
 
-brightness_osd() { # $1 = value 0-100
-  local value=$1 cells accent=()
+level_osd() { # $1 = value 0-100, $2 = 1 to turn red at zero
+  local value=$1 critical_at_zero=${2:-0} cells accent=()
   cells=$(((value * BAR_CELLS + 50) / 100))   # round to the nearest cell
   if ((value > 0 && cells == 0)); then cells=1; fi   # 1-6 % still lights one
-  # The icon theme here is oxygen, which has a single sun (weather-clear) and no
-  # display-brightness-* set, so the bar carries the level and the sun stays put.
-  # 0 % turns red like a muted sink instead of pretending to be a level.
-  ((cells == 0)) && accent=(-u critical)
-  notify-send -t 900 "${accent[@]}" -i weather-clear \
-    -h string:x-canonical-private-synchronous:brightness \
-    "Brightness" "$(bar "$cells")  ${value}%"
+  # Both levels share one tag, so brightness and contrast replace each other
+  # instead of stacking: one card per panel, like a hardware OSD.
+  # Brightness 0 is red like a muted sink; contrast 0 is just flat, not an alarm.
+  if ((value == 0 && critical_at_zero == 1)); then accent=(-u critical); fi
+  notify-send -t 900 "${accent[@]}" -i "$ICON" \
+    -h string:x-canonical-private-synchronous:monitor \
+    "$LABEL" "$(bar "$cells")  ${value}%"
 }
 
 case "$MODEv" in
   input)
-    [ "$new" = 15 ] && label="DP" || label="HDMI"
-    notify-send -t 800 "Monitor input" "${label:-changed}"
+    if [ "$new" = 15 ]; then label="DP"; else label="HDMI"; fi
+    notify-send -t 900 -i "$ICON" -h string:x-canonical-private-synchronous:monitor \
+      "$LABEL" "${label:-changed}"
     ;;
-  contrast)
-    # Report the contrast value itself; there is no separate contrast OSD.
-    notify-send -t 800 -i video-display "Monitor contrast" "${new}%"
-    ;;
-  brightness)
+  brightness | contrast)
     if [ "$set_ok" = 0 ]; then
       notify-send -t 1500 -u critical -i video-display \
-        "Brightness" "DDC write failed"
+        "$LABEL" "DDC write failed"
       exit 1
     fi
-    brightness_osd "$new"
+    if [ "$MODEv" = brightness ]; then
+      level_osd "$new" 1
+    else
+      level_osd "$new" 0
+    fi
     ;;
 esac

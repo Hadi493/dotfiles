@@ -63,11 +63,14 @@ hyprctl dispatch 'hl.dsp.exec_cmd("notify-send hello")'
   commented out in `conf/keybinds.lua`.
 - `F3`/`brightnessctl` has no backlight device on this machine (documented in
   the Hyprland README caveats).
-- Brightness is **DDC/CI on the external panel**, not a backlight: `F5`/`F6`
-  and the `XF86MonBrightness*` keys call `scripts/monitor brightness up|down`,
-  which talks to `ddcutil-service` over D-Bus (`ddcutil --bus 4` is the same
-  panel, ~70 ms read / ~170 ms write). The script shows the volume-style island
-  OSD and caches the value it wrote for 1.5 s, serialising presses with
-  `flock`, because `GetVcp` keeps answering with the old value for a moment
-  after `SetVcp` — without that, a held key stays on one step.
+- Brightness and contrast are **DDC/CI on the external panel**, not a
+  backlight: `F5`/`F6` and the `XF86MonBrightness*` keys call
+  `scripts/monitor brightness up|down`, `Super+F5`/`Super+F6` call
+  `scripts/monitor contrast up|down` (VCP `0x10` / `0x12`), and all of it goes
+  through `ddcutil-service` over D-Bus (`ddcutil --bus 4` is the same panel,
+  ~70 ms read / ~170 ms write). The script shows the volume-style island OSD
+  and caches the value it wrote for 1.5 s, serialising presses with one `flock`
+  per panel (state files are per VCP), because `GetVcp` keeps answering with
+  the old value for a moment after `SetVcp` — without that, a held key stays on
+  one step.
 - `scripts/monitor` assumes DDC display number `1` and a single external panel.

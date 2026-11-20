@@ -32,7 +32,7 @@ The only notification daemon and the volume/mic OSD. It owns
 | Toggle panel | `Super+N` → `swaync-client --toggle-panel` |
 | Toggle DND | `Super+I` → `swaync-client --toggle-dnd` |
 | Volume/mic OSD | `scripts/volume`, `scripts/input-mute-toggle` notify with a replace-in-place hint (`x-canonical-private-synchronous`), so repeated presses update one popup |
-| Brightness OSD | `F5`/`F6`, `XF86MonBrightness*` → `scripts/monitor brightness up\|down` (DDC/CI on the external panel), same hint with the tag `brightness` |
+| Brightness / contrast OSD | `F5`/`F6`, `XF86MonBrightness*` → `scripts/monitor brightness up\|down`; `Super+F5`/`Super+F6` → `scripts/monitor contrast up\|down` (DDC/CI on the external panel). Both notify with the tag `monitor`, so the two replace each other |
 
 ## Design decisions
 
@@ -157,10 +157,12 @@ Urgency carries the colour, so one CSS rule per state instead of a per-app hack:
 | Brightness | `normal` | gold (`@yellow`) |
 | Brightness 0 % | `critical` | red (`@red`), red border |
 
-The brightness card uses `weather-clear` because the icon theme in use is
-**oxygen**, which has no `display-brightness-*` set — a `-symbolic` Papirus name
-renders as nothing at all. Oxygen offers one sun, so the bar carries the level
-and the icon stays put; only the accent changes at 0 %.
+Icons come from **oxygen**, the theme actually in use: it has no
+`display-brightness-*` set, so a `-symbolic` Papirus name renders as nothing at
+all. Brightness uses its single sun (`weather-clear`, so the bar carries the
+level and only the accent changes at 0 %), contrast uses `contrast`, and both
+share the tag `monitor` so switching between them updates one card instead of
+stacking two.
 
 `osd-daemon/` (the local Go experiment) is **not** the notification owner: it
 implements only `Notify`/`CloseNotification`, so making it the daemon costs the
