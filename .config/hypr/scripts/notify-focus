@@ -13,48 +13,136 @@
 #
 # Env supplied by swaync: SWAYNC_APP_NAME, SWAYNC_DESKTOP_ENTRY, SWAYNC_SUMMARY,
 # SWAYNC_BODY, SWAYNC_URGENCY, SWAYNC_ID.
+#
+# Matching is scored, not substring-guesswork: an exact class beats a class
+# prefix, which beats a class substring, which beats a title substring. Ties go
+# to the most recently focused window. Senders that name themselves something
+# unrelated to their window class can be mapped in
+# ~/.config/hypr/notify-focus.aliases ("herdr=kitty").
 set -u
 
 app="${SWAYNC_APP_NAME:-}"
 entry="${SWAYNC_DESKTOP_ENTRY:-}"
+summary="${SWAYNC_SUMMARY:-}"
+
+cache="${XDG_CACHE_HOME:-$HOME/.cache}"
+logfile="$cache/notify-focus.log"
+mkdir -p "$cache"
+# Keep the log small: it is a diagnostic aid, not a history.
+[ -f "$logfile" ] && { tail -n 200 "$logfile" >"$logfile.tmp"; mv "$logfile.tmp" "$logfile"; }
+log() { printf '%s %s\n' "$(date +%H:%M:%S)" "$*" >>"$logfile"; }
+
+lc() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+# Fold the separators that differ between notification app names, desktop
+# entries and Wayland app_ids ("Telegram Desktop" / "org.telegram.desktop").
+norm() { lc "$1" | tr '._ ' '---'; }
 
 # Our own volume/mic OSDs are not apps you can visit.
-case "$(printf '%s' "$app" | tr '[:upper:]' '[:lower:]')" in
-    '' | notify-send | swaynotificationcenter | volume | microphone) exit 0 ;;
+case "$(lc "$app")" in
+    notify-send | swaynotificationcenter | volume | microphone) exit 0 ;;
 esac
+# Some senders omit app-name but still send a desktop-entry.
+[ -z "$app$entry" ] && exit 0
 
-# Needles, most specific first: the last component of a reverse-DNS
-# desktop-entry (org.gnome.Nautilus -> Nautilus), the whole entry, the app name.
-needles=()
-[ -n "$entry" ] && needles+=("${entry##*.}" "$entry")
-[ -n "$app" ] && needles+=("$app")
+# --- resolve the desktop entry to the names the compositor actually knows -----
+desktop_field() { # $1 = entry id, $2 = key
+    local dir f value
+    for dir in "$HOME/.local/share/applications" /usr/share/applications; do
+        f="$dir/$1.desktop"
+        [ -f "$f" ] || continue
+        value=$(sed -n "s/^$2=//p" "$f" | head -1)
+        # A local override often omits keys the system entry still has, so keep
+        # looking instead of returning on the first hit.
+        [ -n "$value" ] && { printf '%s' "$value"; return 0; }
+    done
+    return 0
+}
+
+wmclass="" execbase=""
+if [ -n "$entry" ]; then
+    wmclass="$(desktop_field "$entry" StartupWMClass)"
+    execname="$(desktop_field "$entry" Exec)"
+    # "env FOO=1 /usr/bin/app %U" -> "app"
+    execbase="$(printf '%s' "$execname" | tr ' ' '\n' | grep -vE '^$|=' \
+        | grep -vx env | head -1 | xargs -r basename)"
+fi
+
+# --- alias file: "notification-app=window-class", one per line ----------------
+alias_class=""
+if [ -f "$HOME/.config/hypr/notify-focus.aliases" ]; then
+    alias_class=$(awk -F= -v want="$(lc "$app")" '
+        /^[[:space:]]*(#|$)/ { next }
+        { key = tolower($1); gsub(/[[:space:]]/, "", key) }
+        key == want { print $2; exit }' "$HOME/.config/hypr/notify-focus.aliases")
+fi
+
+# --- needles with precedence --------------------------------------------------
+# Higher weight = stronger evidence. Each needle is tried against every window.
+needles="["
+add_needle() { # $1 = needle, $2 = weight
+    [ -z "$1" ] && return 0
+    [ "${#1}" -lt 3 ] && return 0
+    needles="$needles{\"n\":\"$(norm "$1" | sed 's/[\\"]/\\&/g')\",\"w\":$2},"
+}
+add_needle "$alias_class" 110
+add_needle "$wmclass"      95
+add_needle "$entry"        90
+# A reverse-DNS entry (org.gnome.Nautilus) also names the app in its last part.
+if [ "${entry##*.}" != "$entry" ]; then add_needle "${entry##*.}" 85; fi
+add_needle "$app"          88
+add_needle "$(printf '%s' "$app" | tr ' ' '-')" 86
+add_needle "$execbase"     70
+needles="${needles%,}]"
 
 clients=$(hyprctl clients -j 2>/dev/null) || exit 0
 [ -z "$clients" ] && exit 0
 
-addr=""
-for needle in "${needles[@]}"; do
-    # A one- or two-character needle matches almost anything.
-    [ "${#needle}" -lt 3 ] && continue
-    lc="$(printf '%s' "$needle" | tr '[:upper:]' '[:lower:]')"
-    addr="$(printf '%s' "$clients" | jq -r --arg n "$lc" '
-        [ .[]
-          | select(
-              (((.class // "") + " " + (.initialClass // "") + " " + (.title // ""))
-               | ascii_downcase) | contains($n))
-        ]
-        | sort_by(.focusHistoryID)[0].address // empty')"
-    [ -n "$addr" ] && break
-done
-[ -n "$addr" ] || exit 0
+# Score every window, keep the best. Lower focusHistoryID = more recent.
+# Names are normalised before comparison: "Telegram Desktop" and
+# "org.telegram.desktop" must be the same string, so '.', '_', '-' and spaces
+# are folded to '-'.
+winner=$(printf '%s' "$clients" | jq -c --argjson needles "$needles" --arg sum "$(norm "$summary")" '
+    def lc: ascii_downcase;
+    def norm: lc | gsub("[._ ]"; "-");
+    [ .[]
+      | . as $c
+      | (($c.class // "" | norm)) as $cn
+      | (($c.initialClass // "" | norm)) as $in
+      | (($c.title // "" | norm)) as $tn
+      | ([ $needles[]
+           | . as $nd
+           | (if $cn == $nd.n then $nd.w
+              elif $in == $nd.n then $nd.w - 5
+              elif ($cn | startswith($nd.n + "-")) then $nd.w - 20
+              elif ($cn | contains($nd.n)) then $nd.w - 38
+              elif ($tn | contains($nd.n)) then $nd.w - 62
+              else 0 end) ]
+           | max // 0) as $base
+      # Weak tie-breaker: a window whose title mentions the notification summary
+      # is more likely the one the notification came from (tab/window title).
+      | (if ($base > 0 and ($sum | length) >= 4
+              and ($tn | contains($sum))) then $base + 10 else $base end) as $score
+      | { addr: $c.address, class: $c.class, title: $c.title,
+          hist: ($c.focusHistoryID // 9999), score: $score }
+      | select(.score > 0) ]
+    | sort_by([-.score, .hist])
+    | .[0] // empty')
+
+if [ -z "$winner" ]; then
+    log "no-match app='$app' entry='$entry' wmclass='$wmclass' exec='$execbase' alias='$alias_class'"
+    exit 0
+fi
+
+addr=$(printf '%s' "$winner" | jq -r .addr)
+log "focus app='$app' entry='$entry' -> $(printf '%s' "$winner" | jq -r '"\(.class) [\(.title)] score=\(.score) hist=\(.hist)"')"
 
 # The focus dispatcher takes a window object, not an address string, and
 # hl.get_windows() by default only returns mapped windows - so merge in the
 # unmapped list to reach a window on another workspace.
-hyprctl eval "local a='$addr'; local f=false
+result=$(hyprctl eval "local a='$addr'; local f=false
 local function t(w) if w.address == a then hl.dispatch(hl.dsp.focus({ window = w })); f=true end end
 for _, w in ipairs(hl.get_windows()) do t(w) end
-if not f then for _, w in ipairs(hl.get_windows({ mapped = false })) do t(w) end end" \
-    >/dev/null 2>&1
+if not f then for _, w in ipairs(hl.get_windows({ mapped = false })) do t(w) end end" 2>&1)
+log "dispatch addr=$addr result=$(printf '%s' "$result" | tr '\n' ' ')"
 
 exit 0

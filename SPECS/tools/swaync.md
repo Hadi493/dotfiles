@@ -64,9 +64,41 @@ without patching swaync:
 | Piece | Value |
 |---|---|
 | `config.json` → `scripts.focus-app-on-click` | `exec: ~/dotfiles/.config/hypr/scripts/notify-focus`, `run-on: action` |
-| Script input | `SWAYNC_APP_NAME`, `SWAYNC_DESKTOP_ENTRY` |
-| Matching | case-insensitive substring of the window's class / initialClass / title, most recently focused wins |
+| Script input | `SWAYNC_APP_NAME`, `SWAYNC_DESKTOP_ENTRY`, `SWAYNC_SUMMARY` |
+| Matching | scored, see below |
 | Focus call | `hl.dispatch(hl.dsp.focus({ window = w }))` on the window object — the dispatcher rejects a bare address string — with unmapped windows merged in so another workspace can be reached |
+| Diagnostic | `~/.cache/notify-focus.log`, last 200 lines: one `focus`/`no-match` line and one `dispatch` line per click |
+
+### Matching
+
+Every candidate string is normalised first: lowercased with `.`, `_` and spaces
+folded to `-`, so `Telegram Desktop` and `org.telegram.desktop` compare equal.
+Each needle is then scored against a window, highest wins; ties go to the lowest
+`focusHistoryID` (most recently focused), and a title containing the
+notification summary adds 10.
+
+| Evidence | Weight | Weaker matches |
+|---|---|---|
+| alias file entry | 110 | — |
+| `StartupWMClass` of the desktop entry | 95 | initialClass −5 |
+| raw desktop entry | 90 | class prefix −20, class substring −38, title −62 |
+| last dot-part of the entry (`org.gnome.Nautilus` → `Nautilus`) | 85 | as above |
+| notification app-name | 88 | as above |
+| app-name with spaces → dashes (`Telegram Desktop`) | 86 | as above |
+| `Exec` basename of the desktop entry | 70 | as above |
+
+The weights are ordered so an exact class match always beats a substring guess.
+A bare app-name with two windows of that app (two Brave profiles) is still a
+coin flip decided by recency — the desktop entry is what disambiguates, which is
+why it outranks the app-name.
+
+Senders whose name has nothing to do with their window class can be mapped in
+`~/.config/hypr/notify-focus.aliases` (untracked, like `monitors.local.lua`):
+
+```conf
+# notification-app=window-class
+herdr=kitty
+```
 
 Notes:
 
@@ -76,6 +108,11 @@ Notes:
   `scripts` key; adding another script means merging the two.
 - Notifications from `notify-send` are ignored (that is our own volume/mic OSD),
   and an unmatched app name leaves focus untouched.
+- `LatestInvokeAction` on the control-centre bus **cannot** replay a body click:
+  it calls `click_alt_action`, which returns early unless the notification has
+  alt-action buttons. A real click goes through `click_default_action` →
+  `action_clicked(param.default_action)`. Verify the hook by clicking, then
+  reading the log.
 
 ## OSD presentation
 
