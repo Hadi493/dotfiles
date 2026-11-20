@@ -18,6 +18,7 @@
         "custom/mic",
         "cpu",
         "memory",
+        "temperature",
         "tray",
         "custom/updates",
         "custom/power"
@@ -92,6 +93,11 @@
         "format": "󰘚 {usage}%",
         "interval": 3
     },
+    "temperature": {
+        "thermal-zone": 3,
+        "format": "{temperatureC}°C",
+        "interval": 10
+    },
     "memory": {
         "format": "󰍛 {percentage}%",
         "interval": 10
@@ -116,6 +122,7 @@
         "exec": "~/.config/waybar/scripts/mic.sh",
         "return-type": "json",
         "interval": 2,
+        "signal": 10,
         "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
         "on-click-right": "pavucontrol",
         "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
