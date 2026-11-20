@@ -33,6 +33,7 @@ The only notification daemon and the volume/mic OSD. It owns
 | Toggle DND | `Super+I` → `swaync-client --toggle-dnd` |
 | Volume/mic OSD | `scripts/volume`, `scripts/input-mute-toggle` notify with a replace-in-place hint (`x-canonical-private-synchronous`), so repeated presses update one popup |
 | Brightness / contrast OSD | `F5`/`F6`, `XF86MonBrightness*` → `scripts/monitor brightness up\|down`; `Super+F5`/`Super+F6` → `scripts/monitor contrast up\|down` (DDC/CI on the external panel). Both notify with the tag `monitor`, so the two replace each other |
+| Input OSD | `Super+Shift+F5` → `scripts/monitor input next` (cycles inputs from the monitor's capability list; `monitor input list`, `set <value>`) |
 
 ## Design decisions
 

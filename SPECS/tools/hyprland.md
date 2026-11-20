@@ -72,5 +72,12 @@ hyprctl dispatch 'hl.dsp.exec_cmd("notify-send hello")'
   and caches the value it wrote for 1.5 s, serialising presses with one `flock`
   per panel (state files are per VCP), because `GetVcp` keeps answering with
   the old value for a moment after `SetVcp` — without that, a held key stays on
-  one step.
+  one step. Brightness and contrast now go through the same OSD; the earlier
+  brightness/contrast split was kept per-VCP while both share the `monitor`
+  notification tag.
+- Input switching (`Super+Shift+F5`) cycles inputs from the panel's own
+  capability list via the DDC service (VCP `0x60`), not a hardcoded value; a
+  switch that leaves the panel without signal is reverted by a guard that watches
+  the compositor (`hyprctl monitors`) after 3 s. `monitor input list` prints the
+  current and supported inputs.
 - `scripts/monitor` assumes DDC display number `1` and a single external panel.

@@ -1,8 +1,8 @@
 #!/bin/bash
 # Control external (HP) monitor via DDC/CI over the ddcutil-service D-Bus API.
 # Usage: monitor [brightness|contrast] [up|down]
-#        monitor input [next]
-#        monitor input set <input-value>
+#        monitor input [next|set <input-value>]
+#        monitor input list
 #
 # Brightness shows the same island OSD as scripts/volume: eight block cells, an
 # icon by level, replace-in-place. A DDC write takes ~150 ms, so the value we
@@ -62,12 +62,13 @@ fi
 
 cur=$(vcp_get "$VCP")
 if [ -z "$cur" ]; then
-  if [ "$MODEv" != input ]; then
-    notify-send -t 1500 -u critical -i video-display \
-      "$LABEL" "no DDC reply from the monitor"
-    exit 1
-  fi
-  cur=50
+  notify-send -t 1500 -u critical -i video-display \
+    "$LABEL" "no DDC reply from the monitor"
+  exit 1
+fi
+
+if [ "$MODEv" = input ]; then
+  n_before=$(hyprctl monitors -j 2>/dev/null | jq -r 'length' 2>/dev/null || echo 1)
 fi
 
 if [ "$MODEv" != input ] && [ -f "$state" ]; then
@@ -77,7 +78,67 @@ if [ "$MODEv" != input ] && [ -f "$state" ]; then
   fi
 fi
 
+# --- monitor input ------------------------------------------------------------
+# MCCS input-source values: 15=DP-1, 17=HDMI-1, 18=HDMI-2, plus the analog/VESA
+# entries. Cycling must come from the monitor's own capability string, not from a
+# hardcoded swap - jumping to a value the panel does not support leaves it
+# without signal and the screen goes black.
+input_name() { # $1 = MCCS input value
+  case "$1" in
+    1)  echo "analog-1" ;;
+    2)  echo "analog-2" ;;
+    3)  echo "DVI-1" ;;
+    4)  echo "DVI-2" ;;
+    15) echo "DP-1" ;;
+    16) echo "DP-2" ;;
+    17) echo "HDMI-1" ;;
+    18) echo "HDMI-2" ;;
+    *)  echo "input $1" ;;
+  esac
+}
+
+supported_inputs() { # MCCS input values the panel advertises, space separated
+  gdbus call "${DBUS_DEST[@]}" --method com.ddcutil.DdcutilInterface.GetCapabilitiesString \
+      "$DISPLAY_NUM" '' 0 2>/dev/null \
+    | sed -n 's/.*60(\([^)]*\)).*/\1/p' \
+    | tr ' ' '\n' | grep -E '^[0-9a-fA-F]{2}$' | while read -r h; do printf '%d ' "$((16#$h))"; done
+}
+
+next_input() { # $1 = current MCCS input value; echoes the next supported one
+  local vals n i idx cur=$1 arr next
+  vals=$(supported_inputs)
+  if [ -z "$vals" ]; then printf '%s' "$cur"; return 0; fi
+  read -r -a arr <<<"$vals"
+  n=${#arr[@]}
+  idx=-1
+  for i in "${!arr[@]}"; do
+    if [ "${arr[$i]}" = "$cur" ]; then idx=$i; fi
+  done
+  if [ "$idx" -lt 0 ]; then printf '%s' "${arr[0]}"; return 0; fi
+  next=$((idx + 1))
+  if [ "$next" -ge "$n" ]; then next=0; fi
+  printf '%s' "${arr[$next]}"
+}
+
+# A dead input leaves the panel without signal, so watch for the compositor losing
+# the output and put the previous input back before anything else can.
+input_guard() { # $1 = previous input value, $2 = monitor count before the switch
+  sleep 3
+  local after
+  after=$(hyprctl monitors -j 2>/dev/null | jq -r 'length' 2>/dev/null || echo 0)
+  if [ "${after:-0}" -lt "${2:-0}" ]; then
+    vcp_set "$VCP" "$1"
+    notify-send -t 2500 -u critical -i video-display \
+      "Monitor input" "no signal - reverted to $(input_name "$1")"
+  fi
+}
+
 case "$DIR" in
+  list)
+    echo "current=$(input_name "$cur")"
+    echo "supported=$(supported_inputs)"
+    exit 0
+    ;;
   up)
     new=$((cur + STEP)); [ "$new" -gt 100 ] && new=100 ;;
   down)
@@ -85,7 +146,7 @@ case "$DIR" in
   set)
     new="${3:-$cur}" ;;
   next)
-    new=$([ "$cur" = 15 ] && echo 17 || echo 15) ;;
+    new=$(next_input "$cur") ;;
   *)
     new="$cur" ;;
 esac
@@ -123,9 +184,28 @@ level_osd() { # $1 = value 0-100, $2 = 1 to turn red at zero
 
 case "$MODEv" in
   input)
-    if [ "$new" = 15 ]; then label="DP"; else label="HDMI"; fi
+    if [ "$set_ok" = 0 ]; then
+      notify-send -t 1500 -u critical -i video-display \
+        "$LABEL" "DDC write failed"
+      exit 1
+    fi
+    if [ "$new" = "$cur" ]; then
+      notify-send -t 1500 -i "$ICON" -h string:x-canonical-private-synchronous:monitor \
+        "$LABEL" "$(input_name "$cur") - no other input"
+      exit 0
+    fi
+    (
+      sleep 3
+      after=$(hyprctl monitors -j 2>/dev/null | jq -r 'length' 2>/dev/null || echo 0)
+      if [ "${after:-0}" -lt "${n_before:-1}" ]; then
+        vcp_set "$VCP" "$cur"
+        notify-send -t 2500 -u critical -i video-display \
+          "Monitor input" "no signal - reverted to $(input_name "$cur")"
+      fi
+    ) 9>&- &
+    vcp_set "$VCP" "$new"
     notify-send -t 900 -i "$ICON" -h string:x-canonical-private-synchronous:monitor \
-      "$LABEL" "${label:-changed}"
+      "$LABEL" "$(input_name "$new")"
     ;;
   brightness | contrast)
     if [ "$set_ok" = 0 ]; then
