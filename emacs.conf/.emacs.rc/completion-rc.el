@@ -25,6 +25,17 @@
 ;; Add standard header paths for C/C++ completion
 (setq company-c-headers-path-system '("/usr/include" "/usr/local/include"))
 
+;; Compuni — unicode/emoji insertion; vendored in .emacs.rc/compuni/ (not on MELPA)
+(use-package compuni
+  :ensure nil
+  :load-path "~/.emacs.rc/compuni"
+  :after company
+  :commands (compuni-insert-unicode compuni-insert-emoji)
+  :bind (("C-c u u" . compuni-insert-unicode)
+         ("C-c u e" . compuni-insert-emoji))
+  :custom
+  (compuni-max-candidates 50))
+
 ;; Marginalia — minibuffer annotations
 (rc/require 'marginalia)
 (when (require 'marginalia nil 'noerror)

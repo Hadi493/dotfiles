@@ -54,7 +54,7 @@
 (global-set-key (kbd "C-c a p") (lambda () (interactive) (set-input-method "arabish")))
 
 ;; Urdu keybindings
-(global-set-key (kbd "C-c u u") (lambda () (interactive) (set-input-method "urdish")))
+(global-set-key (kbd "C-c u r") (lambda () (interactive) (set-input-method "urdish")))
 (global-set-key (kbd "C-c u c") (lambda () (interactive) (set-input-method "urdu-custom")))
 (global-set-key (kbd "C-c u k") (lambda () (interactive) (set-input-method "urdu-keyboard")))
 (global-set-key (kbd "C-c u p") (lambda () (interactive) (set-input-method "urdu-phonetic-keyboard")))

@@ -13,6 +13,7 @@ Primary GUI editor for notes, Org, PDFs, LaTeX and long-form work
 | `emacs.conf/.emacs.custom.el` | `custom-file` (Customize output). |
 | `emacs.conf/.emacs.rc/` | Modular config: `rc`, `appearance`, `completion`, `editing`, `programming`, `simpc`, `media`, `pdf`, `misc`, `org-mode`, `autocommit`, `input-methods`, `arabish`, `urdish`, theme. |
 | `emacs.conf/.emacs.rc/simpc/` | Custom C/C++ major mode. |
+| `emacs.conf/.emacs.rc/compuni/` | Vendored `compuni` package (unicode/emoji insertion). |
 | `emacs.conf/.emacs.snippets/` | Yasnippet snippets. |
 | `emacs.conf/README.md` | Feature/keybinding reference. |
 
@@ -37,6 +38,10 @@ Primary GUI editor for notes, Org, PDFs, LaTeX and long-form work
   the same palette as kitty/Waybar/fish.
 - **Multilingual input** (Bangla, Arabic, Urdu) is loaded last so it can shadow
   default keymaps.
+- **Compuni** (`compuni-insert-unicode` / `compuni-insert-emoji`, `C-c u u` /
+  `C-c u e`) is vendored in `.emacs.rc/compuni/` because it is not on MELPA;
+  it drives `company` as an ephemeral UI. `C-c u u` used to be Urdish, which
+  moved to `C-c u r`.
 - **`shell-file-name` is `/usr/bin/bash`** even though fish is the login shell.
 
 ## Gotchas

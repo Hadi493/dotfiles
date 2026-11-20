@@ -19,6 +19,7 @@ Modular Emacs config with multilingual input, custom theme, completion framework
   pdf-rc.el            # pdf-tools with midnight mode
   simpc-rc.el          # simpc-mode loader
   simpc/               # Custom C/C++ major mode
+  compuni/             # Vendored unicode/emoji insertion package (not on MELPA)
   autocommit-rc.el     # Auto git commit/push on save
   input-methods-rc.el  # Multilingual input (Bangla, Arabic, Urdu)
   arabish.el           # Phonetic Arabic (Arabish)
@@ -120,11 +121,18 @@ First launch auto-installs missing packages from MELPA.
 | `C-c b s` | Bengali Inscript |
 | `C-c a a` | Arabic (keyboard) |
 | `C-c a p` | Arabish (phonetic) |
-| `C-c u u` | Urdish (phonetic) |
+| `C-c u r` | Urdish (phonetic) |
 | `C-c u c` | Urdu Custom |
 | `C-c u k` | Urdu Keyboard |
 | `C-c u p` | Urdu Phonetic Keyboard |
 | `C-c i` | List all input methods |
+
+### Unicode and Emoji
+
+| Key | Command |
+|-----|---------|
+| `C-c u u` | `compuni-insert-unicode` |
+| `C-c u e` | `compuni-insert-emoji` |
 
 ## Multilingual Input
 
