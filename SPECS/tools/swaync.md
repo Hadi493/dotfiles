@@ -32,6 +32,7 @@ The only notification daemon and the volume/mic OSD. It owns
 | Toggle panel | `Super+N` → `swaync-client --toggle-panel` |
 | Toggle DND | `Super+I` → `swaync-client --toggle-dnd` |
 | Volume/mic OSD | `scripts/volume`, `scripts/input-mute-toggle` notify with a replace-in-place hint (`x-canonical-private-synchronous`), so repeated presses update one popup |
+| Brightness OSD | `F5`/`F6`, `XF86MonBrightness*` → `scripts/monitor brightness up\|down` (DDC/CI on the external panel), same hint with the tag `brightness` |
 
 ## Design decisions
 
@@ -141,9 +142,10 @@ Two consequences worth knowing:
   window rule asks for blur, so tiled clients stay sharp; only this layer is
   frosted.
 - **There is no level bar in swaync.** `swaync 0.12` has no OSD slider or bar
-  option, so `scripts/volume` builds one from eight block glyphs (`▰`/`▱`) in
-  the notification body. Iosevka is monospace, so the bar keeps a fixed width.
-  The percentage is right-aligned beside it.
+  option, so `scripts/volume` and `scripts/monitor` build one from eight block
+  glyphs (`▰`/`▱`) in the notification body. Iosevka is monospace, so the bar
+  keeps a fixed width. The percentage is right-aligned beside it. Both use the
+  same cells, so the volume and brightness islands look like one family.
 
 Urgency carries the colour, so one CSS rule per state instead of a per-app hack:
 
@@ -152,6 +154,13 @@ Urgency carries the colour, so one CSS rule per state instead of a per-app hack:
 | Volume | `normal` | gold (`@yellow`) |
 | Mic live | `low` | blue (`@blue`) |
 | Volume/mic muted | `critical` | red (`@red`), red border |
+| Brightness | `normal` | gold (`@yellow`) |
+| Brightness 0 % | `critical` | red (`@red`), red border |
+
+The brightness card uses `weather-clear` because the icon theme in use is
+**oxygen**, which has no `display-brightness-*` set — a `-symbolic` Papirus name
+renders as nothing at all. Oxygen offers one sun, so the bar carries the level
+and the icon stays put; only the accent changes at 0 %.
 
 `osd-daemon/` (the local Go experiment) is **not** the notification owner: it
 implements only `Notify`/`CloseNotification`, so making it the daemon costs the

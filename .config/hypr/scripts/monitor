@@ -3,6 +3,13 @@
 # Usage: monitor [brightness|contrast] [up|down]
 #        monitor input [next]
 #        monitor input set <input-value>
+#
+# Brightness shows the same island OSD as scripts/volume: eight block cells, an
+# icon by level, replace-in-place. A DDC write takes ~150 ms, so the value we
+# just wrote is cached for a moment and concurrent presses are serialised -
+# otherwise key repeat re-reads the same brightness and the panel looks stuck.
+
+set -u
 
 DISPLAY_NUM=1
 DBUS_DEST=(--session --dest com.ddcutil.DdcutilService --object-path /com/ddcutil/DdcutilObject)
@@ -14,6 +21,8 @@ case "$MODEv" in
   brightness) VCP=0x10 ;;
   contrast)   VCP=0x12 ;;
   input)      VCP=0x60 ;;
+  *) echo "usage: monitor [brightness|contrast|input] [up|down|next|set <value>]" >&2
+     exit 1 ;;
 esac
 
 STEP=5
@@ -28,8 +37,38 @@ vcp_set() {
   gdbus call "${DBUS_DEST[@]}" --method com.ddcutil.DdcutilInterface.SetVcp "$DISPLAY_NUM" '' "$1" "$2" 0 2>/dev/null >/dev/null
 }
 
+# --- brightness state --------------------------------------------------------
+# Serialise presses and remember the value we wrote: GetVcp can keep answering
+# with the old value for a few hundred ms after SetVcp, so a key held down
+# would otherwise stay on one step.
+statedir="${XDG_RUNTIME_DIR:-$HOME/.cache}"
+mkdir -p "$statedir"
+state="$statedir/monitor-brightness.state"
+CACHE_MS=1500
+now_ms() { date +%s%3N; }
+
+if [ "$MODEv" = brightness ]; then
+  exec 9>"$state.lock"
+  # Never wedge the keybind on a stale lock.
+  flock -w 1 9 || true
+fi
+
 cur=$(vcp_get "$VCP")
-[ -z "$cur" ] && cur=50
+if [ -z "$cur" ]; then
+  if [ "$MODEv" = brightness ]; then
+    notify-send -t 1500 -u critical -i video-display \
+      "Brightness" "no DDC reply from the monitor"
+    exit 1
+  fi
+  cur=50
+fi
+
+if [ "$MODEv" = brightness ] && [ -f "$state" ]; then
+  read -r stamp cached <"$state" || true
+  if [ -n "${cached:-}" ] && (($(now_ms) - stamp < CACHE_MS)); then
+    cur=$cached
+  fi
+fi
 
 case "$DIR" in
   up)
@@ -44,7 +83,36 @@ case "$DIR" in
     new="$cur" ;;
 esac
 
-vcp_set "$VCP" "$new"
+set_ok=1
+vcp_set "$VCP" "$new" || set_ok=0
+if [ "$MODEv" = brightness ] && [ "$set_ok" = 1 ]; then
+  printf '%s %s\n' "$(now_ms)" "$new" >"$state"
+fi
+
+# --- OSD ---------------------------------------------------------------------
+# swaync has no OSD bar, so the body carries one: eight cells of block glyphs.
+# Iosevka (the OSD font) is monospace, so the bar keeps a fixed width.
+BAR_CELLS=8
+bar() {
+  local filled=$1 i out=""
+  for ((i = 0; i < BAR_CELLS; i++)); do
+    if ((i < filled)); then out+="▰"; else out+="▱"; fi
+  done
+  printf '%s' "$out"
+}
+
+brightness_osd() { # $1 = value 0-100
+  local value=$1 cells accent=()
+  cells=$(((value * BAR_CELLS + 50) / 100))   # round to the nearest cell
+  if ((value > 0 && cells == 0)); then cells=1; fi   # 1-6 % still lights one
+  # The icon theme here is oxygen, which has a single sun (weather-clear) and no
+  # display-brightness-* set, so the bar carries the level and the sun stays put.
+  # 0 % turns red like a muted sink instead of pretending to be a level.
+  ((cells == 0)) && accent=(-u critical)
+  notify-send -t 900 "${accent[@]}" -i weather-clear \
+    -h string:x-canonical-private-synchronous:brightness \
+    "Brightness" "$(bar "$cells")  ${value}%"
+}
 
 case "$MODEv" in
   input)
@@ -53,9 +121,14 @@ case "$MODEv" in
     ;;
   contrast)
     # Report the contrast value itself; there is no separate contrast OSD.
-    notify-send -t 800 -i display-brightness "Monitor contrast" "${new}%"
+    notify-send -t 800 -i video-display "Monitor contrast" "${new}%"
     ;;
   brightness)
-    notify-send -t 800 -i display-brightness "Monitor brightness" "${new}%"
+    if [ "$set_ok" = 0 ]; then
+      notify-send -t 1500 -u critical -i video-display \
+        "Brightness" "DDC write failed"
+      exit 1
+    fi
+    brightness_osd "$new"
     ;;
 esac
